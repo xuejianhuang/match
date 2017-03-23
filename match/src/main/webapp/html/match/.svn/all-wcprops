@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/MatchRepository/!svn/ver/416/matchPlatform/WebRoot/WEB-INF/views/management/match
+END
+listMatch.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/MatchRepository/!svn/ver/387/matchPlatform/WebRoot/WEB-INF/views/management/match/listMatch.jsp
+END
+match_add.html
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/MatchRepository/!svn/ver/420/matchPlatform/WebRoot/WEB-INF/views/management/match/match_add.html
+END
+match_edit.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/MatchRepository/!svn/ver/420/matchPlatform/WebRoot/WEB-INF/views/management/match/match_edit.html
+END
+matchAffairItem_data.json
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/MatchRepository/!svn/ver/420/matchPlatform/WebRoot/WEB-INF/views/management/match/matchAffairItem_data.json
+END

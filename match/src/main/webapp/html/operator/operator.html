@@ -1,0 +1,122 @@
+<script type="text/javascript">
+operator_search = function()
+{
+	/*if(roleName=='景点')
+		{
+		operator_belongId=$("#operator_allscenicinfo").combobox('getValue');
+		serviceproviderId="";
+		}
+	else if(roleName=='服务提供商')
+	 {
+		operator_belongId=$("#operator_allserviceprovider").combobox('getValue');
+		serviceproviderId="";
+	 }
+else if(roleName=='发卡点')
+	{
+	operator_belongId=$("#operator_allissuesite").combobox('getValue');
+	serviceproviderId=$("#operator_allserviceprovider").combobox('getValue');
+	}
+else
+	{
+	serviceproviderId="";
+	}*/
+	$('#dg_operator').datagrid('reload', {
+		roleId: $("#operator_roleId").combobox('getValue'),
+		account : $('#account').val()
+		//belongId:operator_belongId
+	});
+};
+
+
+$(function() {
+$("#operator_roleId").combobox({
+    url: "ra_getAllRoleIdAndComment.action",
+    valueField:'id',   
+    textField:'name',  
+    multiple:false,  
+    panelHeight:'auto',
+    onLoadSuccess: function () { 
+    	var data = $('#operator_roleId').combobox('getData');
+        if (data.length > 0) {
+            $('#operator_roleId').combobox('select', data[0].id);
+        }
+    }
+});
+
+
+});
+
+
+</script>
+<div class="easyui-layout" data-options="fit : true,border : false">
+
+	<div
+		data-options="region:'north',title:'查询条件',border:false,iconCls:'icon-columns'"
+		style="height: 80px; background: #f4f4f4;">
+		 &nbsp;
+		<div style="padding: 3px">
+                <input id="operator_roleId" name="operator.roleId" />
+                
+                
+		 &nbsp;&nbsp;
+			账号：<input id="account" name="account">
+			&nbsp;&nbsp;
+			<input type="button" value="查询" onclick="operator_search()">
+		</div>
+	</div>
+
+	<div data-options="region:'center',border:false">
+		<table id="dg_operator" class="easyui-datagrid" title="操作员管理"
+			data-options="url:'oa_ getOperatorByPage.action',
+                                idField : 'id',
+			                     fit : true,
+			                    striped:true,
+			                fitColumns : true,
+			                 singleSelect : false,
+			                 rownumbers : true,
+			                pagination : true,
+			                  pageSize : 10,
+			                 pageList : [ 10, 20, 30, 40, 50 ],
+                                toolbar:[{
+                                    text:'添加操作员',
+                                    iconCls:'icon-add',
+                                    handler:function(){
+                                    add('operator/operator_add.html','添加操作员','300','600','oa_addOperator.action','dg_operator')
+                                    }},'-',
+                                    {
+                                    text:'修改操作员',
+                                    iconCls:'icon-edit',
+                                    handler:function()
+                                    {
+                                      edit('operator/operator_edit.html','修改操作员','300','600','oa_editOperator.action','dg_operator')
+                                    }},'-',
+                                    {
+                                    text:'删除操作员',
+                                    iconCls:'icon-remove',
+                                    handler:function()
+                                    {
+                                      del('oa_deleteOperator.action','dg_operator')
+                                    }}]">
+			<thead>
+				<tr>
+					<th data-options="field:'ck',checkbox:true">
+					</th>
+					<th data-options="field:'account',align:'center',width:20">
+						账号
+					</th>
+					
+					<th data-options="field:'roleName',align:'center',width:20" >
+						角色
+					</th>
+					<th data-options="field:'createtime',align:'center',width:30" formatter="formatterstringdate">
+						添加时间
+					</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	
+	 
+	 
+	
+</div>

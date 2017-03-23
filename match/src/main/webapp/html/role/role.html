@@ -1,0 +1,131 @@
+﻿<script type="text/javascript">
+    var setprivilege = function () {
+        var row = $("#dg_role").datagrid("getChecked");
+        if (row.length < 1) {
+    		$.show_warning("错误", "请选择一条记录");
+    		return;
+    	}
+    	if (row.length > 1) {
+    		$.show_warning("错误", "一次只能修改一条记录");
+    		$("#dg_role").datagrid('clearSelections').datagrid(
+    				'clearChecked');
+    		return;
+
+    	}
+       row = $("#dg_role").datagrid("getSelected");
+        $('#tre').tree({
+            url: "ra_getPrivilegesTree.action?roleId=" + row.id + "&_=" + new Date().getTime(),
+            checkbox: true,
+            lines: true
+
+        });
+        $('#win_setRoll').dialog({
+            title: "设置权限--" + row.name,
+            width: 300,
+            height: 400,
+            iconCls: "icon-key",
+            modal: true,
+            buttons: [{
+                text: '保存设置',
+                iconCls: 'icon-key',
+                handler: function () { saveRoleMenu(row.id); }
+            },
+                {
+                    text: '取消设置',
+                    iconCls: 'icon-cancel',
+                    handler: function () { $(this).closest('.window-body').dialog('close') }
+                }]
+
+        });
+        $('#win_setRoll').dialog("open");
+    }
+
+    function saveRoleMenu(rid) {
+        roleMenu = "";
+        var parentId;
+        var parent;
+        $.each($("#tre").tree("getChecked"), function (i, node) {
+           if ($(this).tree("isLeaf", node.target)) {
+            	 parent=$(this).tree("getParent", node.target);
+                  if(parent.id!=parentId)
+                	{
+                	  parentId=parent.id;
+                	  roleMenu = roleMenu + parentId + ",";
+                	}
+                roleMenu = roleMenu + node.id + ",";
+            }
+        });
+        var para = {};
+        para.timespan = new Date().getTime();
+        para.menuId = roleMenu;
+        para.roleId = rid;
+        $.ajax({
+            url: "ra_savePrivilege.action",
+            data: para,
+            type: "GET",
+            dataType: "text",
+            success: function (result) {
+                dealAjaxResult(result, function (r) {
+                    $('#win_setRoll').dialog('close');
+                    $.show_warning("提示", "操作成功");
+                    $("#datagrid").datagrid("reload")
+                })
+            }
+        });
+    }
+
+        
+</script>
+<table id="dg_role" class="easyui-datagrid" title="角色权限设置" data-options="singleSelect:false,
+                                collapsible:true,
+                                url:'ra_getAllRole.action',
+                                fitColumns:true,rownumbers:true,
+                                fit:true,
+                                remoteSort:false,
+                                nowrap:false,
+                                idField:'id',
+                                toolbar:[{
+                                    text:'添加角色',
+                                    iconCls:'icon-add',
+                                    handler:function(){
+                                    add('role_add.html','添加角色','200','350','ra_addRole.action','dg_role')
+                                    }},'-',
+                                    {
+                                    text:'修改角色',
+                                    iconCls:'icon-edit',
+                                    handler:function()
+                                    {
+                                      edit('role_edit.html','修改角色','200','350','ra_editRole.action','dg_role')
+                                    }},'-',
+                                    {
+                                    text:'删除角色',
+                                    iconCls:'icon-remove',
+                                    handler:function()
+                                    {
+                                      del('ra_deleteRole.action','dg_role')
+                                    }},'-',
+                                    {
+                                    text:'设置权限',
+                                    iconCls:'icon-key',
+                                    handler:setprivilege
+                                }]">
+    <thead>
+        <tr>
+            <th data-options="field:'ck',checkbox:true">
+            </th>
+            <th data-options="field:'name',align:'center',width:50,sortable:true" formatter="formatterrole">
+                角色名称
+            </th>
+            <th data-options="field:'comment',align:'center',width:50" >
+                备注
+            </th>
+            <th data-options="field:'createtime',align:'center',width:50,sortable:true">
+                添加时间
+            </th>
+        </tr>
+    </thead>
+</table>
+<div id="win_setRoll" class="easyui-dialog" data-options="closed:true" style="padding: 15px">
+    <ul id="tre">
+    </ul>
+</div>

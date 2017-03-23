@@ -1,0 +1,55 @@
+<script type="text/javascript">
+        $(document).ready(function () {
+        	
+        	$.ajax({
+    			url : "getSession.action",
+    			type : "POST",
+    			success : function(result) {
+    				var user = eval("(" + result + ")");
+    					loadForm("#f_activate",user);
+    			}
+    		});
+        });
+    </script>
+<div style="padding: 15px; overflow: hidden">
+   <form id="f_activate" method="post">
+    <table class="tableForm" width="100%">
+    <!--  
+        <tr>
+            <td align="right">
+                昵称：
+            </td>
+            <td>
+                <input type="text" name="name" id="name"/>
+            </td>
+            </tr>
+            <tr>
+            -->
+            <td align="right">
+                登入账号：
+            </td>
+            <td>
+                <input type="text" name="account" id="account" class="easyui-validatebox" data-options="required:true" />
+            </td>
+             </tr>
+            <tr>
+            <td>
+                新密码：
+            </td>
+            <td>
+                <input type="password" name="newPassword" id="newPassword" class="easyui-validatebox" data-options="required:true"  />
+            </td>
+        </tr>
+          <tr>
+            <td>
+                确认密码：
+            </td>
+            <td>
+                <input type="password" name="verifyPassword" id="verifyPassword" class="easyui-validatebox" data-options="required:true,validType:'eqPwd[\'#newPassword\']'" />
+            </td>
+        </tr>
+        
+    
+    </table>
+    </form>
+</div>
