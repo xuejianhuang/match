@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import cn.jxufe.emlab.match.core.BaseDao;
 import cn.jxufe.emlab.match.pojo.Match;
 import cn.jxufe.emlab.match.pojo.Operator;
+import cn.jxufe.emlab.match.util.DateUtil;
 import cn.jxufe.emlab.match.util.StatusEnum;
 
 
@@ -21,6 +22,7 @@ public class MatchService extends BaseDao<Match> implements IMatchService
 	{
 		match.setId(null);
 		match.setStatus(StatusEnum.initialize.ordinal());
+		match.setYear(DateUtil.getDateYear(match.getHoldtime()));
 		save(match);
 		writeLog(oper,"添加","赛事",match);
 	}
@@ -38,6 +40,10 @@ public class MatchService extends BaseDao<Match> implements IMatchService
 		hql = hql + " order by createtime desc";
 //		List<Syslog> syslogList=findByPage(sql,null,(pageNum-1)*pageSize,pageSize);
 		fillPagetoMap(map, hql, null, page, pageSize);
+	}
+	public void getMatchYear(Operator oper)
+	{
+		String hql="from Match groub by ";
 	}
 
 }

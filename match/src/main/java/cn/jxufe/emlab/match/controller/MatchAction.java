@@ -40,7 +40,7 @@ public class MatchAction extends BaseAction {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String saveMenu() throws IOException {
+	public String saveMatch() throws IOException {
 		StatusEnum status;
 		Map jsondata = new HashMap();
 		Map map = getSession();

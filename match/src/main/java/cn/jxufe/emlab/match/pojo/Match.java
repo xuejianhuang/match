@@ -27,6 +27,7 @@ public class Match extends cn.jxufe.emlab.match.pojo.BasePojo implements
 	private String bannerUrl;
 	private String bannerThumbnailUrl;
 	private int status;
+	private int year;
 
 	// Constructors
 
@@ -44,7 +45,7 @@ public class Match extends cn.jxufe.emlab.match.pojo.BasePojo implements
 			Timestamp createtime, String caption, String sponsor,
 			String organizer, String coSponsor, int level, String address,
 			Date holdtime, String detail, String bannerUrl,
-			String bannerThumbnailUrl, int status) {
+			String bannerThumbnailUrl, int status,int year) {
 		this.id = id;
 		this.name = name;
 		this.comment = comment;
@@ -60,6 +61,8 @@ public class Match extends cn.jxufe.emlab.match.pojo.BasePojo implements
 		this.bannerUrl = bannerUrl;
 		this.bannerThumbnailUrl = bannerThumbnailUrl;
 		this.status = status;
+		this.year=year;
+		
 	}
 
 	// Property accessors
@@ -182,6 +185,14 @@ public class Match extends cn.jxufe.emlab.match.pojo.BasePojo implements
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 }

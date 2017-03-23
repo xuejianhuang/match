@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="login" extends="my-default">
+	<action name="getValidateCode" class="getVaildateCode" method="getCode"/>
+	<action name="getSession" class="getSession" method="getUserInfo"/>
+	<action name="oa_*" class="operatorAction" method="{1}"></action>
+	</package>
+
+	<package name="lyy" extends="my-default">
+		<interceptors>
+			<interceptor name="authority" class="cn.jxufe.emlab.match.core.AuthorityInterceptor" /> 
+			<interceptor-stack name="lyy-interceptor">
+	  		
+				  <interceptor-ref name="authority" /> 
+				    <interceptor-ref name="defaultStack" /> 
+			</interceptor-stack> 
+		</interceptors>
+		<default-interceptor-ref name="lyy-interceptor"/>
+		<action name="ra_*" class="roleAction" method="{1}"/>
+		<action name="ma_*" class="menuAction" method="{1}"/>
+		<action name="sla_*" class="syslogAction" method="{1}"/>
+		<action name="match_*" class="matchAction" method="{1}"/>
+		
+	</package>
+</struts>    
