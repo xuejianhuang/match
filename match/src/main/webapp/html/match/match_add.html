@@ -1,0 +1,65 @@
+<script type="text/javascript">
+	$(function() {
+		//$('#Matchadd_comment').xheditor({html5Upload:false,upImgUrl:'upload.action?type=img',upImgExt:'jpg,jpeg,gif,png'});
+		initfileUpload($('#match_add_btnUploadImg'), $('#show_image'),
+				$('#bannerUrl'),$('#bannerThumbnailUrl'));
+
+	});
+</script>
+
+<div style="margin:0 auto;width:680px;">
+	<form id="form_add" method="post">
+		<table class="tableForm" style="width: 100%">
+			<tr>
+				<td>赛事名称：</td>
+				<td><input id="caption" name="match.caption" type="text"
+					class="easyui-validatebox" data-options="required:true" /></td>
+				<td>主办方：</td>
+				<!-- <td><input id="sponsor" name="sponsor" type="text"
+					class="easyui-numberbox" data-options="required:true" min="0" /></td> -->
+				<td><input id="sponsor" name="match.sponsor" type="text"
+					class="easyui-validatebox" data-options="required:true" /></td>
+			</tr>
+			<tr>
+				<td>承办方：</td>
+				<td><input type="text" id="organizer"
+					name="match.organizer" class="easyui-validatebox"
+					data-options="required:true" /></td>
+				<td>协办方：</td>
+				<td><input type="text" id="coSponsor" name="match.coSponsor"
+					class="easyui-validatebox" data-options="required:true" /></td>
+			</tr>
+			<tr>
+				<td>举办地址：</td>
+				<td><input type="text" id="address" name="match.address"
+					class="easyui-validatebox" data-options="required:true" /></td>
+				<td>年份：</td>
+				<td><input class="Wdate easyui-validatebox" id="match.level"
+					name="year" onclick="WdatePicker({dateFmt:'yyyy'});"
+					data-options="required:true"></td>
+			</tr>
+			<tr>
+				<td>开始时间：</td>
+				<td><input class="Wdate easyui-validatebox" id="datePeriod"
+					name="datePeriod"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'});"
+					data-options="required:true"></td>
+
+				<!-- <td>结束时间：</td>
+				<td><input class="Wdate easyui-validatebox" id="endTime" name="Match.endTime"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd:HH-mm'});" 
+					data-options="required:true"></td> -->
+			</tr>
+		</table>
+		
+		<input type="hidden" name="match.bannerUrl" class="image" id="bannerUrl" />
+		<input type="hidden" name="matchbannerThumbnailUrl" class="image" id="bannerThumbnailUrl" />
+
+		<div class="uploadImg" style="text-align: left;">
+		 <img id="show_image" width="150px" height="150px" src="" /><br>
+		<input type="button" class='easyui-linkbutton'id="match_add_btnUploadImg" value="横幅上传" /> 
+		   
+		</div>
+	</form>
+</div>
+

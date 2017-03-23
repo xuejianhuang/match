@@ -1,0 +1,168 @@
+<script type="text/javascript" src="../js/ajaxUpload.js"></script>
+<script type="text/javascript">
+
+
+issuesite_search = function()
+{
+	$('#dg_issuesite').datagrid('reload', {
+		name: $('#name').val(),
+		city: $('#city').val()
+	   //serviceProviderId: $('#serviceProvider1').combobox("getValue")
+	});
+};
+
+$(function() {
+	new AjaxUpload("issuesite_uploadbtn",{name:"file",action:"is_excelImport.action",onComplete:
+		function(file,result){
+		dealAjaxResult(result, function(r) {
+			$.show_warning("提示", "导入成功");
+		});
+	}});
+});
+   
+ // $(function() {
+ //		$("#city").combobox({
+ //           url: "spa_getAllIssuesiteCity.action",
+ //           valueField:'city',  
+ //           textField:'city',  
+ //           multiple:false,  
+ //           panelHeight:'auto',
+ //           onLoadSuccess: function () { 
+ //           	var data = $('#city').combobox('getData');
+ //               if (data.length > 0) {
+ //                    $('#city').combobox('select', data[0].id);
+ //               }
+ //           }
+ //      });
+ //    });
+   
+</script>
+<div class="easyui-layout" data-options="fit : true,border : false">
+<div
+		data-options="region:'north',title:'查询条件',border:false,iconCls:'icon-columns'"
+		style="height: 70px; background: #f4f4f4;">
+		&nbsp; &nbsp;
+		<div style="padding: 3px">
+			<span>发卡点名称:</span>
+			<input id="name"
+				style="line-height: 10px; border: 1px solid #ccc">
+			
+                   
+			&nbsp; &nbsp; 所在城市:
+			<select name="city" id="city">
+				<option value="">
+					全部
+				</option>
+				<option value="南昌">
+					南昌
+				</option>
+				<option value="抚州">
+					抚州
+				</option>
+				<option value="赣州">
+					赣州
+				</option>
+				<option value="吉安">
+					吉安
+				</option>
+				<option value="景德镇">
+					景德镇
+				</option>
+				<option value="九江">
+					九江
+				</option>
+				<option value="萍乡">
+					萍乡
+				</option>
+				<option value="上饶">
+					上饶
+				</option>
+				<option value="新余">
+					新余
+				</option>
+				<option value="宜春">
+					宜春
+				</option>
+				<option value="鹰潭">
+					鹰潭
+				</option>
+			</select>
+			<input type="button" value="查询" onclick="issuesite_search()">
+			
+			&nbsp; &nbsp;<button id="issuesite_uploadbtn"> 从Excel中导入景点信息</button>
+			&nbsp;
+			<a href="../issuesite.xls">下载样表</a>（右键选另存）
+		</div>
+	</div>
+
+<div data-options="region:'center',border:false">
+		<table id="dg_issuesite" class="easyui-datagrid" title="发卡点管理"
+			data-options="url:'is_getIssuesiteByPage.action',
+                                idField : 'id',
+			                     fit : true,
+			                    striped:true,
+			                fitColumns : true,
+			                 singleSelect : false,
+			                 rownumbers : true,
+			                pagination : true,
+			                  pageSize : 10,
+			                 pageList : [ 10, 20, 30, 40, 50 ],
+                                toolbar:[{
+                                    text:'添加发卡点信息',
+                                    iconCls:'icon-add',
+                                    handler:function(){
+                                    add('issuesite_add.html','添加发卡点','400','950','is_addIssuesite.action','dg_issuesite')
+                                    }},'-',
+                                    {
+                                    text:'修改发卡点信息',
+                                    iconCls:'icon-edit',
+                                    handler:function()
+                                    {
+                                      edit('issuesite_edit.html','修改发卡点信息','400','950','is_editIssuesite.action','dg_issuesite')
+                                    }},'-',
+                                    {
+                                    text:'删除发卡点信息',
+                                    iconCls:'icon-remove',
+                                    handler:function()
+                                    {
+                                      del('is_deleteIssuesite.action','dg_issuesite')
+                                    }}]">
+			<thead>
+				<tr>
+					<th data-options="field:'ck',checkbox:true">
+					</th>
+					<th data-options="field:'name',align:'center',width:20">
+						 发卡点全称
+					</th>
+					<th data-options="field:'serviceProviderName',align:'center',width:30">
+						服务提供商
+					</th>
+					<th data-options="field:'city',align:'center',width:30">
+						所在城市
+					</th>
+					<th data-options="field:'address',align:'center',width:60">
+						详细地址
+					</th>
+					<th data-options="field:'deviceId',align:'center',width:60">
+						设备编号
+					</th>
+				    <th data-options="field:'principal',align:'center',width:20">
+						负责人
+					</th>
+					<th data-options="field:'phone',align:'center',width:30">
+						联系电话
+					</th>
+					<th data-options="field:'qq',align:'center',width:30">
+						qq
+					</th>
+					<th data-options="field:'email',align:'center',width:30">
+						邮箱
+					</th>
+					<th data-options="field:'createtime',align:'center',width:80" formatter="formatterstringdate">
+						添加时间
+					</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	</div>

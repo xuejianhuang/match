@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd    
+           http://www.springframework.org/schema/aop  
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+            http://www.springframework.org/schema/task     
+    http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+	<!-- <bean id="Job" class="org.springframework.scheduling.quartz.JobDetailBean"> 
+		<property name="jobClass"> <value>cn.jxufe.emlab.match.TimerTaskUsingQuartz</value> 
+		</property> </bean> <bean id="CronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean"> 
+		<property name="jobDetail"> <ref bean="Job"/> </property> <property name="cronExpression"> 
+		<value>0 49 15 * * </value> </property> </bean> <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
+		<property name="triggers"> <ref bean="CronTrigger"/> </property> </bean> -->
+
+
+
+
+
+
+
+
+	<bean id="roleService" class="cn.jxufe.emlab.match.service.RoleService"
+		autowire="byName" />
+	<bean id="operatorService" class="cn.jxufe.emlab.match.service.OperatorService"
+		autowire="byName" />
+	<bean id="menuService" class="cn.jxufe.emlab.match.service.MenuService"
+		autowire="byName" />
+	<bean id="syslogService" class="cn.jxufe.emlab.match.service.SyslogService"
+		autowire="byName" />
+	<bean id="matchService" class="cn.jxufe.emlab.match.service.MatchService"
+		autowire="byName"  />
+
+
+	<bean id="operatorAction" class="cn.jxufe.emlab.match.controller.OperatorAction"
+		autowire="byName" scope="prototype"></bean>
+	<bean id="roleAction" class="cn.jxufe.emlab.match.controller.RoleAction"
+		autowire="byName" scope="prototype"></bean>
+	<bean id="menuAction" class="cn.jxufe.emlab.match.controller.MenuAction"
+		autowire="byName" scope="prototype"></bean>
+	<bean id="getSession" class="cn.jxufe.emlab.match.controller.GetSession"
+		autowire="byName" scope="prototype"></bean>
+	<bean id="getVaildateCode" class="cn.jxufe.emlab.match.controller.GetValidateCode"
+		autowire="byName" scope="prototype"></bean>
+	<bean id="syslogAction" class="cn.jxufe.emlab.match.controller.SyslogAction"
+		autowire="byName" scope="prototype"></bean>
+	<bean id="matchAction" class="cn.jxufe.emlab.match.controller.MatchAction"
+		autowire="byName" scope="prototype"></bean>
+
+
+
+</beans>

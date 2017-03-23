@@ -1,0 +1,12 @@
+[
+	
+	{"Name":"大赛日程","URL":"/matchPlatform/public/timeLine"},
+     {"Name":"网上报名","URL":"/matchPlatform/public/projectOverview"},
+	{"Name":"公告通知","URL":"/matchPlatform/public/notice"},
+	{"Name":"竞赛新闻","URL":"/matchPlatform/public/news"},
+	{"Name":"参赛队员","URL":"/matchPlatform/public/memberSuccess"},
+	{"Name":"计划安排","URL":"/matchPlatform/public/matchSchedule"},
+	{"Name":"个人英雄榜","URL":"/matchPlatform/public/matchPersonPrize"},
+	{"Name":"地图指引","URL":"/matchPlatform/public/matchMap"},
+	{"Name":"团体英雄榜","URL":"/matchPlatform/public/matchGroupPrize"}
+]

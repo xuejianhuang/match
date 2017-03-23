@@ -1,0 +1,115 @@
+<script type="text/javascript">
+	$(function() {
+		$("#dg_syslog").datagrid({
+			url : "sla_getSyslog.action?_"+ (new Date).getTime(),
+			idField : 'id',
+			fit : true,
+			fitColumns : true,
+			singleSelect : false,
+			rownumbers : true,
+			nowrap : false,
+			pagination : true,
+			pageSize : 10,
+			striped:true,
+			pageList : [ 10, 20, 30, 40, 50 ],
+			columns : [ [ {
+				field : 'ck',
+				checkbox : true
+			}, {
+				field : 'name',
+				title : '名称',
+				width : 30
+			}, {
+				field : 'comment',
+				title : '注释',
+				width : 30
+			}, {
+				field : 'userId',
+				title : ' 用户编号',
+				width : 20
+			}, {
+				field : 'createtime',
+				title : '创建时间',
+				width : 30
+				
+			}] ]
+		})
+	})
+	
+	
+	//点击查找按钮出发事件
+function doSearch() {
+$('#dg_syslog').datagrid('load',{    
+        name: $('#name').val(),    
+        comment: $('#comment').val(),
+        userId:$('#userId').val(),
+        startTime:$('#startTime').datebox("getValue"),
+        endTime:$('#endTime').datebox("getValue")
+    });  
+}
+//点击清空按钮出发事件
+function clearSearch() {
+$("#dg_syslog").datagrid("load", {});//重新加载数据，无填写数据，向后台传递值则为空
+$("#searchForm").find("input").val("");//找到form表单下的所有input标签并清空
+}
+
+</script>
+<div class="easyui-layout" data-options="fit : true,border : false">
+
+	<div
+		data-options="region:'north',title:'查询条件',border:false,iconCls:'icon-columns'"
+		style="height: 100px; background: #f4f4f4;">
+		<!--
+         <div id="p" class="easyui-panel" title="检索条件" style="padding: 10px; height: 100px;
+                background: #f4f4f4; border-bottom: none" data-options="iconCls:'icon-columns',closable:false,  
+                collapsible:true,minimizable:false,maximizable:false">
+                
+            </div>
+            -->
+     <form id="searchForm" method="post">
+                   <table class="tableForm" width="100%">
+         <tr>
+            <td align="right">
+                名称：
+            </td>
+            <td>
+                <input type="text" name="name"  id="name"/>
+            </td>
+            <td align="right">
+                注释：
+            </td>
+            <td>
+                <input type="text" name="comment" id="comment"/>
+            </td>
+            <td align="right">
+                用户编号：
+            </td>
+            <td>
+                <input type="text" name="userId" id="userId"/>
+            </td>
+            <td align="right">
+                开始时间：
+            </td>
+            <td>
+                <input type="text" name="startTime" id="startTime" class="easyui-datetimebox" />
+            </td>
+            <td align="right">
+                结束时间：
+            </td>
+            <td>
+                <input type="text" name="endTime" id="endTime" class="easyui-datetimebox" />
+            </td>
+        </tr>
+        <tr>
+            <td><a  class="easyui-linkbutton" plain="true" onclick="doSearch()"  iconCls="icon-search">查找</a></td>
+            <td><a class="easyui-linkbutton" href="javascript:void(0);" onclick="clearSearch();">清空</a></td>
+	   </tr>     
+        
+    </table>
+ </form>
+	</div>
+	<div data-options="region:'center',border:false">
+		<table id="dg_syslog">
+		</table>
+	</div>
+</div>

@@ -1,0 +1,159 @@
+﻿<script type="text/javascript">
+	$(function() {
+		//$('#Matchadd_comment').xheditor({html5Upload:false,upImgUrl:'upload.action?type=img',upImgExt:'jpg,jpeg,gif,png'});
+		initfileUpload($('#match_add_btnUploadImg'), $('#show_image'),
+				$('#image'));
+
+	});
+	var editIndex = undefined;
+	function extraHandler() {
+
+		
+		var values = $('#matchNavItem').combobox('getValues');
+		var texts = $('#matchNavItem').combobox('getText').split(",");
+		var value = "";
+		for (var i = 0; i < values.length; i++) {
+			value += '{"itemCaption":"' + texts[i] + '","itemURL":"' + values[i] + '"}';
+			if (i != values.length - 1) {
+				value += ',';
+			}
+		}
+		$("#matchNav").val("[" + value + "]");
+		return true;
+	}
+</script>
+
+<div style="margin:0 auto;width:680px;">
+	<form id="form_add" method="post">
+		<table class="tableForm" style="width: 100%">
+			<tr>
+				<td>赛事名称：</td>
+				<td><input id="caption" name="caption" type="text"
+					class="easyui-validatebox" data-options="required:true" /></td>
+				<td>主办方：</td>
+				<!-- <td><input id="sponsor" name="sponsor" type="text"
+					class="easyui-numberbox" data-options="required:true" min="0" /></td> -->
+				<td><input id="sponsor" name="sponsor" type="text"
+					class="easyui-validatebox" data-options="required:true" /></td>
+			</tr>
+			<tr>
+				<td>总承办：</td>
+				<td><input type="text" id="organizerOverLord"
+					name="organizerOverLord" class="easyui-validatebox"
+					data-options="required:true" /></td>
+				<td>承办：</td>
+				<td><input type="text" id="organizer" name="organizer"
+					class="easyui-validatebox" data-options="required:true" /></td>
+			</tr>
+			<tr>
+				<td>举办地址：</td>
+				<td><input type="text" id="address" name="address"
+					class="easyui-validatebox" data-options="required:true" /></td>
+				<td>年份：</td>
+				<td><input class="Wdate easyui-validatebox" id="year"
+					name="year" onclick="WdatePicker({dateFmt:'yyyy'});"
+					data-options="required:true"></td>
+			</tr>
+			<tr>
+				<td>开始时间：</td>
+				<td><input class="Wdate easyui-validatebox" id="datePeriod"
+					name="datePeriod"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd:HH-mm'});"
+					data-options="required:true"></td>
+
+				<!-- <td>结束时间：</td>
+				<td><input class="Wdate easyui-validatebox" id="endTime" name="Match.endTime"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd:HH-mm'});" 
+					data-options="required:true"></td> -->
+			</tr>
+		</table>
+		<input type="hidden" name="matchAffairItem" id="matchNav"> <input
+			type="hidden" name="image" class="image" id="image" />
+
+		<div class="uploadImg" style="text-align: left; display: none;">
+			<input type="button" class='easyui-linkbutton'
+				id="match_add_btnUploadImg" value="图片上传" /> <img id="show_image"
+				src="" />
+		</div>
+	</form>
+	<br>
+
+	<h>赛事导航栏:</h>
+	<input class="easyui-combobox" style="width: 520px;"
+		name="matchNavItem" id="matchNavItem"
+		data-options="
+					url:'matchAffairItem_data.json',
+					method:'get',
+					valueField:'URL',
+					textField:'Name',
+					multiple:true,
+					panelHeight:'auto',
+			">
+
+
+	<!-- <table id="dg_matchNav" class="easyui-datagrid" title="赛事导航栏"
+		style="width:585px;height:auto;text-align: center;"
+		data-options="
+				iconCls: 'icon-edit',
+				 fitColumns:true,
+				  rownumbers:true,
+				singleSelect: true,
+				toolbar: '#dg_matchNav_tb',
+				method: 'get',
+				onClickCell: dategrid_onClickCell
+			">
+		<thead>
+			<tr>
+				<th data-options="field:'ck',checkbox:true"></th>
+				<th data-options="field:'itemid',align:'center',width:80">ID</th>
+
+				<th
+					data-options="field:'itemCaption',align:'center',width:20,editor:'text'">标题</th>
+				<th
+					data-options="field:'itemURL',align:'center',width:80,editor:'textbox'">导航栏</th>
+
+				<th
+					data-options="field:'itemURL',align:'center',width:80,
+					 formatter:function(value){
+					 if(value=='/matchPlatform/public/matchGroupPrize'||value=='/matchPlatform/public/matchPersonPrize')
+					 {
+                    return value+'?year='+$('#year').val();
+                    }
+                    else
+                    {
+                    return value;
+                    }
+                },
+						editor:{
+							type:'combobox',
+							options:{
+								valueField:'URL',
+								textField:'Name',
+								method:'get',
+								url:'matchAffairItem_data.json'
+							}
+						}">导航栏</th>
+			</tr>
+		</thead>
+	</table>
+
+	<div id="dg_matchNav_tb" style="">
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			data-options="iconCls:'icon-add',plain:true"
+			onclick="dategrid_append('dg_matchNav',{})">添加</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			data-options="iconCls:'icon-save',plain:true"
+			onclick="dategrid_accept('dg_matchNav')">确定</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			data-options="iconCls:'icon-remove',plain:true"
+			onclick="dategrid_removeit('dg_matchNav')">删除</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			data-options="iconCls:'icon-undo',plain:true"
+			onclick="dategrid_reject('dg_matchNav')">撤销</a> <a href="#"
+			onclick=" moveUp('dg_matchNav')" class="easyui-linkbutton"
+			iconCls="icon-arrow-up" plain="true"></a> <a href="#"
+			onclick=" moveDown('dg_matchNav')" class="easyui-linkbutton"
+			iconCls="icon-arrow-down" plain="true"></a>
+	</div> -->
+</div>
+

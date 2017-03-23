@@ -1,0 +1,187 @@
+<script type="text/javascript">
+	$(function() {
+		$('#dg_menu')
+				.datagrid(
+						{
+							view : detailview,
+							detailFormatter : function(index, row) {
+								return '<div style="padding:2px"><table id="menu_ddv-' + index + '"></table></div>';
+							},
+							onExpandRow : function(index, row) {
+								$('#menu_ddv-' + index)
+										.datagrid(
+												{
+											
+													url : 'ma_getSubMenu.action?porder='
+															+ row.order,
+													fitColumns : true,
+													singleSelect : false,
+													rownumbers : true,
+													columns : [ [ 
+													               {
+			                                               	field : 'ck',
+				                                             checkbox : true
+			                                                },{
+														field : 'name',
+														title : '菜单名称',
+														width : 80
+													}, {
+														field : 'comment',
+														title : '备注',
+														width : 100
+													}
+			                                         , {
+														field : 'url',
+														title : 'URL',
+													    width : 80
+													}, {
+														field : 'icon',
+														title : '显示图标',
+														width : 80
+													}
+													, {
+														field : 'createtime',
+														title : '创建时间',
+														width : 80
+													}] ],
+													toolbar : [
+															{
+																text : '添加',
+																iconCls : 'icon-add',
+																handler : function(){
+																	addmenu('#menu_ddv-' + index,row.order);
+																}
+															},
+															'-',
+															{
+																text : '删除',
+																iconCls : 'icon-remove',
+																handler :function(){
+																	del('ma_deleteMenu.action','menu_ddv-' + index)
+																}
+
+															},
+															'-',
+															{
+																text : '修改',
+																iconCls : 'icon-edit',
+																handler : function(){
+																	edit('menu/menu_edit.html','修改菜单','200','320','ma_updateMenu.action','menu_ddv-' + index);
+																}
+
+															} ],
+													onResize : function() {
+														$('#dg_menu')
+																.datagrid(
+																		'fixDetailRowHeight',
+																		index);
+													},
+													onLoadSuccess : function() {
+														setTimeout(
+																function() {
+																	$(
+																			'#dg_menu')
+																			.datagrid(
+																					'fixDetailRowHeight',
+																					index);
+																}, 0);
+													}
+												});
+								$('#dg_menu').datagrid('fixDetailRowHeight',
+										index);
+							}
+						});
+	})
+
+	addmenu = function(par,porder) {
+		var url;
+		var formId;
+		var dg_id;
+		if (par==0) {
+			url="menu/menunav_add.html";
+			formId="#form_add";
+			dg_id="#dg_menu";
+		}
+		else
+			{
+			url = "menu/menu_add.html";
+			formId="#form_add";
+			dg_id=par;
+			}
+		$("<div/>").dialog({
+			href : url,
+			title : "添加菜单导航栏",
+			height : 200,
+			width : 320,
+			modal : true,
+			iconCls : "icon-add",
+			buttons : [ {
+				text : '确定添加',
+				iconCls : 'icon-add',
+				handler : function() {
+					var d = $(this).closest('.window-body');
+					$(formId).form("submit", {
+						url : "ma_saveMenu.action",
+						onSubmit : function(param) {
+							param.porder =porder;
+							return $(this).form('validate');
+						},
+						success : function(result) {
+
+							dealAjaxResult(result, function(r) {
+								d.dialog('destroy');
+								$.show_warning("提示", "操作成功");
+								$(dg_id).datagrid("reload");
+							});
+						}
+					});
+				}
+			}, {
+				text : '取消添加',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					$(this).closest('.window-body').dialog('destroy');
+				}
+			} ],
+			onClose : function() {
+				$(this).dialog('destroy');
+			}
+		});
+	}
+</script>
+<div class="easyui-layout" data-options="fit : true,border : false">
+
+	<div data-options="region:'center',border:false">
+		<table id="dg_menu" url="ma_getAllMenuNav.action"
+			title="菜单管理" fitColumns="true" singleSelect="false"
+			collapsible='true'  fit='true' nowrap='false'
+			idField='id' toolbar="#tb_menu" 
+			rownumbers="true">
+			<thead>
+				<tr>
+				   <th field="ck" checkbox="true"></th>
+				     <th data-options="field:'name',align:'center',width:40,sortable:true">
+						菜单导航标题
+					</th>
+					 <th data-options="field:'comment',align:'center',width:40,sortable:true">
+						备注
+					</th>
+					  <th data-options="field:'icon',align:'center',width:40,sortable:true">
+					 	显示图标
+					</th>
+					 <th data-options="field:'createtime',align:'center',width:40,sortable:true">
+						创建时间
+					</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<div id="tb_menu">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+		onclick="addmenu('0','0')">添加</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove"
+		plain="true" onclick="del('ma_deleteMenu.action','dg_menu')">删除</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+		onclick="edit('menu/menunav_edit.html','修改菜单导航栏','200','320','ma_updateMenu.action','dg_menu')">修改</a>
+</div>
