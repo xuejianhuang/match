@@ -8,51 +8,44 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.jxufe.emlab.match.pojo.Match;
-import cn.jxufe.emlab.match.pojo.Menu;
+import cn.jxufe.emlab.match.pojo.MatchProject;
 import cn.jxufe.emlab.match.pojo.Operator;
+import cn.jxufe.emlab.match.service.IMatchProjectService;
 import cn.jxufe.emlab.match.service.IMatchService;
-import cn.jxufe.emlab.match.service.IMenuService;
 import cn.jxufe.emlab.match.util.KeyEnum;
 import cn.jxufe.emlab.match.util.StatusEnum;
 
 @SuppressWarnings({ "rawtypes" })
-public class MatchAction extends BaseAction {
+public class MatchProjectAction extends BaseAction {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4779692247834026042L;
-	private IMatchService matchService;
-	private Match match;
+	private IMatchProjectService matchProjectService;
+	private MatchProject matchProject;
 	private String[] idlist;
 	private String id;
-	private int rows;
-	private int page;
-	private int year;
+	private String matchId;
 
-	public String getMatchByPage() throws IOException {
+	public String getMatchProjectByMatchId() throws IOException {
+
 		Map session = this.getSession();
 		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
 		Map jsondata = new HashMap();
-		matchService.getMatchByPage(jsondata, page, rows, year, operator);
+		jsondata.put("rows",
+				matchProjectService.getMatchProjectByMatchId(matchId, operator));
 		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
 		jsonViewIE(jsondata);
 		return null;
 	}
 
-	public String getAllMatchYear() throws IOException {
-		Map session = getSession();
-		Operator oper = (Operator) session.get(KeyEnum.OPERATOR);
-		jsonViewIE(matchService.getMatchYear(oper));
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
-	public String saveMatch() throws IOException {
+	public String saveMatchProject() throws IOException {
 		StatusEnum status;
 		Map jsondata = new HashMap();
 		Map map = getSession();
 		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
-		matchService.txSaveMatch(oper, match);
+		matchProjectService.txSaveMatchProject(oper, matchProject);
 		status = StatusEnum.success;
 		jsondata.put(KeyEnum.STATUS, status);
 		jsonViewIE(jsondata);
@@ -60,40 +53,46 @@ public class MatchAction extends BaseAction {
 		return null;
 	}
 
-	public String deleteMatch() throws IOException {
+	public String deleteMatchProject() throws IOException {
 		StatusEnum status;
 		Map jsondata = new HashMap();
 		Map map = getSession();
 		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
-		matchService.txDeleteMatch(oper, idlist);
+		matchProjectService.txDeleteMatchProject(oper, idlist);
 		status = StatusEnum.success;
 		jsondata.put(KeyEnum.STATUS, status);
 		jsonViewIE(jsondata);
 		return null;
 	}
 
-	public String updateMatch() throws IOException {
+	public String updateMatchProject() throws IOException {
 		StatusEnum status;
 		Map jsondata = new HashMap();
 		Map map = getSession();
 		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
-		matchService.txUpdateMatch(oper, match, id);
+		matchProjectService.txUpdateMatchProject(oper, matchProject, id);
 		status = StatusEnum.success;
 		jsondata.put(KeyEnum.STATUS, status);
 		jsonViewIE(jsondata);
 		return null;
 	}
 
-	public void setMatchService(IMatchService matchService) {
-		this.matchService = matchService;
+	
+
+	public void setMatchProjectService(IMatchProjectService matchProjectService) {
+		this.matchProjectService = matchProjectService;
 	}
 
-	public Match getMatch() {
-		return match;
+	public void setMatchProject(MatchProject matchProject) {
+		this.matchProject = matchProject;
 	}
 
-	public void setMatch(Match match) {
-		this.match = match;
+	public void setIdlist(String[] idlist) {
+		this.idlist = idlist;
+	}
+
+	public void setMatchId(String matchId) {
+		this.matchId = matchId;
 	}
 
 	public String getId() {
@@ -105,28 +104,5 @@ public class MatchAction extends BaseAction {
 		idlist = id.replaceAll("'", "").split(",");
 	}
 
-	public int getRows() {
-		return rows;
-	}
-
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
-
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
 
 }

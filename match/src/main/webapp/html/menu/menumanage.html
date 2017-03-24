@@ -153,10 +153,17 @@
 
 	<div data-options="region:'center',border:false">
 		<table id="dg_menu" url="ma_getAllMenuNav.action"
-			title="菜单管理" fitColumns="true" singleSelect="false"
-			collapsible='true'  fit='true' nowrap='false'
-			idField='id' toolbar="#tb_menu" 
-			rownumbers="true">
+			title="菜单管理" 
+			fitColumns="true"
+			 singleSelect="false"
+			collapsible='true' //是否可折叠的
+			 fit='true' 
+			 striped='true' //隔行换色
+			  nowrap='false' //一行显示数据，提高加载性能true
+			idField='id' 
+			toolbar="#tb_menu" 
+			rownumbers="true"
+			>
 			<thead>
 				<tr>
 				   <th field="ck" checkbox="true"></th>

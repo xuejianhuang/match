@@ -376,7 +376,17 @@ function loadForm(formid, data) {
 			});
 		} else if (classname == "easyui-combobox combobox-f combo-f") {
 			$(loca).combobox('select', data[item]);
-		} else {
+		} 
+		else if (classname == 'easyui-numberbox numberbox-f textbox-f') {
+			$(loca).numberbox('setValue', data[item]);
+		} else if (classname == 'image') {
+			$(loca).val(data[item]);
+
+			// $('#show_image').src = data[item];
+
+			$('#show_image').attr('src', data[item]);
+		}
+		else {
 			$(loca).val(data[item]);
 		}
 	}

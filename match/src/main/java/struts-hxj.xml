@@ -21,6 +21,7 @@
 		<action name="ma_*" class="menuAction" method="{1}"/>
 		<action name="sla_*" class="syslogAction" method="{1}"/>
 		<action name="match_*" class="matchAction" method="{1}"/>
+		<action name="matchProject_*" class="matchProjectAction" method="{1}"/>
 		
 	</package>
 </struts>    

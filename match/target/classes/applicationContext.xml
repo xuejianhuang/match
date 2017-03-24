@@ -61,6 +61,7 @@
 				<value>cn/jxufe/emlab/match/pojo/RoleMenu.hbm.xml</value>
 				<value>cn/jxufe/emlab/match/pojo/Syslog.hbm.xml</value>
 			   <value>cn/jxufe/emlab/match/pojo/Match.hbm.xml</value>
+			    <value>cn/jxufe/emlab/match/pojo/MatchProject.hbm.xml</value>
 			</list>
 		</property></bean>
 	<bean id="transactionManager"

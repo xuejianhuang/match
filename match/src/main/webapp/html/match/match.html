@@ -1,42 +1,15 @@
 
 <script type="text/javascript">
 	var groupMemberMathProjectId, matchExpandRowIndex;
-	function setSearchYear() {
-		var startYear = 2013;
-		var date = new Date();
-		var currentYear = date.getFullYear();
-		var json = '[{"value":0,"text":"全部"}';
-
-		for (var i = startYear; i <= currentYear; i++) {
-			json += ",{";
-			if (i != currentYear) {
-				json += '"value":' + i + ',"text":' + i + "}";
-
-			} else {
-				json += '"value":' + i + ',"text":' + i + ',"selected":' + true
-						+ "}";
-			}
-		}
-		json += "]";
-		var data = $.parseJSON(json);
-		$("#cmb_selectYear").combobox("loadData", data);
-
-	}
 
 	function selectChange(val) {
-		var year = $("#cmb_selectYear").combobox('getValue');
+		var year = $("#match_cmb_selectYear option:selected").val();
 		$('#dg_match').datagrid({
 			url : 'match_getMatchByPage.action?_' + new Date().getTime(),
 			queryParams : {
 				year : year
 			}
 		});
-		/* $('#dg_match').datagrid(
-				'load',
-				{
-					year : year,
-				}); */
-
 	}
 	function formatOper(val, row, index) {
 
@@ -85,16 +58,22 @@
 	} */
 
 	$(function() {
-		$("#cmb_selectYear").combobox({
-			onChange : selectChange,
-			valueField : 'value',
-			textField : 'text',
-			multiple : false,
-			onLoadSuccess : function() {
-
-			}
-		});
-		setSearchYear();
+		$.ajax({
+	        url : "match_getAllMatchYear.action",
+	        type : "GET",
+	        // data : para,
+	        dataType : "text",
+	        success : function(result) {
+	            var rows = jQuery.parseJSON(result);
+	            $.each(rows,function(index,row)
+	            {
+	                $("#match_cmb_selectYear").append(" <option value='"+row+"'>"+row+"</option>");
+	            });
+	        }
+	    });
+		
+		
+		//setSearchYear();
 		$('#dg_match')
 				.datagrid(
 						{
@@ -108,7 +87,7 @@
 										.datagrid(
 												{
 
-													url : '/matchPlatform/public/searchMatchProject?matchId='
+													url : 'matchProject_getMatchProjectByMatchId.action?matchId='
 															+ row.id
 															+ "&_"
 															+ new Date()
@@ -123,11 +102,11 @@
 																iconCls : 'icon-add',
 																handler : function() {
 																	add(
-																			'../matchProject/matchProject_add.html',
+																			'match/matchProject_add.html',
 																			'赛项添加',
 																			'600',
 																			'800',
-																			'/matchPlatform/public/addMatchProject?year='
+																			'matchProject_addMatchProject?year='
 																					+ row.year
 																					+ '&matchCode='
 																					+ row.code
@@ -182,6 +161,14 @@
 																title : '赛项名称',
 																width : 50
 															},
+															{
+																field : 'isTeamMatch',
+																align : 'center',
+																sortable : 'true',
+																title : '赛项类型',
+																width : 10
+															},
+
 
 															{
 																field : 'groupMemberCount',
@@ -192,7 +179,7 @@
 															},
 
 															{
-																field : 'matchStartDateTime',
+																field : 'startDate',
 																align : 'center',
 																sortable : 'true',
 																title : '开始时间',
@@ -200,7 +187,7 @@
 															},
 
 															{
-																field : 'matchEndDateTime',
+																field : 'endDate',
 																align : 'center',
 																sortable : 'true',
 																title : '结束时间',
@@ -248,13 +235,16 @@
 <div class="easyui-layout" data-options="fit : true,border : false">
 
 	<div data-options="region:'center',border:false">
-		<table id="dg_match" class="easyui-datagrid" title="赛事列表" style=""
+		<table id="dg_match"  title="赛事列表" style=""
 	   data-options="
 	   url:'match_ getMatchByPage.action',
          idField : 'id',
 		singleSelect:true,
         fitColumns:true,
+         fit:true,                
         collapsible:true,
+          nowrap:false,
+          	 striped:true,
 		method:'get',
 		remoteSort:false,
 		toolbar:'#dg_match_ft',
@@ -289,16 +279,17 @@
 	</div>
 </div>
 <div id="dg_match_ft" style="padding:2px 5px;">
-	赛事年份: <select class="easyui-combobox" panelHeight="auto"
-		style="width:100px" id="cmb_selectYear">
-	</select>&nbsp;&nbsp; <a href="#"
+	赛事年份: <select  id="match_cmb_selectYear" onchange="selectChange()">
+		<option value="0">所有</option>
+	</select>&nbsp;&nbsp;
+	 <a href="#"
 		onclick="add('match/match_add.html','赛事添加','600','800','match_saveMatch.action','dg_match','true')"
 		class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a> <a
 		href="#"
-		onclick=" edit('match/match_edit.html','赛事修改','600','800','/matchPlatform/public/editMatch','dg_match','true','true')"
+		onclick=" edit('match/match_edit.html','赛事修改','600','800','match_updateMatch.action','dg_match','true','true')"
 		class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a> <a
 		href="#"
-		onclick=" del('/matchPlatform/public//deleteMatch','dg_match')"
+		onclick=" del('match_deleteMatch.action','dg_match')"
 		class="easyui-linkbutton" iconCls="icon-cut" plain="true">删除 </a>
 </div>
 

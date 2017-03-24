@@ -1,92 +1,15 @@
 <script type="text/javascript">
-	var editor;
 	$(function() {
-		ContentTools.StylePalette.add([ new ContentTools.Style('Author',
-				'author', [ 'p' ]) ]);
-
-		editor = ContentTools.EditorApp.get();
-		editor.init('*[data-editable]', 'data-name');
-
-		editor.addEventListener('saved', function(ev) {
+		//initfileUpload($('#match_add_btnUploadImg'),$('#show_image'),$('#matchLogo'));
+		$('#elm1').xheditor({
+			html5Upload : false,
+			upImgUrl : 'upload.action?type=img',
+			upImgExt : 'jpg,jpeg,gif,png'
 		});
-		ContentTools.IMAGE_UPLOADER = imageUploader;
-		
-		initfileUpload($('#match_add_btnUploadImg'),$('#show_image'),$('#matchLogo'));
 	});
-
-	var editIndex = undefined;
-	function extraHandler() {
-
-		var totalNum = Number($('#groupMemberCount').val());
-		//alert(totalNum);
-		var used = 0;
-		var rows = $('#dg_matchProjectNav').datagrid('getRows');
-		for (var i = 0; i < rows.length; i++) {
-			used += Number(rows[i].capacity);
-		}
-		if (totalNum != used) {
-			 $.show_warning("提示", "岗位总人数不等于团队总人数");
-			return false;
-		}
-		document.getElementById("introduction").value=document.getElementById("contenttools").innerHTML;
-		//$("#introduction").val(document.getElementById("contenttoolsValue").innerHTML);listMatch
-		//document.getElementById("formInputBody").value=document.getElementById("contenttools").innerHTML;
-		var value = new Array();
-		var rows = $('#dg_matchProjectNav').datagrid('getRows');
-		for (var i = 0; i < rows.length; i++) {
-			value.push(JSON.stringify(rows[i]));
-		}
-		$("#staffPost").val("[" + value + "]");
-		return true;
-	}
-
-	function dategrid_onClickCell(index, field) {
-		if (editIndex != index) {
-			if (dategrid_endEditing('dg_matchProjectNav')) {
-				$('#dg_matchProjectNav').datagrid('selectRow', index).datagrid(
-						'beginEdit', index);
-				var ed = $('#dg_matchProjectNav').datagrid('getEditor', {
-					index : index,
-					field : field
-				});
-				if (ed) {
-					($(ed.target).data('textbox') ? $(ed.target).textbox(
-							'textbox') : $(ed.target)).focus();
-				}
-				editIndex = index;
-			} else {
-				setTimeout(function() {
-					$('#dg_matchProjectNav').datagrid('selectRow', editIndex);
-				}, 0);
-			}
-		}
-	}
-	function dategrid_append_check() {
-		var totalNum = Number($('#groupMemberCount').val());
-		if (!totalNum) {
-			$.show_warning("提示", "请先填写团队总人数");
-		}
-		var used = 0;
-		var rows = $('#dg_matchProjectNav').datagrid('getRows');
-		for (var i = 0; i < rows.length; i++) {
-			used += Number(rows[i].capacity);
-		}
-		//alert(totalNum);
-	//	alert(used);
-		var left = totalNum - used;
-		if (left > 0) {
-			dategrid_append('dg_matchProjectNav', {
-				capacity : left
-			});
-		} else {
-			//$.show_warning("提示", "已经超过团队总人数");
-		}
-
-		//alert(totalNum-used);
-	}
 </script>
 
-<div style="margin:0 auto;width:680px;">
+<div style="margin:0 auto;width:780px;">
 	<form id="form_add" method="post">
 		<table class="tableForm" style="width: 100%">
 			<tr>
@@ -94,100 +17,42 @@
 				<td><input id="caption" name="caption" type="text"
 					class="easyui-validatebox" data-options="required:true" /></td>
 				<td>团队人数：</td>
-				<td><input id="groupMemberCount" name="groupMemberCount" type="text"
-					class="easyui-numberbox" data-options="required:true" min="1" /></td>
+				<td><input id="groupMemberCount" name="groupMemberCount"
+					type="text" class="easyui-numberbox" data-options="required:true"
+					min="1" /></td>
 			</tr>
 
 
 			<tr>
 				<td>开始时间：</td>
-				<td><input class="Wdate easyui-validatebox" id="matchStartDateTime"
-					name="matchStartDateTime"
+				<td><input class="Wdate easyui-validatebox"
+					id="matchStartDateTime" name="matchStartDateTime"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'});"
 					data-options="required:true"></td>
 
 				<td>结束时间：</td>
-				<td><input class="Wdate easyui-validatebox" id="matchEndDateTime"
-					name="matchEndDateTime"
+				<td><input class="Wdate easyui-validatebox"
+					id="matchEndDateTime" name="matchEndDateTime"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'});"
 					data-options="required:true"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="button" class='easyui-linkbutton'
+					id="match_add_btnUploadImg" value="Logo上传" /></td>
 			</tr>
 
 
 		</table>
-	   <input type="hidden" name="matchLogo" class="image" id="matchLogo" />
+		<input type="hidden" name="matchLogo" class="image" id="matchLogo" />
 
-		<div class="uploadImg" style="text-align: left;" >
-		    <img id="show_image" width="150px" height="150px" src="" /><br>
-			<input type="button" class='easyui-linkbutton' id="match_add_btnUploadImg" value="Logo上传" />
+		<div class="uploadImg" style="text-align: left;">
+			<img id="show_image" width="auto" height="auto" src="" /><br>
 		</div>
-		
-		<input type="hidden" name="staffPost"
-			id="staffPost"> <label for="contenttools"><i>
-		</i> 内容：</label>
-		<div data-editable data-name="main-content" id="contenttools"
-			style="margin-left: 15px;width: 570px;height:300px;overflow:auto;border: #BFBFBF solid 1px;">
-			<blockquote id='contenttoolsValue'></blockquote>
-		</div>
-		<input name="introduction" type="text" hidden="hidden"
-			id="introduction"><br>
+ 赛事介绍:<br>
+		<textarea id="elm1" name="elm1" class="xheditor" rows="12" cols="80"
+			style="width: 80%"></textarea>
 	</form>
 
-
-
-	<table id="dg_matchProjectNav" class="easyui-datagrid" title="赛项岗位"
-		style="width:585px;height:auto;text-align: center;"
-		data-options="
-				iconCls: 'icon-edit',
-				 fitColumns:true,
-				  rownumbers:true,
-				singleSelect: true,
-				toolbar: '#dg_matchProjectNav_tb',
-				method: 'get',
-				onClickCell: dategrid_onClickCell
-			">
-		<thead>
-			<tr>
-				<th data-options="field:'ck',checkbox:true"></th>
-				<!-- <th data-options="field:'itemid',align:'center',width:80">ID</th> -->
-				<!-- 	<th data-options="field:'productid',width:100,
-						formatter:function(value,row){
-							return row.productname;
-						},
-						editor:{
-							type:'combobox',
-							options:{
-								valueField:'productid',
-								textField:'productname',
-								method:'get',
-								url:'products.json',
-								required:true
-							}
-						}">Product</th> -->
-				<th
-					data-options="field:'caption',align:'center',width:40,editor:'text'">岗位名称</th>
-
-
-
-				<th
-					data-options="field:'capacity',align:'center',width:20,editor:'textbox'">岗位人数</th>
-			</tr>
-		</thead>
-	</table>
-
-	<div id="dg_matchProjectNav_tb" style="">
-		<a href="javascript:void(0)" class="easyui-linkbutton"
-			data-options="iconCls:'icon-add',plain:true"
-			onclick="dategrid_append_check()">添加</a> <a href="javascript:void(0)"
-			class="easyui-linkbutton"
-			data-options="iconCls:'icon-save',plain:true"
-			onclick="dategrid_accept('dg_matchProjectNav')">确定</a> <a
-			href="javascript:void(0)" class="easyui-linkbutton"
-			data-options="iconCls:'icon-remove',plain:true"
-			onclick="dategrid_removeit('dg_matchProjectNav')">删除</a> <a
-			href="javascript:void(0)" class="easyui-linkbutton"
-			data-options="iconCls:'icon-undo',plain:true"
-			onclick="dategrid_reject('dg_matchProjectNav')">撤销</a>
-	</div>
 </div>
 
