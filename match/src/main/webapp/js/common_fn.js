@@ -1,4 +1,4 @@
-﻿//var combobox_select;
+//var combobox_select;
 /**
  * 
  * 
@@ -879,6 +879,7 @@ function initFileUpload(button, name, returnValeAssignment) {
 
 			} else {
 				alert("文件上传失败！");
+
 			}
 
 		}

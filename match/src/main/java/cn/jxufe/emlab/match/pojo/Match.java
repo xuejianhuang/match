@@ -193,6 +193,7 @@ public class Match extends cn.jxufe.emlab.match.pojo.BasePojo implements
 
 	public void setYear(int year) {
 		this.year = year;
+
 	}
 
 }

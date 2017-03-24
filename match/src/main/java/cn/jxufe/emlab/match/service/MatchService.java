@@ -44,6 +44,7 @@ public class MatchService extends BaseDao<Match> implements IMatchService
 	public void getMatchYear(Operator oper)
 	{
 		String hql="from Match groub by ";
+
 	}
 
 }
