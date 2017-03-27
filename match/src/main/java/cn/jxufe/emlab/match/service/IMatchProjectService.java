@@ -13,8 +13,9 @@ import cn.jxufe.emlab.match.pojo.Operator;
 
 public interface IMatchProjectService  extends IBaseDao<MatchProject>{
 	public List<MatchProject> getMatchProjectByMatchId(String matchId,Operator oper);
-	public void txSaveMatchProject(Operator oper,MatchProject matchProject);
+	public boolean txSaveMatchProject(Operator oper,MatchProject matchProject);
 	public void txDeleteMatchProject(Operator oper,String[] idList);
-	public void txUpdateMatchProject(Operator oper,MatchProject matchProject,String id);
+	public boolean txUpdateMatchProject(Operator oper,MatchProject matchProject,String id);
+	public void txUpdateMatchProjectIsLockedStatus(Operator oper,String id,int isLocked);
 		
 }

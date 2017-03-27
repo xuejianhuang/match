@@ -301,10 +301,9 @@ $
  * $("#f_activate").form("submit", { url : activateAction, onSubmit : function() {
  * return $(this).form('validate'); }, success : function(result) {
  * dealAjaxResult(result, function(r) { d.dialog('destroy');
- * $.show_warning("提示", "修改成功"); }); } }); }
- *  }, { text : "下次修改", iconCls : "icon-cancel", handler : function() {
- * $(this).closest('.window-body').dialog('destroy');
- *  } } ] }) } });
+ * $.show_warning("提示", "修改成功"); }); } }); } }, { text : "下次修改", iconCls :
+ * "icon-cancel", handler : function() {
+ * $(this).closest('.window-body').dialog('destroy'); } } ] }) } });
  */
 
 /*
@@ -367,6 +366,9 @@ function loadForm(formid, data) {
 	for ( var item in data) {
 		var loca = formid + " #" + item;
 		var classname = $(loca).attr("class");
+		
+		// alert(loca+":"+classname+"="+data[item]);
+		
 		if (classname == "easyui-datebox datebox-f combo-f"
 				&& data[item] != null && data[item].length > 8) {
 			$(loca).datetimebox({
@@ -376,8 +378,7 @@ function loadForm(formid, data) {
 			});
 		} else if (classname == "easyui-combobox combobox-f combo-f") {
 			$(loca).combobox('select', data[item]);
-		} 
-		else if (classname == 'easyui-numberbox numberbox-f textbox-f') {
+		} else if (classname == 'easyui-numberbox numberbox-f textbox-f') {
 			$(loca).numberbox('setValue', data[item]);
 		} else if (classname == 'image') {
 			$(loca).val(data[item]);
@@ -385,8 +386,8 @@ function loadForm(formid, data) {
 			// $('#show_image').src = data[item];
 
 			$('#show_image').attr('src', data[item]);
-		}
-		else {
+		} else {
+			
 			$(loca).val(data[item]);
 		}
 	}
@@ -512,7 +513,7 @@ function add(hrefurl, title, height, width, handlerurl, datagridid) {
 			iconCls : 'icon-add',
 			handler : function() {
 				var d = $(this).closest('.window-body');
-				$("#form_add").form("submit", {
+				$("#form_add").form({
 					url : handlerurl,
 					onSubmit : function(param) {
 						param.action = 'add';
@@ -526,6 +527,7 @@ function add(hrefurl, title, height, width, handlerurl, datagridid) {
 						});
 					}
 				});
+				$("#form_add").submit();
 			}
 		}, {
 			text : '取消添加',
@@ -570,7 +572,6 @@ function edit(hrefurl, title, height, width, handlerurl, datagridid) {
 										var d = $(this).closest('.window-body');
 										$("#form_edit")
 												.form(
-														"submit",
 														{
 															url : handlerurl,
 															onSubmit : function(
@@ -605,6 +606,7 @@ function edit(hrefurl, title, height, width, handlerurl, datagridid) {
 																		});
 															}
 														});
+										$("#form_edit").submit();
 									}
 								},
 								{
@@ -750,6 +752,25 @@ function formatterMatchLevel(val) {
 		return val;
 
 }
+function formatterregistrationScope(val) {
+	 if (val == 1)
+		return '本校';
+	else if (val == 2)
+		return '全省';
+	else if (val == 3)
+		return '全国';
+	else
+		return val;
+
+}
+function formatterisTeamMatch(val) {
+	 if (val == 0)
+		return '个人赛';
+	else if (val == 1)
+		return '团体赛';
+		return val;
+
+}
 function formatterdatesubstring(val) {
 	if (val == null)
 		return "";
@@ -761,7 +782,8 @@ function formatterdatesubstring(val) {
 function formatterMatchDetail(val, row, index) {
 	// var baseUrl = "/ufinder/";
 	if (val != null && val != "") {
-		var innerHtml = '<a href="/ufinder/ufinderServlet?cmd=download&target='+ val + '">文件下载</a>';
+		var innerHtml = '<a href="/ufinder/ufinderServlet?cmd=download&target='
+				+ val + '">文件下载</a>';
 		return innerHtml;
 	} else
 		return "";
@@ -895,4 +917,29 @@ function initFileUpload(button, name, returnValeAssignment) {
 		}
 	});
 
+}
+function ajaxSend(url, para, callBack) {
+	/*
+	 * var para = {}; para.cardPrice = $("#cardPrice").val(); para.ratio =
+	 * $("#ratio").val(); para.quarter_ratio = $("#quarter_ratio").val();
+	 * para.year_ratio = $("#year_ratio").val();
+	 * 
+	 * if (isNaN(para.cardPrice) ||isNaN(para.ratio)) { alert("请输入正确的数值格式");
+	 * return; }
+	 */
+
+	$.ajax({
+		url : url,
+		type : "POST",
+		data : para,
+		dataType : "text",
+		success : function(result) {
+			dealAjaxResult(result, function(r) {
+				// $.show_warning("提示", "操作成功");
+				if (callBack) {
+					callBack();
+				}
+			});
+		}
+	});
 }

@@ -16,6 +16,8 @@ public interface IMatchService  extends IBaseDao<Match>{
 	public void txSaveMatch(Operator oper,Match match);
 	public void txDeleteMatch(Operator oper,String[] idList);
 	public void txUpdateMatch(Operator oper,Match match,String id);
+	
+
 
 	public List<Integer> getMatchYear(Operator oper);
 

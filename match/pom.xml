@@ -329,6 +329,12 @@
 		</dependency>
 
 
+		<!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.8</version>
+		</dependency>
 
 
 
@@ -357,22 +363,22 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty-maven-plugin</artifactId>
-			<version>7.3.1.v20110307</version>
-			<configuration>
-			<scanIntervalSeconds>10</scanIntervalSeconds>
-             <webAppConfig>
-             <contextPath>/match</contextPath>
-        
-             </webAppConfig>
-			</configuration>
-			
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>7.3.1.v20110307</version>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webAppConfig>
+						<contextPath>/match</contextPath>
+
+					</webAppConfig>
+				</configuration>
+
 			</plugin>
-			
-			
+
+
 			<!-- 自动部署插件 -->
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>
@@ -405,18 +411,18 @@
 		</plugins>
 	</build>
 	<pluginRepositories>
-	<pluginRepository>  
-    <id>apache.snapshots</id>  
-    <name>Apache Snapshots</name>  
-    <url>  
+		<pluginRepository>
+			<id>apache.snapshots</id>
+			<name>Apache Snapshots</name>
+			<url>  
         http://repository.apache.org/content/groups/snapshots-group/  
-    </url>  
-    <releases>  
-        <enabled>false</enabled>  
-    </releases>  
-    <snapshots>  
-        <enabled>true</enabled>  
-    </snapshots>  
-</pluginRepository>  
+    </url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
 	</pluginRepositories>
 </project>

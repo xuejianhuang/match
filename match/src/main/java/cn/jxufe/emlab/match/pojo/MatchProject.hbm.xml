@@ -28,7 +28,7 @@
         <property name="registrationScope" type="java.lang.Integer">
             <column name="registrationScope" />
         </property>
-        <property name="isTeamMatch" type="java.lang.Boolean">
+        <property name="isTeamMatch" type="java.lang.Integer">
             <column name="isTeamMatch" />
         </property>
         <property name="groupMemberCount" type="java.lang.Integer">
@@ -43,7 +43,7 @@
         <property name="endDate" type="java.util.Date">
             <column name="endDate" length="10" />
         </property>
-        <property name="isLocked" type="java.lang.Boolean">
+        <property name="isLocked" type="java.lang.Integer">
             <column name="isLocked" />
         </property>
         <property name="status" type="java.lang.Integer">

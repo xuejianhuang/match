@@ -26,6 +26,7 @@ public class MatchProjectAction extends BaseAction {
 	private String[] idlist;
 	private String id;
 	private String matchId;
+	private int isLocked;
 
 	public String getMatchProjectByMatchId() throws IOException {
 
@@ -45,8 +46,15 @@ public class MatchProjectAction extends BaseAction {
 		Map jsondata = new HashMap();
 		Map map = getSession();
 		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
-		matchProjectService.txSaveMatchProject(oper, matchProject);
+		if(matchProjectService.txSaveMatchProject(oper, matchProject))
+		{
 		status = StatusEnum.success;
+		}
+		else
+		{
+			status=StatusEnum.failed;
+			jsondata.put(KeyEnum.REASON, "结束时间不能在开始时间之前");
+		}
 		jsondata.put(KeyEnum.STATUS, status);
 		jsonViewIE(jsondata);
 		// menu=new Menu();
@@ -70,12 +78,32 @@ public class MatchProjectAction extends BaseAction {
 		Map jsondata = new HashMap();
 		Map map = getSession();
 		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
-		matchProjectService.txUpdateMatchProject(oper, matchProject, id);
+		if(matchProjectService.txUpdateMatchProject(oper, matchProject, id))
+		{
+		status = StatusEnum.success;
+		}
+		else
+		{
+			status=StatusEnum.failed;
+			jsondata.put(KeyEnum.REASON, "结束时间不能在开始时间之前");
+		}
+		jsondata.put(KeyEnum.STATUS, status);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	
+	public String changeMatchProjectIsLockedStatus() throws IOException {
+		StatusEnum status;
+		Map jsondata = new HashMap();
+		Map map = getSession();
+		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
+		 matchProjectService.txUpdateMatchProjectIsLockedStatus(oper, id, isLocked);
 		status = StatusEnum.success;
 		jsondata.put(KeyEnum.STATUS, status);
 		jsonViewIE(jsondata);
 		return null;
 	}
+
 
 	
 
@@ -87,12 +115,24 @@ public class MatchProjectAction extends BaseAction {
 		this.matchProject = matchProject;
 	}
 
+	public MatchProject getMatchProject() {
+		return matchProject;
+	}
+
 	public void setIdlist(String[] idlist) {
 		this.idlist = idlist;
 	}
 
 	public void setMatchId(String matchId) {
 		this.matchId = matchId;
+	}
+
+	public int getIsLocked() {
+		return isLocked;
+	}
+
+	public void setIsLocked(int isLocked) {
+		this.isLocked = isLocked;
 	}
 
 	public String getId() {

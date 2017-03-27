@@ -1,12 +1,26 @@
 <script type="text/javascript">
 	$(function() {
-		//initfileUpload($('#match_add_btnUploadImg'),$('#show_image'),$('#matchLogo'));
-		$('#elm1').xheditor({
+		initImageUpload($('#matchProject_add_btnUploadImg'), $('#show_image'),
+				$('#logo'));
+		$('#introduction').xheditor({
 			html5Upload : false,
 			upImgUrl : 'upload.action?type=img',
 			upImgExt : 'jpg,jpeg,gif,png'
 		});
 	});
+	function matchProject_add_isTeamMatch_clike()
+	{
+		var isTeamMatch = $("#isTeamMatch option:selected").val();
+		if(isTeamMatch=="1")
+			{
+			  $("#matchProject_add_teamNumDiv").show();
+			}
+		else
+			{
+			$("#matchProject_add_teamNumDiv").hide();
+			}
+	}
+	
 </script>
 
 <div style="margin:0 auto;width:780px;">
@@ -14,44 +28,63 @@
 		<table class="tableForm" style="width: 100%">
 			<tr>
 				<td>赛项名称：</td>
-				<td><input id="caption" name="caption" type="text"
+				<td><input id="caption" name="matchProject.caption" type="text"
 					class="easyui-validatebox" data-options="required:true" /></td>
-				<td>团队人数：</td>
-				<td><input id="groupMemberCount" name="groupMemberCount"
+					
+					<td>赛项类型：</td>
+				<td>
+				<select id="isTeamMatch"
+					name="matchProject.isTeamMatch"
+					onclick="matchProject_add_isTeamMatch_clike()"> 
+					<option value="0">个人赛</option >
+					<option value="1">团体赛</option > 
+				</select> &nbsp;&nbsp;&nbsp;
+				<span id="matchProject_add_teamNumDiv"  style="display: none;">
+					团队人数:<input id="groupMemberCount" name="matchProject.groupMemberCount"
 					type="text" class="easyui-numberbox" data-options="required:true"
-					min="1" /></td>
+					min="1"  max="10" value="1"/>
+					</span>
+					</td>
+			</tr>
+			<tr>
+			<td>
+			报名范围:
+			</td>
+			<td>
+				<select id="registrationScope"
+					name="matchProject.registrationScope"> 
+					 <option value="1">本校</option > 
+					 <option value="2">全省</option >
+					 <option value="3">全国</option >
+				</select>
+			</td>
+			<td>开始时间：</td>
+				<td><input class="easyui-datebox"
+					id="startDate" name="matchProject.startDate"
+					data-options="required:true"></td>
+
+				
 			</tr>
 
 
 			<tr>
-				<td>开始时间：</td>
-				<td><input class="Wdate easyui-validatebox"
-					id="matchStartDateTime" name="matchStartDateTime"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'});"
-					data-options="required:true"></td>
-
 				<td>结束时间：</td>
-				<td><input class="Wdate easyui-validatebox"
-					id="matchEndDateTime" name="matchEndDateTime"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'});"
+				<td><input class="easyui-datebox"
+					id="endDate" name="matchProject.endDate"
 					data-options="required:true"></td>
+					<td><input type="button" class='easyui-linkbutton'
+					id="matchProject_add_btnUploadImg" value="Logo上传" /></td>
 			</tr>
-			<tr>
-				<td></td>
-				<td><input type="button" class='easyui-linkbutton'
-					id="match_add_btnUploadImg" value="Logo上传" /></td>
-			</tr>
-
 
 		</table>
-		<input type="hidden" name="matchLogo" class="image" id="matchLogo" />
+		<input type="hidden" name="matchProject.logo" class="image" id="logo" />
 
 		<div class="uploadImg" style="text-align: left;">
 			<img id="show_image" width="auto" height="auto" src="" /><br>
 		</div>
- 赛事介绍:<br>
-		<textarea id="elm1" name="elm1" class="xheditor" rows="12" cols="80"
-			style="width: 80%"></textarea>
+ <b>赛事介绍:</b><br>
+		<textarea id="introduction" name="matchProject.introduction" class="xheditor" rows="20" cols="100"
+			style="width: 100%"></textarea>
 	</form>
 
 </div>

@@ -21,12 +21,12 @@ public class MatchProject extends cn.jxufe.emlab.match.pojo.BasePojo implements 
      private String caption;
      private String matchId;
      private int registrationScope;
-     private Boolean isTeamMatch;
+     private int isTeamMatch;
      private int groupMemberCount;
      private String introduction;
      private Date startDate;
      private Date endDate;
-     private Boolean isLocked;
+     private int isLocked;
      private int status;
      private String logo;
 
@@ -43,7 +43,7 @@ public class MatchProject extends cn.jxufe.emlab.match.pojo.BasePojo implements 
     }
     
     /** full constructor */
-    public MatchProject(String id, String name, String comment, Timestamp createtime, String caption, String matchId, int registrationScope, Boolean isTeamMatch, int groupMemberCount, String introduction, Date startDate, Date endDate, Boolean isLocked, int status, String logo) {
+    public MatchProject(String id, String name, String comment, Timestamp createtime, String caption, String matchId, int registrationScope, int isTeamMatch, int groupMemberCount, String introduction, Date startDate, Date endDate, int isLocked, int status, String logo) {
         this.id = id;
         this.name = name;
         this.comment = comment;
@@ -120,15 +120,25 @@ public class MatchProject extends cn.jxufe.emlab.match.pojo.BasePojo implements 
         this.registrationScope = registrationScope;
     }
 
-    public Boolean getIsTeamMatch() {
-        return this.isTeamMatch;
-    }
-    
-    public void setIsTeamMatch(Boolean isTeamMatch) {
-        this.isTeamMatch = isTeamMatch;
-    }
+   
 
-    public int getGroupMemberCount() {
+    public int getIsTeamMatch() {
+		return isTeamMatch;
+	}
+
+	public void setIsTeamMatch(int isTeamMatch) {
+		this.isTeamMatch = isTeamMatch;
+	}
+
+	public void setIsLocked(int isLocked) {
+		this.isLocked = isLocked;
+	}
+
+	public int getIsLocked() {
+		return isLocked;
+	}
+
+	public int getGroupMemberCount() {
         return this.groupMemberCount;
     }
     
@@ -160,13 +170,6 @@ public class MatchProject extends cn.jxufe.emlab.match.pojo.BasePojo implements 
         this.endDate = endDate;
     }
 
-    public Boolean getIsLocked() {
-        return this.isLocked;
-    }
-    
-    public void setIsLocked(Boolean isLocked) {
-        this.isLocked = isLocked;
-    }
 
     public int getStatus() {
         return this.status;
