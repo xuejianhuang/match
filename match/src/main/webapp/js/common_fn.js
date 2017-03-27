@@ -1,8 +1,7 @@
-﻿
 //var combobox_select;
 /**
-
-
+ * 
+ * 
  * panel关闭时回收内存，主要用于layout使用iframe嵌入网页时的内存泄漏问题
  */
 $.fn.panel.defaults.onBeforeDestroy = function() {
@@ -11,7 +10,7 @@ $.fn.panel.defaults.onBeforeDestroy = function() {
 	try {
 		// alert('销毁，清理内存');
 		if (frame.length > 0) {
-			for ( var i = 0; i < frame.length; i++) {
+			for (var i = 0; i < frame.length; i++) {
 				frame[i].contentWindow.document.write('');
 				frame[i].contentWindow.close();
 			}
@@ -238,20 +237,29 @@ $
 																						var user = eval("("
 																								+ r
 																								+ ")");
-//																						if (user.status ==0)
-//																						{
-//																						$.activate("activate.html",
-//																								"oa_OperActivate.action",350,250);
-//																						}
-																						var role=getRoleName(user.roleName);
-//																						if(user.roleName!="admin")
-//																						{
-//																						  $("#changebonusparamdisplay").remove();
-//																						  $("#switchdisplay").remove();
-//																						  $("#switchdisplay2").remove();
-//																						  $("#changebonusparamdisplay2").remove();
-//																						}
-																						$("#div_welcom").html("<b>" + role + ":" + user.account + "，欢迎您！");
+																						// if
+																						// (user.status
+																						// ==0)
+																						// {
+																						// $.activate("activate.html",
+																						// "oa_OperActivate.action",350,250);
+																						// }
+																						var role = getRoleName(user.roleName);
+																						// if(user.roleName!="admin")
+																						// {
+																						// $("#changebonusparamdisplay").remove();
+																						// $("#switchdisplay").remove();
+																						// $("#switchdisplay2").remove();
+																						// $("#changebonusparamdisplay2").remove();
+																						// }
+																						$(
+																								"#div_welcom")
+																								.html(
+																										"<b>"
+																												+ role
+																												+ ":"
+																												+ user.account
+																												+ "，欢迎您！");
 																						$(
 																								"#hd_account")
 																								.val(
@@ -283,50 +291,20 @@ $
  * 用户激活
  */
 
-
- /*
-$.extend({
-	activate : function(url, activateAction, width, height) {
-
-		$("<div/>").attr("id", "dialog_activate").dialog({
-			title : "修改初始密码",
-			href : url,
-			width : width,
-			height : height,
-			closable : false,
-			iconCls : "icon-lock",
-			modal : true,
-			buttons : [ {
-				text : "提交",
-				iconCls : "icon-key",
-				handler : function() {
-					var d = $(this).closest('.window-body');
-					$("#f_activate").form("submit", {
-						url : activateAction,
-						onSubmit : function() {
-							return $(this).form('validate');
-						},
-						success : function(result) {
-							dealAjaxResult(result, function(r) {
-								d.dialog('destroy');
-									$.show_warning("提示", "修改成功");
-							});
-						}
-					});
-				}
-
-			}, {
-				text : "下次修改",
-				iconCls : "icon-cancel",
-				handler : function() {
-					$(this).closest('.window-body').dialog('destroy');
-					
-				}
-			} ]
-		})
-	}
-});
-*/
+/*
+ * $.extend({ activate : function(url, activateAction, width, height) {
+ * 
+ * $("<div/>").attr("id", "dialog_activate").dialog({ title : "修改初始密码", href :
+ * url, width : width, height : height, closable : false, iconCls : "icon-lock",
+ * modal : true, buttons : [ { text : "提交", iconCls : "icon-key", handler :
+ * function() { var d = $(this).closest('.window-body');
+ * $("#f_activate").form("submit", { url : activateAction, onSubmit : function() {
+ * return $(this).form('validate'); }, success : function(result) {
+ * dealAjaxResult(result, function(r) { d.dialog('destroy');
+ * $.show_warning("提示", "修改成功"); }); } }); } }, { text : "下次修改", iconCls :
+ * "icon-cancel", handler : function() {
+ * $(this).closest('.window-body').dialog('destroy'); } } ] }) } });
+ */
 
 /*
  * zf 获取session
@@ -334,7 +312,7 @@ $.extend({
 function getSession(deal) {
 	// alert(12);
 	$.ajax({
-		url : "getSession.action?_"+new Date().getTime(),
+		url : "getSession.action?_" + new Date().getTime(),
 		type : "POST",
 		success : function(r) {
 
@@ -388,6 +366,9 @@ function loadForm(formid, data) {
 	for ( var item in data) {
 		var loca = formid + " #" + item;
 		var classname = $(loca).attr("class");
+		
+		// alert(loca+":"+classname+"="+data[item]);
+		
 		if (classname == "easyui-datebox datebox-f combo-f"
 				&& data[item] != null && data[item].length > 8) {
 			$(loca).datetimebox({
@@ -395,13 +376,18 @@ function loadForm(formid, data) {
 				formatter : formaterdate,
 				parser : parserdate
 			});
-		}
-		else if(classname=="easyui-combobox combobox-f combo-f")
-		{
-		$(loca).combobox(
-				'select', data[item]);
-		}
-		else {
+		} else if (classname == "easyui-combobox combobox-f combo-f") {
+			$(loca).combobox('select', data[item]);
+		} else if (classname == 'easyui-numberbox numberbox-f textbox-f') {
+			$(loca).numberbox('setValue', data[item]);
+		} else if (classname == 'image') {
+			$(loca).val(data[item]);
+
+			// $('#show_image').src = data[item];
+
+			$('#show_image').attr('src', data[item]);
+		} else {
+			
 			$(loca).val(data[item]);
 		}
 	}
@@ -514,7 +500,7 @@ function logout() {
 		}
 	});
 }
-function add(hrefurl,title,height,width,handlerurl,datagridid) {
+function add(hrefurl, title, height, width, handlerurl, datagridid) {
 	$("<div/>").dialog({
 		href : hrefurl,
 		title : title,
@@ -527,7 +513,7 @@ function add(hrefurl,title,height,width,handlerurl,datagridid) {
 			iconCls : 'icon-add',
 			handler : function() {
 				var d = $(this).closest('.window-body');
-				$("#form_add").form("submit", {
+				$("#form_add").form({
 					url : handlerurl,
 					onSubmit : function(param) {
 						param.action = 'add';
@@ -537,10 +523,11 @@ function add(hrefurl,title,height,width,handlerurl,datagridid) {
 						dealAjaxResult(result, function(r) {
 							d.dialog('destroy');
 							$.show_warning("提示", "操作成功");
-					    $("#"+datagridid).datagrid("reload");
+							$("#" + datagridid).datagrid("reload");
 						});
 					}
 				});
+				$("#form_add").submit();
 			}
 		}, {
 			text : '取消添加',
@@ -554,16 +541,16 @@ function add(hrefurl,title,height,width,handlerurl,datagridid) {
 		}
 	});
 }
-function edit(hrefurl,title,height,width,handlerurl,datagridid) {
-	var r = $("#"+datagridid).datagrid("getChecked");
+function edit(hrefurl, title, height, width, handlerurl, datagridid) {
+	var r = $("#" + datagridid).datagrid("getChecked");
 	if (r.length < 1) {
 		$.show_warning("错误", "请选择一条记录");
 		return;
 	}
 	if (r.length > 1) {
 		$.show_warning("错误", "一次只能修改一条记录");
-		$("#"+datagridid).datagrid('clearSelections').datagrid(
-				'clearChecked');
+		$("#" + datagridid).datagrid('clearSelections')
+				.datagrid('clearChecked');
 		return;
 
 	}
@@ -574,7 +561,7 @@ function edit(hrefurl,title,height,width,handlerurl,datagridid) {
 						href : hrefurl,
 						title : title,
 						height : height,
-						width :width,
+						width : width,
 						modal : true,
 						iconCls : "icon-edit",
 						buttons : [
@@ -582,19 +569,16 @@ function edit(hrefurl,title,height,width,handlerurl,datagridid) {
 									text : '确定修改',
 									iconCls : 'icon-edit',
 									handler : function() {
-										var d = $(this).closest(
-												'.window-body');
+										var d = $(this).closest('.window-body');
 										$("#form_edit")
 												.form(
-														"submit",
 														{
 															url : handlerurl,
 															onSubmit : function(
 																	param) {
 																param.action = 'edit';
 																param.id = r[0].id;
-																return $(
-																		this)
+																return $(this)
 																		.form(
 																				'validate');
 															},
@@ -611,7 +595,8 @@ function edit(hrefurl,title,height,width,handlerurl,datagridid) {
 																							"提示",
 																							"操作成功");
 																			$(
-																					"#"+datagridid)
+																					"#"
+																							+ datagridid)
 																					.datagrid(
 																							"reload")
 																					.datagrid(
@@ -621,71 +606,68 @@ function edit(hrefurl,title,height,width,handlerurl,datagridid) {
 																		});
 															}
 														});
+										$("#form_edit").submit();
 									}
 								},
 								{
 									text : '取消修改',
 									iconCls : 'icon-cancel',
 									handler : function() {
-										$(this).closest('.window-body')
-												.dialog('destroy');
+										$(this).closest('.window-body').dialog(
+												'destroy');
 									}
 								} ],
 						onClose : function() {
 							$(this).dialog('destroy');
 						},
 						onLoad : function() {
-							loadForm("#form_edit",r[0]);
+							loadForm("#form_edit", r[0]);
 						}
 					});
 
 }
-function detailinfo(hrefurl,title,height,width,datagridid) {
-	//alert(1);
-	var r = $("#"+datagridid).datagrid("getChecked");
+function detailinfo(hrefurl, title, height, width, datagridid) {
+	// alert(1);
+	var r = $("#" + datagridid).datagrid("getChecked");
 	if (r.length < 1) {
 		$.show_warning("错误", "请选择一条记录");
 		return;
 	}
 	if (r.length > 1) {
 		$.show_warning("错误", "一次只能查看一条记录");
-		$("#"+datagridid).datagrid('clearSelections').datagrid(
-				'clearChecked');
+		$("#" + datagridid).datagrid('clearSelections')
+				.datagrid('clearChecked');
 		return;
 
 	}
 
-	$("<div/>")
-			.dialog(
-					{
-						href : hrefurl,
-						title :title,
-						height : height,
-						width : width,
-						modal : true,
-						iconCls : "icon-edit",
-						buttons : [
-								{
-									text : '',
-									iconCls : 'icon-undo',
-									handler : function() {
-										$(this).closest('.window-body')
-												.dialog('destroy');
-									}
-								} ],
-						onClose : function() {
-							$(this).dialog('destroy');
-						},
-						onLoad : function() {
-							loadForm("#form_detailinfo",r[0]);
+	$("<div/>").dialog({
+		href : hrefurl,
+		title : title,
+		height : height,
+		width : width,
+		modal : true,
+		iconCls : "icon-edit",
+		buttons : [ {
+			text : '',
+			iconCls : 'icon-undo',
+			handler : function() {
+				$(this).closest('.window-body').dialog('destroy');
+			}
+		} ],
+		onClose : function() {
+			$(this).dialog('destroy');
+		},
+		onLoad : function() {
+			loadForm("#form_detailinfo", r[0]);
 
-						}
-					});
+		}
+	});
 
 }
 
-function del(handlerurl,datagridid) {
-	var rows = $("#"+datagridid).datagrid("getChecked");
+function del(handlerurl, datagridid) {
+	var rows = $("#" + datagridid).datagrid("getChecked");
 	if (rows.length < 1) {
 		$.show_warning("错误", "请选择要删除的记录");
 		return;
@@ -705,74 +687,113 @@ function del(handlerurl,datagridid) {
 				type : "POST",
 				dataType : "text",
 				success : function(result) {
-					dealAjaxResult(result,
-							function(r) {
-								$.show_warning("提示", "操作成功");
-								$("#"+datagridid).datagrid("reload")
-										.datagrid('clearSelections')
-										.datagrid('clearChecked');
-								;
-							});
+					dealAjaxResult(result, function(r) {
+						$.show_warning("提示", "操作成功");
+						$("#" + datagridid).datagrid("reload").datagrid(
+								'clearSelections').datagrid('clearChecked');
+						;
+					});
 				}
 			});
 		}
 	});
 }
 
-function getCurDateyy_mm_dd()
-{
- var today = new Date();    
- var day   = today.getDate();         //获取当前日(1-31)  
- var month = today.getMonth() + 1;     //显示月份比实际月份小1,所以要加1
- var year  = today.getFullYear();           //获取完整的年份(4位,1970-????)  \
- month     = month<10?"0"+month:month;          //数字<10，实际显示为，如5，要改成05  
- day       = day<10?"0"+day:day;   
- var date  = year + "-" + month + "-" + day;
- return date;
+function getCurDateyy_mm_dd() {
+	var today = new Date();
+	var day = today.getDate(); // 获取当前日(1-31)
+	var month = today.getMonth() + 1; // 显示月份比实际月份小1,所以要加1
+	var year = today.getFullYear(); // 获取完整的年份(4位,1970-????) \
+	month = month < 10 ? "0" + month : month; // 数字<10，实际显示为，如5，要改成05
+	day = day < 10 ? "0" + day : day;
+	var date = year + "-" + month + "-" + day;
+	return date;
 }
-function getNextDateyy_mm_dd()
-{
- var today = new Date();                   
- var next=new Date(today.getTime()+86400000);
- var day   = next.getDate();         //获取当前日(1-31)  
- var month = next.getMonth() + 1;     //显示月份比实际月份小1,所以要加1
- var year  = next.getFullYear();           //获取完整的年份(4位,1970-????)  \
- month     = month<10?"0"+month:month;          //数字<10，实际显示为，如5，要改成05  
- day       = day<10?"0"+day:day;   
- var date  = year + "-" + month + "-" + day;
- return date;
+function getNextDateyy_mm_dd() {
+	var today = new Date();
+	var next = new Date(today.getTime() + 86400000);
+	var day = next.getDate(); // 获取当前日(1-31)
+	var month = next.getMonth() + 1; // 显示月份比实际月份小1,所以要加1
+	var year = next.getFullYear(); // 获取完整的年份(4位,1970-????) \
+	month = month < 10 ? "0" + month : month; // 数字<10，实际显示为，如5，要改成05
+	day = day < 10 ? "0" + day : day;
+	var date = year + "-" + month + "-" + day;
+	return date;
 }
-function getRoleName(val)
-{
+function getRoleName(val) {
 	var role;
-	if(val=="admin")
-	{
-	  return "超级管理员";
+	if (val == "admin") {
+		return "超级管理员";
+	} else {
+		return val;
 	}
-	else
-		{
-	     return  val;
-		}
 
-	
 }
-function formatterrole(val)
-{
+function formatterrole(val) {
 	if (val == null)
 		return "";
 	else if (val == 'admin')
 		return '超级管理员';
-	else 
+	else
 		return val;
-	
-	
+
+}
+
+function formatterMatchLevel(val) {
+	if (val == 0)
+		return "院级";
+	else if (val == 1)
+		return '校级';
+	else if (val == 2)
+		return '省级';
+	else if (val == 3)
+		return '国家级';
+	else
+		return val;
+
+}
+function formatterregistrationScope(val) {
+	 if (val == 1)
+		return '本校';
+	else if (val == 2)
+		return '全省';
+	else if (val == 3)
+		return '全国';
+	else
+		return val;
+
+}
+function formatterisTeamMatch(val) {
+	 if (val == 0)
+		return '个人赛';
+	else if (val == 1)
+		return '团体赛';
+		return val;
+
+}
+function formatterdatesubstring(val) {
+	if (val == null)
+		return "";
+	if (val.length > 10)
+		return val.substring(0, 10);
+	return val;
+}
+
+function formatterMatchDetail(val, row, index) {
+	// var baseUrl = "/ufinder/";
+	if (val != null && val != "") {
+		var innerHtml = '<a href="/ufinder/ufinderServlet?cmd=download&target='
+				+ val + '">文件下载</a>';
+		return innerHtml;
+	} else
+		return "";
 }
 
 /*
  * button:图片上传点击按钮 img:图片上传成功后显示图片 returnValeAssignment：赋值图片上传成功后返回图片访问路径（）
  * ThumbUrlAssigment:赋值压缩图片的访问路径（默认为正常图片下small文件夹下正常图片名字_s）;
  */
-function initfileUpload(button, img, returnValeAssignment, ThumbUrlAssigment) {
+function initImageUpload(button, img, returnValeAssignment, ThumbUrlAssigment) {
 
 	var interval;
 	var baseUrl = "/ufinder/";
@@ -834,4 +855,91 @@ function initfileUpload(button, img, returnValeAssignment, ThumbUrlAssigment) {
 		}
 	});
 
+}
+/*
+ * button:文件上传点击按钮 name: 上传成功后显示文件名称 returnValeAssignment：赋值图片上传成功后返回图片访问路径（）
+ */
+function initFileUpload(button, name, returnValeAssignment) {
+
+	var interval;
+	var baseUrl = "/ufinder/";
+	new AjaxUpload(button, {
+		action : baseUrl
+				+ '/ufinderServlet?cmd=upload&target=/dasaipingtai/match/',
+		data : {
+		// id : id
+		},
+		name : 'fileInfoJSON', // 'filedata',
+		onSubmit : function(file, ext) {
+			// id = $("#id").val();
+			if (!(ext && /^(doc|docx|txt|xls|xlsx|xml)$/.test(ext))) {
+				alert("您上传文件格式不对，请重新选择！");
+				return false;
+			}
+			// change button text, when user selects file
+			button.text('上传中');
+
+			// If you want to allow uploading only 1 file at time,
+			// you can disable upload button
+			this.disable();
+
+			// Uploding -> Uploading. -> Uploading...
+			interval = window.setInterval(function() {
+				var text = button.text();
+				if (text.length < 10) {
+					button.text(text + '|');
+				} else {
+					button.text('上传中');
+				}
+			}, 200);
+		},
+		onComplete : function(file, res) {
+			window.clearInterval(interval);
+			// enable upload button
+
+			this.enable();
+			var response = eval("(" + res + ")");
+			var status = response.message;
+
+			if ("success" == status) {
+				var file = response.data.file;
+				var filePath = file.path;
+				returnValeAssignment.val(filePath);
+				name
+						.append(file.path
+								.substring(file.path.lastIndexOf("/") + 1));
+
+			} else {
+				alert("文件上传失败！");
+
+			}
+
+		}
+	});
+
+}
+function ajaxSend(url, para, callBack) {
+	/*
+	 * var para = {}; para.cardPrice = $("#cardPrice").val(); para.ratio =
+	 * $("#ratio").val(); para.quarter_ratio = $("#quarter_ratio").val();
+	 * para.year_ratio = $("#year_ratio").val();
+	 * 
+	 * if (isNaN(para.cardPrice) ||isNaN(para.ratio)) { alert("请输入正确的数值格式");
+	 * return; }
+	 */
+
+	$.ajax({
+		url : url,
+		type : "POST",
+		data : para,
+		dataType : "text",
+		success : function(result) {
+			dealAjaxResult(result, function(r) {
+				// $.show_warning("提示", "操作成功");
+				if (callBack) {
+					callBack();
+				}
+			});
+		}
+	});
 }

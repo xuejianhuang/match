@@ -1,8 +1,10 @@
 <script type="text/javascript">
 	$(function() {
 		//$('#Matchadd_comment').xheditor({html5Upload:false,upImgUrl:'upload.action?type=img',upImgExt:'jpg,jpeg,gif,png'});
-		initfileUpload($('#match_add_btnUploadImg'), $('#show_image'),
-				$('#bannerUrl'),$('#bannerThumbnailUrl'));
+		initImageUpload($('#match_add_btnUploadImg'), $('#show_image'),
+				$('#bannerUrl'), $('#bannerThumbnailUrl'));
+		initFileUpload($('#match_add_btnUploadFile'), $('#match_add_uploadFileName'),
+				$('#detail'));
 
 	});
 </script>
@@ -22,43 +24,54 @@
 			</tr>
 			<tr>
 				<td>承办方：</td>
-				<td><input type="text" id="organizer"
-					name="match.organizer" class="easyui-validatebox"
-					data-options="required:true" /></td>
+				<td><input type="text" id="organizer" name="match.organizer"
+					class="easyui-validatebox" data-options="required:true" /></td>
 				<td>协办方：</td>
 				<td><input type="text" id="coSponsor" name="match.coSponsor"
 					class="easyui-validatebox" data-options="required:true" /></td>
 			</tr>
 			<tr>
 				<td>举办地址：</td>
-				<td><input type="text" id="address" name="match.address"
+				<td>
+				<input type="text" id="address" name="match.address"
 					class="easyui-validatebox" data-options="required:true" /></td>
-				<td>年份：</td>
-				<td><input class="Wdate easyui-validatebox" id="match.level"
-					name="year" onclick="WdatePicker({dateFmt:'yyyy'});"
-					data-options="required:true"></td>
+				<td>赛事级别：</td>
+				<td><select id="level"
+					name="match.level"> 
+					<option value="0">院级</option >
+					 <option value="1">校级</option > 
+					 <option value="2">省级</option >
+					  <option value="3">国家级</option >
+				</select></td>
+			
 			</tr>
 			<tr>
-				<td>开始时间：</td>
-				<td><input class="Wdate easyui-validatebox" id="datePeriod"
-					name="datePeriod"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'});"
-					data-options="required:true"></td>
+				<td>举办日期：</td>
+				<td><input class="easyui-datebox" id="holdtime"
+					name="match.holdtime" data-options="required:true"></td>
 
 				<!-- <td>结束时间：</td>
 				<td><input class="Wdate easyui-validatebox" id="endTime" name="Match.endTime"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd:HH-mm'});" 
 					data-options="required:true"></td> -->
+				<td>	
+				<input type="button" class='easyui-linkbutton'
+				id="match_add_btnUploadImg" value="横幅上传" />
+				</td>
+					
+				<td><input type="button" class='easyui-linkbutton'
+				id="match_add_btnUploadFile" value="大赛文件" /></td>
+				<td><div id="match_add_uploadFileName">  </div>  </td>
 			</tr>
 		</table>
-		
-		<input type="hidden" name="match.bannerUrl" class="image" id="bannerUrl" />
-		<input type="hidden" name="matchbannerThumbnailUrl" class="image" id="bannerThumbnailUrl" />
+	  <input type="hidden" name="match.detail"  id="detail" /> 
+
+		<input type="hidden" name="match.bannerUrl" class="image" id="bannerUrl" /> 
+	<input type="hidden" name="match.bannerThumbnailUrl"  id="bannerThumbnailUrl" />
 
 		<div class="uploadImg" style="text-align: left;">
-		 <img id="show_image" width="150px" height="150px" src="" /><br>
-		<input type="button" class='easyui-linkbutton'id="match_add_btnUploadImg" value="横幅上传" /> 
-		   
+			<img id="show_image" width="auto" height="auto" src="" /><br>
+
 		</div>
 	</form>
 </div>

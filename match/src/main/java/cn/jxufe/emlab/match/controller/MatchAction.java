@@ -39,21 +39,48 @@ public class MatchAction extends BaseAction {
 		return null;
 	}
 
+	public String getAllMatchYear() throws IOException {
+		Map session = getSession();
+		Operator oper = (Operator) session.get(KeyEnum.OPERATOR);
+		jsonViewIE(matchService.getMatchYear(oper));
+		return null;
+	}
+
 	@SuppressWarnings("unchecked")
-	public String saveMenu() throws IOException {
+	public String saveMatch() throws IOException {
 		StatusEnum status;
 		Map jsondata = new HashMap();
 		Map map = getSession();
 		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
-		if (null == oper) {
-			status = StatusEnum.timeout;
-		} else {
-			matchService.txSaveMatch(oper, match);
-			status = StatusEnum.success;
-		}
+		matchService.txSaveMatch(oper, match);
+		status = StatusEnum.success;
 		jsondata.put(KeyEnum.STATUS, status);
 		jsonViewIE(jsondata);
 		// menu=new Menu();
+		return null;
+	}
+
+	public String deleteMatch() throws IOException {
+		StatusEnum status;
+		Map jsondata = new HashMap();
+		Map map = getSession();
+		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
+		matchService.txDeleteMatch(oper, idlist);
+		status = StatusEnum.success;
+		jsondata.put(KeyEnum.STATUS, status);
+		jsonViewIE(jsondata);
+		return null;
+	}
+
+	public String updateMatch() throws IOException {
+		StatusEnum status;
+		Map jsondata = new HashMap();
+		Map map = getSession();
+		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
+		matchService.txUpdateMatch(oper, match, id);
+		status = StatusEnum.success;
+		jsondata.put(KeyEnum.STATUS, status);
+		jsonViewIE(jsondata);
 		return null;
 	}
 

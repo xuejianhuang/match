@@ -1,4 +1,9 @@
 package cn.jxufe.emlab.match.util;
+
+
+import java.util.Calendar;
+import java.util.Date;
+
 public class Encrypt
 {
 	public static String encryptPassword(String password)
@@ -10,6 +15,12 @@ public class Encrypt
 	}
 	public static void main(String[] args)
 	{
+		Date d=new Date();
+		System.out.println(d.getYear());
+		Calendar cal=	Calendar.getInstance();
+				cal.setTime(d);
+		System.out.println(cal.get(Calendar.YEAR));
+
 		String str=encryptPassword("123");
 		System.out.println(str);
 		System.out.println(StatusEnum.disable.ordinal());

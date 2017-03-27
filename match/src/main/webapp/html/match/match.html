@@ -1,307 +1,276 @@
 
-			<script type="text/javascript">
-				var groupMemberMathProjectId, matchExpandRowIndex;
-				function setSearchYear() {
-					var startYear = 2013;
-					var date = new Date();
-					var currentYear = date.getFullYear();
-					var json = '[{"value":0,"text":"全部"}';
+<script type="text/javascript">
+	var  matchExpandRowIndex;
 
-					for (var i = startYear; i <= currentYear; i++) {
-						json += ",{";
-						if (i != currentYear) {
-							json += '"value":' + i + ',"text":' + i + "}";
+	function match_cmb_selectYear_selectChange(val) {
+		var year = $("#match_cmb_selectYear option:selected").val();
+		$('#dg_match').datagrid({
+			url : 'match_getMatchByPage.action?_' + new Date().getTime(),
+			queryParams : {
+				year : year
+			}
+		});
+	}
+	function formatOper(val, row, index) {
 
-						} else {
-							json += '"value":' + i + ',"text":' + i
-									+ ',"selected":' + true + "}";
-						}
-					}
-					json += "]";
-					var data = $.parseJSON(json);
-					$("#cmb_selectYear").combobox("loadData", data);
+		var innerHtml = '';
+		if (val == 1) {
+			innerHtml += '<a href="#" onclick=changeIsLockedStatus("'
+				+ row.id + '",0)>开始报名</a>';
 
-				}
+		} else {
+			innerHtml += ' &nbsp; &nbsp;&nbsp;<a href="#" style="color: red;"  onclick=changeIsLockedStatus("'
+					+ row.id + '",1)>停止报名</a>';
+		}
+		//	alert(row.itid);
+		return innerHtml;
+	}
+	function changeIsLockedStatus(matchProjectId,isLocked) {
+		ajaxSend('matchProject_changeMatchProjectIsLockedStatus.action', {
+			id : matchProjectId,
+			isLocked : isLocked
+		}, function() {
+			$('#dg_match_ddv-' + matchExpandRowIndex).datagrid("reload");
 
-				function selectChange(val) {
-					var year = $("#cmb_selectYear").combobox('getValue');
-					$('#dg_match').datagrid(
-							{
-								url : 'match_getMatchByPage.action?_'
-										+ new Date().getTime(),
-								queryParams : {
-									year : year
-								}
-							});
-					/* $('#dg_match').datagrid(
-							'load',
-							{
-								year : year,
-							}); */
+		});
 
-				}
-				function formatOper(val, row, index) {
+	}
+	
 
-					var innerHtml = '<a href="#" onclick="openGroupMemberList('
-							+ row.id + ')">报名团队</a>';
-					if (val == true) {
-						innerHtml += ' &nbsp; &nbsp;&nbsp;<a href="#" onclick="startRegister('
-								+ row.id + ',' + index + ')">开始报名</a>';
+	$(function() {
+		$.ajax({
+	        url : "match_getAllMatchYear.action",
+	        type : "GET",
+	        // data : para,
+	        dataType : "text",
+	        success : function(result) {
+	            var rows = jQuery.parseJSON(result);
+	            $.each(rows,function(index,row)
+	            {
+	                $("#match_cmb_selectYear").append(" <option value='"+row+"'>"+row+"</option>");
+	            });
+	        }
+	    });
+		
+		
+		//setSearchYear();
+		$('#dg_match')
+				.datagrid(
+						{
+							view : detailview,
+							detailFormatter : function(index, row) {
+								return '<div style="padding:2px"><table id="dg_match_ddv-' + index + '"></table></div>';
+							},
+							onExpandRow : function(index, row) {
+								matchExpandRowIndex = index;
+								$('#dg_match_ddv-' + index)
+										.datagrid(
+												{
 
-					} else {
-						innerHtml += ' &nbsp; &nbsp;&nbsp;<a href="#" style="color: red;"  onclick="stopRegister('
-								+ row.id + ',' + index + ')">停止报名</a>';
-					}
-					//	alert(row.itid);
-					return innerHtml;
-				}
-				function formatterMatchDetail(val, row, index) {
-					var	innerHtml = '<a href="/matchPlatform/public/index?code='+val+'">查看详情</a>';
-					return innerHtml;
-				}
-				function openGroupMemberList(matchProjectId) {
-					//alert(matchProjectId);
-					groupMemberMathProjectId = matchProjectId;
-					newDialog('../memberGroup/groupMemberList.html', '参赛名单', 425, 1000);
-					//var rows = $('#dg_matchNav').datagrid('getRows');
-					//dg_match_ddv
-					//alert(row);
-
-				}
-				function stopRegister(matchProjectId, index) {
-					ajaxSend('/matchPlatform/public/lockMatchProject', {
-						id : matchProjectId
-					}, function() {
-						$('#dg_match_ddv-' + matchExpandRowIndex).datagrid(
-								"reload");
-
-					});
-
-				}
-				function startRegister(matchProjectId, index) {
-					ajaxSend('/matchPlatform/public/unLockMatchProject', {
-						id : matchProjectId
-					}, function() {
-						$('#dg_match_ddv-' + matchExpandRowIndex).datagrid(
-								"reload");
-					});
-
-				}
-				/* memberdoubleclick=function(rowIndex,rowData)
-				{
-					 doubleclickedit('member_edit.html','修改卡内信息','200','460','ca_editCard.action','dg_member',rowData)
-				} */
-
-				$(function() {
-					$("#cmb_selectYear").combobox({
-						onChange : selectChange,
-						valueField : 'value',
-						textField : 'text',
-						multiple : false,
-						onLoadSuccess : function() {
-
-						}
-					});
-					setSearchYear();
-					$('#dg_match')
-							.datagrid(
-									{
-										view : detailview,
-										detailFormatter : function(index, row) {
-											return '<div style="padding:2px"><table id="dg_match_ddv-' + index + '"></table></div>';
-										},
-										onExpandRow : function(index, row) {
-											matchExpandRowIndex = index;
-											$('#dg_match_ddv-' + index)
-													.datagrid(
+													url : 'matchProject_getMatchProjectByMatchId.action?matchId='
+															+ row.id
+															+ "&_"
+															+ new Date()
+																	.getTime(),
+													fitColumns : true,
+													singleSelect : false,
+													remoteSort : false,
+													rownumbers : true,
+													toolbar : [
 															{
+																text : '添加',
+																iconCls : 'icon-add',
+																handler : function() {
+																	add(
+																			'match/matchProject_add.html',
+																			'赛项添加',
+																			'600',
+																			'800',
+																			'matchProject_saveMatchProject.action?'
+																					+ 'matchProject.matchId='
+																					+ row.id
+																					+ '&_'
+																					+ new Date()
+																							.getTime(),
+																			'dg_match_ddv-'
+																					+ index,
+																			'true');
+																}
+															},
+															{
+																text : '修改',
+																iconCls : 'icon-edit',
+																handler : function() {
+																	edit(
+																			'match/matchProject_edit.html',
+																			'赛项修改',
+																			'600',
+																			'800',
+																			'matchProject_updateMatchProject.action?_'
+																					+ new Date()
+																							.getTime(),
+																			'dg_match_ddv-'
+																					+ index,
+																			'true',
+																			'ture');
+																}
+															},
+															{
+																text : '删除',
+																iconCls : 'icon-cut',
+																handler : function() {
+																	del(
+																			'matchProject_deleteMatchProject.action?_'
+																					+ new Date()
+																							.getTime(),
+																			'dg_match_ddv-'
+																					+ index);
+																}
+															} ],
+													columns : [ [
+															{
+																field : 'ck',
+																checkbox : true
+															},
 
-																url : '/matchPlatform/public/searchMatchProject?matchId='
-																		+ row.id
-																		+ "&_"
-																		+ new Date()
-																				.getTime(),
-																fitColumns : true,
-																singleSelect : false,
-																remoteSort : false,
-																rownumbers : true,
-																toolbar : [
-																		{
-																			text : '添加',
-																			iconCls : 'icon-add',
-																			handler : function() {
-																				add(
-																						'../matchProject/matchProject_add.html',
-																						'赛项添加',
-																						'600',
-																						'800',
-																						'/matchPlatform/public/addMatchProject?year='
-																								+ row.year
-																								+ '&matchCode='
-																								+ row.code
-																								+ '&_'
-																								+ new Date()
-																										.getTime(),
-																						'dg_match_ddv-'
-																								+ index,
-																						'true');
-																			}
-																		},
-																		{
-																			text : '修改',
-																			iconCls : 'icon-add',
-																			handler : function() {
-																				edit(
-																						'../matchProject/matchProject_edit.html',
-																						'赛项修改',
-																						'600',
-																						'800',
-																						'/matchPlatform/public/editMatchProject?'
-																								+ new Date()
-																										.getTime(),
-																						'dg_match_ddv-'
-																								+ index,
-																						'true',
-																						'ture');
-																			}
-																		},
-																		{
-																			text : '删除',
-																			iconCls : 'icon-add',
-																			handler : function() {
-																				del(
-																						'/matchPlatform/public/deleteMatchProject?'
-																								+ new Date()
-																										.getTime(),
-																						'dg_match_ddv-'
-																								+ index);
-																			}
-																		} ],
-																columns : [ [
-																		{
-																			field : 'ck',
-																			checkbox : true
-																		},
+															{
+																field : 'caption',
+																align : 'center',
+																sortable : 'true',
+																title : '赛项名称',
+																width : 50
+															},
+															{
+																field : 'registrationScope',
+																align : 'center',
+																sortable : 'true',
+																title : '参赛对象',
+																formatter:formatterregistrationScope,
+																width : 10
+															},
+															{
+																field : 'isTeamMatch',
+																align : 'center',
+																sortable : 'true',
+																formatter:formatterisTeamMatch,
+																title : '赛项类型',
+																width : 10
+															},
 
-																		{
-																			field : 'caption',
-																			align : 'center',
-																			sortable : 'true',
-																			title : '赛项名称',
-																			width : 50
-																		},
+															{
+																field : 'startDate',
+																align : 'center',
+																sortable : 'true',
+																title : '开始时间',
+																formatter : formatterdatesubstring,
+																width : 30
+															},
 
-																		{
-																			field : 'groupMemberCount',
-																			align : 'center',
-																			sortable : 'true',
-																			title : '团队人数',
-																			width : 10
-																		},
-
-																		{
-																			field : 'matchStartDateTime',
-																			align : 'center',
-																			sortable : 'true',
-																			title : '开始时间',
-																			width : 30
-																		},
-
-																		{
-																			field : 'matchEndDateTime',
-																			align : 'center',
-																			sortable : 'true',
-																			title : '结束时间',
-																			width : 30
-																		}
-																		/*  , {
-																		field : 'package_',
-																		title : '游览类型',
-																		align:'center',
-																		width : 20
-																		}*/
-																		,
-																		{
-																			field : 'isLocked',
-																			title : '操作',
-																			sortable : 'true',
-																			align : 'center',
-																			formatter : formatOper,
-																			width : 20
-																		} ] ],
-																onResize : function() {
+															{
+																field : 'endDate',
+																align : 'center',
+																sortable : 'true',
+																title : '结束时间',
+															   formatter : formatterdatesubstring,
+																width : 30
+															}
+															/*  , {
+															field : 'package_',
+															title : '游览类型',
+															align:'center',
+															width : 20
+															}*/
+															,
+															{
+																field : 'isLocked',
+																title : '操作',
+																sortable : 'true',
+																align : 'center',
+																formatter : formatOper,
+																width : 20
+															} ] ],
+													onResize : function() {
+														$('#dg_match')
+																.datagrid(
+																		'fixDetailRowHeight',
+																		index);
+													},
+													onLoadSuccess : function() {
+														setTimeout(
+																function() {
 																	$(
 																			'#dg_match')
 																			.datagrid(
 																					'fixDetailRowHeight',
 																					index);
-																},
-																onLoadSuccess : function() {
-																	setTimeout(
-																			function() {
-																				$(
-																						'#dg_match')
-																						.datagrid(
-																								'fixDetailRowHeight',
-																								index);
-																			},
-																			0);
-																}
-															});
-											$('#dg_match')
-													.datagrid(
-															'fixDetailRowHeight',
-															index);
-										}
-									});
+																}, 0);
+													}
+												});
+								$('#dg_match').datagrid('fixDetailRowHeight',
+										index);
+							}
+						});
 
-				});
-			</script>
+	});
+</script>
 <div class="easyui-layout" data-options="fit : true,border : false">
 
 	<div data-options="region:'center',border:false">
-	<table id="dg_match" class="easyui-datagrid" title="赛事列表" style=""
-		data-options="
+		<table id="dg_match"  title="赛事列表" style=""
+	   data-options="
+	   url:'match_getMatchByPage.action',
+         idField : 'id',
 		singleSelect:true,
         fitColumns:true,
+         fit:true,                
         collapsible:true,
+          nowrap:false,
+          	 striped:true,
 		method:'get',
-		   remoteSort:false,
+		remoteSort:false,
 		toolbar:'#dg_match_ft',
-		footer:'#dg_match_ft'">
+		 rownumbers : true,
+	   pagination : true,
+		 pageSize : 10,
+	  pageList : [ 10, 20, 30, 40, 50 ]
+	  "
+		 >
 		<thead>
 			<tr>
-				<th data-options="field:'ck',checkbox:true"></th>
-				<th
-					data-options="field:'id',width:20,align:'center',sortable:true">ID</th>
-				<th
-					data-options="field:'caption',width:100,align:'center',sortable:true">赛事名称</th>
+				<th data-options="field:'ck',checkbox:true">
+			</th>
+			<th
+				data-options="field:'caption',width:100,align:'center',sortable:true">赛事名称</th>
+			<th
+				data-options="field:'sponsor',width:80,align:'center',sortable:true">主办方</th>
+			<th
+				data-options="field:'organizer',width:80,align:'center',sortable:true">承办方</th>
+			<th
+				data-options="field:'coSponsor',width:80,align:'center',sortable:true">协办方</th>
+			<th
+				data-options="field:'level',width:50,align:'center',sortable:true" formatter="formatterMatchLevel">赛事级别</th>
 					<th
-					data-options="field:'sponsor',width:80,align:'center',sortable:true">主办方</th>
-				<th
-					data-options="field:'organizerOverLord',width:80,align:'center',sortable:true">总承办</th>
-				<th
-					data-options="field:'organizer',width:80,align:'center',sortable:true">承办</th>
-				<th
-					data-options="field:'code',width:50,align:'center',sortable:true" formatter="formatterMatchDetail">详情</th>
+				data-options="field:'holdtime',width:50,align:'center',sortable:true" formatter="formatterdatesubstring">举办时间</th>
+					<th
+				data-options="field:'address',width:50,align:'center',sortable:true">举办地点</th>
+			<th data-options="field:'detail',width:50,align:'center',sortable:true" formatter="formatterMatchDetail">赛事说明</th>
 			</tr>
-		</thead>
-	</table>
+			</thead>
+		</table>
 	</div>
-	</div>
-	<div id="dg_match_ft" style="padding:2px 5px;">
-	赛事年份: <select class="easyui-combobox" panelHeight="auto"
-			style="width:100px" id="cmb_selectYear">
-		</select>&nbsp;&nbsp;
-		<a href="#" 
-			onclick="add('match/match_add.action.html','赛事添加','600','800','match_saveMenu','dg_match','true')"
-			class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
-			 <a
-			href="#"
-			onclick=" edit('match/match_edit.html','赛事修改','600','800','/matchPlatform/public/editMatch','dg_match','true','true')"
-			class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
-			 <a
-			href="#" onclick=" del('/matchPlatform/public//deleteMatch','dg_match')"
-			class="easyui-linkbutton" iconCls="icon-cut" plain="true">删除
-			</a>
-	</div>
+</div>
+<div id="dg_match_ft" style="padding:2px 5px;">
+	赛事年份: <select  id="match_cmb_selectYear" onchange="match_cmb_selectYear_selectChange()">
+		<option value="0">所有</option>
+	</select>&nbsp;&nbsp;
+	 <a href="#"
+		onclick="add('match/match_add.html','赛事添加','600','800','match_saveMatch.action','dg_match','true')"
+		class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a> <a
+		href="#"
+		onclick=" edit('match/match_edit.html','赛事修改','600','800','match_updateMatch.action','dg_match','true','true')"
+		class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a> <a
+		href="#"
+		onclick=" del('match_deleteMatch.action','dg_match')"
+		class="easyui-linkbutton" iconCls="icon-cut" plain="true">删除 </a>
+</div>
+
