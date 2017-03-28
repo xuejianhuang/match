@@ -1,0 +1,91 @@
+<script type="text/javascript">
+news_matchId_change = function()
+{
+	$('#dg_news').datagrid('reload', {
+		matchId: $("#news_matchId").combobox('getValue'),
+		//belongId:operator_belongId
+	});
+};
+
+
+$(function() {
+$("#news_matchId").combobox({
+	onChange :news_matchId_change,
+    url: "match_getAllMatchNameAndId.action",
+    valueField:'id',   
+    textField:'name',  
+    multiple:false,  
+    panelHeight:'auto',
+    onLoadSuccess: function () { 
+    	var data = $('#news_matchId').combobox('getData');
+        if (data.length > 0) {
+            $('#news_matchId').combobox('select', data[0].id);
+        }
+    }
+});
+
+
+});
+
+
+</script>
+<div class="easyui-layout" data-options="fit : true,border : false">
+
+	<div
+		data-options="region:'north',title:'查询条件',border:false,iconCls:'icon-columns'"
+		style="height: 60px; background: #f4f4f4;padding-top: 5px">
+		 &nbsp;
+                <input id="news_matchId"  onchange="news_matchId_change()" />
+	</div>
+
+	<div data-options="region:'center',border:false">
+		<table id="dg_news" class="easyui-datagrid" title="新闻管理"
+			data-options="url:'matchNews_getMatchNewsByPage.action',
+                                idField : 'id',
+			                     fit : true,
+			                    striped:true,
+			                fitColumns : true,
+			                 singleSelect : false,
+			                 rownumbers : true,
+			                pagination : true,
+			                  pageSize : 10,
+			                 pageList : [ 10, 20, 30, 40, 50 ],
+                                toolbar:[{
+                                    text:'添加',
+                                    iconCls:'icon-add',
+                                    handler:function(){
+                                    add('news/news_add.html','添加新闻','600','800','matchNews_saveMatchNews.action','dg_news')
+                                    }},'-',
+                                    {
+                                    text:'修改',
+                                    iconCls:'icon-edit',
+                                    handler:function()
+                                    {
+                                      edit('news/news_edit.html','修改新闻','600','800','matchNews_updateMatchNews.action','dg_news')
+                                    }},'-',
+                                    {
+                                    text:'删除',
+                                    iconCls:'icon-remove',
+                                    handler:function()
+                                    {
+                                      del('matchNews_deleteMatchNews.action','dg_news')
+                                    }}]">
+			<thead>
+				<tr>
+					<th data-options="field:'ck',checkbox:true">
+					</th>
+					<th data-options="field:'caption',align:'center',width:50">
+						标题
+					</th>
+					<th data-options="field:'publishTime',align:'center',width:10" formatter="formatterstringdate">
+						发表时间
+					</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	
+	 
+	 
+	
+</div>

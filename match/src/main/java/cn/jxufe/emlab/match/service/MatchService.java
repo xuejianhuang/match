@@ -1,5 +1,6 @@
 package cn.jxufe.emlab.match.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -9,7 +10,9 @@ import org.springframework.dao.DataAccessException;
 
 import cn.jxufe.emlab.match.core.BaseDao;
 import cn.jxufe.emlab.match.pojo.Match;
+import cn.jxufe.emlab.match.pojo.NameAndId;
 import cn.jxufe.emlab.match.pojo.Operator;
+import cn.jxufe.emlab.match.pojo.Role;
 import cn.jxufe.emlab.match.util.DateUtil;
 import cn.jxufe.emlab.match.util.StatusEnum;
 
@@ -70,6 +73,32 @@ public class MatchService extends BaseDao<Match> implements IMatchService
 		String hql="select year from Match group by year order by year ";
 		return publicFind(hql);
 
+	}
+	
+	public List<NameAndId> getAllMatchNameAndId(Operator oper)
+	{
+		List<NameAndId> list = new ArrayList<NameAndId>();
+		NameAndId nameAndId=null;
+		List<Match> roleList=null;
+		//if(null!=oper&&(oper.getRoleName().equals("admin")||oper.getRoleName().equals("touristAdmin")))
+		//{
+			String hql="from Match where status!="
+				+ StatusEnum.disable.ordinal() +" order by createtime desc";
+			roleList=find(hql);
+		//}
+		nameAndId = new NameAndId();
+		nameAndId.setId("");
+		nameAndId.setName("全部");
+		list.add(nameAndId);
+		for (Match match: roleList)
+		{
+			nameAndId = new NameAndId();
+			nameAndId.setId(match.getId());
+			nameAndId.setName(match.getCaption());
+			list.add(nameAndId);
+		}
+
+		return list;
 	}
 
 }

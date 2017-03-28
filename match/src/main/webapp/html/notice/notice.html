@@ -1,0 +1,91 @@
+<script type="text/javascript">
+notice_matchId_change = function()
+{
+	$('#dg_notice').datagrid('reload', {
+		matchId: $("#notice_matchId").combobox('getValue'),
+		//belongId:operator_belongId
+	});
+};
+
+
+$(function() {
+$("#notice_matchId").combobox({
+	onChange :notice_matchId_change,
+    url: "match_getAllMatchNameAndId.action",
+    valueField:'id',   
+    textField:'name',  
+    multiple:false,  
+    panelHeight:'auto',
+    onLoadSuccess: function () { 
+    	var data = $('#notice_matchId').combobox('getData');
+        if (data.length > 0) {
+            $('#notice_matchId').combobox('select', data[0].id);
+        }
+    }
+});
+
+
+});
+
+
+</script>
+<div class="easyui-layout" data-options="fit : true,border : false">
+
+	<div
+		data-options="region:'north',title:'查询条件',border:false,iconCls:'icon-columns'"
+		style="height: 60px; background: #f4f4f4;padding-top: 5px">
+		 &nbsp;
+                <input id="notice_matchId"  onchange="notice_matchId_change()" />
+	</div>
+
+	<div data-options="region:'center',border:false">
+		<table id="dg_notice" class="easyui-datagrid" title="通知管理"
+			data-options="url:'matchNotice_getMatchNoticeByPage.action',
+                                idField : 'id',
+			                     fit : true,
+			                    striped:true,
+			                fitColumns : true,
+			                 singleSelect : false,
+			                 rownumbers : true,
+			                pagination : true,
+			                  pageSize : 10,
+			                 pageList : [ 10, 20, 30, 40, 50 ],
+                                toolbar:[{
+                                    text:'添加',
+                                    iconCls:'icon-add',
+                                    handler:function(){
+                                    add('notice/notice_add.html','添加新闻','600','800','matchNotice_saveMatchNotice.action','dg_notice')
+                                    }},'-',
+                                    {
+                                    text:'修改',
+                                    iconCls:'icon-edit',
+                                    handler:function()
+                                    {
+                                      edit('notice/notice_edit.html','修改新闻','600','800','matchNotice_updateMatchNotice.action','dg_notice')
+                                    }},'-',
+                                    {
+                                    text:'删除',
+                                    iconCls:'icon-remove',
+                                    handler:function()
+                                    {
+                                      del('matchNotice_deleteMatchNotice.action','dg_notice')
+                                    }}]">
+			<thead>
+				<tr>
+					<th data-options="field:'ck',checkbox:true">
+					</th>
+					<th data-options="field:'caption',align:'center',width:50">
+						标题
+					</th>
+					<th data-options="field:'publishTime',align:'center',width:10" formatter="formatterstringdate">
+						发表时间
+					</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	
+	 
+	 
+	
+</div>

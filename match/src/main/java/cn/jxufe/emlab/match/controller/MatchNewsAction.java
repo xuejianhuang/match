@@ -8,51 +8,47 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.jxufe.emlab.match.pojo.Match;
-import cn.jxufe.emlab.match.pojo.Menu;
+import cn.jxufe.emlab.match.pojo.MatchNews;
 import cn.jxufe.emlab.match.pojo.Operator;
+import cn.jxufe.emlab.match.service.IMatchNewsService;
+import cn.jxufe.emlab.match.service.IMatchNoticeService;
 import cn.jxufe.emlab.match.service.IMatchService;
-import cn.jxufe.emlab.match.service.IMenuService;
 import cn.jxufe.emlab.match.util.KeyEnum;
 import cn.jxufe.emlab.match.util.StatusEnum;
 
 @SuppressWarnings({ "rawtypes" })
-public class MatchAction extends BaseAction {
+public class MatchNewsAction extends BaseAction {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4779692247834026042L;
-	private IMatchService matchService;
-	private Match match;
+	private IMatchNewsService matchNewsService;
+	private MatchNews matchNews;
 	private String[] idlist;
 	private String id;
 	private int rows;
 	private int page;
-	private int year;
+	private String matchId;
 
-	public String getMatchByPage() throws IOException {
+	public String getMatchNewsByPage() throws IOException {
 		Map session = this.getSession();
 		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
 		Map jsondata = new HashMap();
-		matchService.getMatchByPage(jsondata, page, rows, year, operator);
+		matchNewsService.getMatchNewsByPage(jsondata, page, rows, matchId, operator);
 		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
 		jsonViewIE(jsondata);
 		return null;
 	}
 
-	public String getAllMatchYear() throws IOException {
-		Map session = getSession();
-		Operator oper = (Operator) session.get(KeyEnum.OPERATOR);
-		jsonViewIE(matchService.getMatchYear(oper));
-		return null;
-	}
+
 
 	@SuppressWarnings("unchecked")
-	public String saveMatch() throws IOException {
+	public String saveMatchNews() throws IOException {
 		StatusEnum status;
 		Map jsondata = new HashMap();
 		Map map = getSession();
 		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
-		matchService.txSaveMatch(oper, match);
+		matchNewsService.txSaveMatchNews(oper, matchNews);
 		status = StatusEnum.success;
 		jsondata.put(KeyEnum.STATUS, status);
 		jsonViewIE(jsondata);
@@ -60,49 +56,54 @@ public class MatchAction extends BaseAction {
 		return null;
 	}
 
-	public String deleteMatch() throws IOException {
+	public String deleteMatchNews() throws IOException {
 		StatusEnum status;
 		Map jsondata = new HashMap();
 		Map map = getSession();
 		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
-		matchService.txDeleteMatch(oper, idlist);
+		matchNewsService.txDeleteMatchNews(oper, idlist);
 		status = StatusEnum.success;
 		jsondata.put(KeyEnum.STATUS, status);
 		jsonViewIE(jsondata);
 		return null;
 	}
 
-	public String updateMatch() throws IOException {
+	public String updateMatchNews() throws IOException {
 		StatusEnum status;
 		Map jsondata = new HashMap();
 		Map map = getSession();
 		Operator oper = (Operator) map.get(KeyEnum.OPERATOR);
-		matchService.txUpdateMatch(oper, match, id);
+		matchNewsService.txUpdateMatchNews(oper, matchNews, id);
 		status = StatusEnum.success;
 		jsondata.put(KeyEnum.STATUS, status);
 		jsonViewIE(jsondata);
 		return null;
 	}
-	 public String getAllMatchNameAndId() throws IOException
-	    {
-		Map session = getSession();
-		Operator oper = (Operator) session.get(KeyEnum.OPERATOR);
-		jsonViewIE(matchService.getAllMatchNameAndId(oper));
-		return null;
-	    }
-	    
 
-	public void setMatchService(IMatchService matchService) {
-		this.matchService = matchService;
+
+	public void setMatchNewsService(IMatchNewsService matchNewsService) {
+		this.matchNewsService = matchNewsService;
 	}
 
-	public Match getMatch() {
-		return match;
+
+
+	public void setMatchNews(MatchNews matchNews) {
+		this.matchNews = matchNews;
 	}
 
-	public void setMatch(Match match) {
-		this.match = match;
+
+
+	public MatchNews getMatchNews() {
+		return matchNews;
 	}
+
+
+
+	public void setMatchId(String matchId) {
+		this.matchId = matchId;
+	}
+
+
 
 	public String getId() {
 		return id;
@@ -129,12 +130,5 @@ public class MatchAction extends BaseAction {
 		this.page = page;
 	}
 
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
 
 }

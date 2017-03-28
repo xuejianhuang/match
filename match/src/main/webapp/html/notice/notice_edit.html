@@ -1,0 +1,43 @@
+<script type="text/javascript">
+	$(function() {
+		$('#body').xheditor({
+			html5Upload : false,
+			upImgUrl : 'upload.action?type=img',
+			upImgExt : 'jpg,jpeg,gif,png'
+		});
+	});
+</script>
+
+<div style="margin:0 auto;width:780px;">
+	<form id="form_edit" method="post">
+		<table class="tableForm" style="width: 100%">
+			<tr>
+				<td >所属赛事：<input id="matchId" class="easyui-combobox"  name="matchNotice.matchId"
+				data-options=" 
+				   url:'match_getAllMatchNameAndId.action?_2',
+                    valueField:'id',  
+                    textField:'name',  
+                    multiple:false,
+                   	panelHeight : 'auto'"
+				 /></td>
+			</tr>
+			<tr>
+				<td >标         题：<input id="caption" name="matchNotice.caption"
+					type="text" class="easyui-validatebox" data-options="required:true"
+					style="width:90%" /></td>
+
+			</tr>
+
+			<tr>
+				<td >时          间：<input class="easyui-datebox" id="publishTime"
+					name="matchNotice.publishTime" data-options="required:true"></td>
+			</tr>
+
+		</table>
+		<b >内容:</b><br>
+		<textarea id="body" name="matchNotice.body"
+			class="xheditor" rows="25" cols="100" style="width: 100%"></textarea>
+	</form>
+
+</div>
+

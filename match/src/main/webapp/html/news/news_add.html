@@ -1,0 +1,71 @@
+<script type="text/javascript">
+	$(function() {
+		initImageUpload($('#news_add_btnUploadImg'), $('#show_image'),
+				$('#bigImageUrl'), $('#smallImageUrl'));
+		$('#body').xheditor({
+			html5Upload : false,
+			upImgUrl : 'upload.action?type=img',
+			upImgExt : 'jpg,jpeg,gif,png'
+		});
+			$("#matchId").combobox({
+				url : "match_getAllMatchNameAndId.action",
+				valueField : 'id',
+				textField : 'name',
+				multiple : false,
+				panelHeight : 'auto',
+				onLoadSuccess : function() {
+					var data = $('#matchId').combobox('getData');
+					if (data.length > 0) {
+						$('#matchId').combobox('select', data[0].id);
+					}
+				}
+			});
+	});
+</script>
+
+<div style="margin:0 auto;width:780px;">
+	<form id="form_add" method="post">
+		<table class="tableForm" style="width: 100%">
+			<tr>
+				<td>所属赛事：</td>
+				<td colspan="2"><input id="matchId" name="matchNews.matchId" /></td>
+			</tr>
+			<tr>
+				<td>标题：</td>
+				<td colspan="2"><input id="caption" name="matchNews.caption"
+					type="text" class="easyui-validatebox" data-options="required:true"
+					style="width:90%" /></td>
+
+
+			</tr>
+
+
+			<tr>
+				<td>摘要：</td>
+				<td colspan="2"><input id="abstractText"
+					name="matchNews.abstractText" style="width:90%" /></td>
+			</tr>
+
+
+			<tr>
+				<td>发表时间：</td>
+				<td><input class="easyui-datebox" id="publishTime"
+					name="matchNews.publishTime" data-options="required:true"></td>
+				<td><input type="button" class='easyui-linkbutton'
+					id="news_add_btnUploadImg" value="Logo上传" /></td>
+			</tr>
+
+		</table>
+		<input type="hidden" name="matchNews.bigImageUrl" id="bigImageUrl" />
+		<input type="hidden" name="matchNews.smallImageUrl" class="image" id="smallImageUrl" />
+
+		<div class="uploadImg" style="text-align: left;">
+			<img id="show_image" width="auto" height="auto" src="" /><br>
+		</div>
+		<b>内容:</b><br>
+		<textarea id="body" name="matchNews.body"
+			class="xheditor" rows="20" cols="100" style="width: 100%"></textarea>
+	</form>
+
+</div>
+

@@ -22,6 +22,8 @@
 		<action name="sla_*" class="syslogAction" method="{1}"/>
 		<action name="match_*" class="matchAction" method="{1}"/>
 		<action name="matchProject_*" class="matchProjectAction" method="{1}"/>
+	   <action name="matchNews_*" class="matchNewsAction" method="{1}"/>
+	     <action name="matchNotice_*" class="matchNoticeAction" method="{1}"/>
 		
 	</package>
 </struts>    

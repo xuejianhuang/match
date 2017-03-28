@@ -67,7 +67,7 @@ $("#operator_roleId").combobox({
 
 	<div data-options="region:'center',border:false">
 		<table id="dg_operator" class="easyui-datagrid" title="操作员管理"
-			data-options="url:'oa_ getOperatorByPage.action',
+			data-options="url:'oa_getOperatorByPage.action',
                                 idField : 'id',
 			                     fit : true,
 			                    striped:true,
@@ -81,14 +81,14 @@ $("#operator_roleId").combobox({
                                     text:'添加操作员',
                                     iconCls:'icon-add',
                                     handler:function(){
-                                    add('operator/operator_add.html','添加操作员','300','600','oa_addOperator.action','dg_operator')
+                                    add('operator_add.html','添加操作员','300','600','oa_addOperator.action','dg_operator')
                                     }},'-',
                                     {
                                     text:'修改操作员',
                                     iconCls:'icon-edit',
                                     handler:function()
                                     {
-                                      edit('operator/operator_edit.html','修改操作员','300','600','oa_editOperator.action','dg_operator')
+                                      edit('operator_edit.html','修改操作员','300','600','oa_editOperator.action','dg_operator')
                                     }},'-',
                                     {
                                     text:'删除操作员',
