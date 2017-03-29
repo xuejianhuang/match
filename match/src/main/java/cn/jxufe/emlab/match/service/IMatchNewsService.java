@@ -17,5 +17,7 @@ public interface IMatchNewsService  extends IBaseDao<MatchNews>{
 	public void txSaveMatchNews(Operator oper,MatchNews matchNews);
 	public void txDeleteMatchNews(Operator oper,String[] idList);
 	public void txUpdateMatchNews(Operator oper,MatchNews matchNews,String id);
+	
+	public MatchNews getMatchNewsById(String id);
 		
 }

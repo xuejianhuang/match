@@ -79,6 +79,15 @@ public class MatchNewsAction extends BaseAction {
 		jsonViewIE(jsondata);
 		return null;
 	}
+	public String getMatchNewsById() throws IOException {
+
+		Map jsondata = new HashMap();
+		jsondata.put("rows",
+				matchNewsService.getMatchNewsById(id));
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
 
 
 	public void setMatchNewsService(IMatchNewsService matchNewsService) {

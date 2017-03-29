@@ -19,6 +19,8 @@ public interface IMatchService  extends IBaseDao<Match>{
 	public void txUpdateMatch(Operator oper,Match match,String id);
 	public List<Integer> getMatchYear(Operator oper);
 	
+
+	
 	public List<NameAndId> getAllMatchNameAndId(Operator oper); 
 
 		

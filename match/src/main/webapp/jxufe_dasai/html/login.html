@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>大赛报名登录</title>
+    <link rel="stylesheet" type="text/css" href="Login.css"/>
+</head>
+<body>
+<div id="login">
+    <h1>大赛报名登录</h1>
+    <form method="post" action="/matchPlatform/login/login?token=sign">
+        <input type="text" required="required" placeholder="一卡通账号" name="u"></input>
+        <input type="password" required="required" placeholder="密码（请使用新的认证密码 ）" name="p"></input>
+        <button class="but" type="submit">登录</button>
+        <a href="https://ssl.jxufe.edu.cn/uid/activateAuth?t=20161208120000" target="_blank" style="color: #1a1a1a;">  账号激活</a>
+    </form>
+</div>
+</body>
+</html>

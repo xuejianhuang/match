@@ -79,6 +79,15 @@ public class MatchNoticeAction extends BaseAction {
 		return null;
 	}
 
+	public String getMatchNoticeById() throws IOException {
+
+		Map jsondata = new HashMap();
+		jsondata.put("rows",
+				matchNoticeService.getMatchNoticeById(id));
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
 
 
 

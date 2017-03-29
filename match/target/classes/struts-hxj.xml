@@ -3,17 +3,16 @@
 <struts>
 	<package name="login" extends="my-default">
 	<action name="getValidateCode" class="getVaildateCode" method="getCode"/>
-	<action name="getSession" class="getSession" method="getUserInfo"/>
-	<action name="oa_*" class="operatorAction" method="{1}"></action>
+	<action name="getSession_*" class="getSession" method="{1}"/>
+	
 	</package>
 
 	<package name="lyy" extends="my-default">
 		<interceptors>
 			<interceptor name="authority" class="cn.jxufe.emlab.match.core.AuthorityInterceptor" /> 
 			<interceptor-stack name="lyy-interceptor">
-	  		
 				  <interceptor-ref name="authority" /> 
-				    <interceptor-ref name="defaultStack" /> 
+				  <interceptor-ref name="defaultStack" /> 
 			</interceptor-stack> 
 		</interceptors>
 		<default-interceptor-ref name="lyy-interceptor"/>
@@ -22,8 +21,10 @@
 		<action name="sla_*" class="syslogAction" method="{1}"/>
 		<action name="match_*" class="matchAction" method="{1}"/>
 		<action name="matchProject_*" class="matchProjectAction" method="{1}"/>
-	   <action name="matchNews_*" class="matchNewsAction" method="{1}"/>
-	     <action name="matchNotice_*" class="matchNoticeAction" method="{1}"/>
+	    <action name="matchNews_*" class="matchNewsAction" method="{1}"/>
+	    <action name="matchNotice_*" class="matchNoticeAction" method="{1}"/>
+	    <action name="oa_*" class="operatorAction" method="{1}"></action>
+	    <action name="member_*" class="memberAction" method="{1}"></action>
 		
 	</package>
 </struts>    

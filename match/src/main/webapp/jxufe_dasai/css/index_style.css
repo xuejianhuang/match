@@ -1,0 +1,189 @@
+.forms .jz-modulePattern60  .g_border{border:none;}
+.forms .jz-modulePattern60  .g_borderHover{border:1px solid #999999;}
+.forms .jz-modulePattern60  .photoSmallPicForms .cs_triangle_up.g_borderSelected{border-color:#999999;}
+.forms .jz-modulePattern60  .productDetail .optionItem .g_borderSelected{border-color:#999999;}
+.forms .jz-modulePattern60  .productSmallPicForms .g_borderSelected{border:2px solid #999999;}
+.forms .jz-modulePattern60  .photoSmallPicForms .photoSmallPrePicOuter.g_borderSelected{border:2px solid #999999;}
+.forms .jz-modulePattern60  .g_selected{background:none;}
+.forms .jz-modulePattern60  .g_selected a{color:#999999;}
+.forms .jz-modulePattern60  table.g_selected a{color:#999999;}
+.forms .jz-modulePattern60  div.g_selected a{color:#999999;}
+.forms .jz-modulePattern60  .g_title{background:none;}
+.forms .jz-modulePattern60  .g_block{background:none;}
+.forms .jz-modulePattern60  .g_hover{background:none;}
+.forms .jz-modulePattern60  .g_tip{background:none;border:none;}
+.forms .jz-modulePattern60  .g_panel{background-color:#f5f5f5;}
+.forms .jz-modulePattern60  .g_hover a{color:#666666;}
+.forms .jz-modulePattern60  .g_panelArrow{background:none;}
+.forms .jz-modulePattern60  .g_iText{background:none;border:none;}
+.forms .jz-modulePattern60  .g_textarea{background:none;}
+.forms .jz-modulePattern60  .g_iButton{border:none;}
+.forms .jz-modulePattern60  .g_imgFrame{border:none;}
+.forms .jz-modulePattern60  .g_imgFrameHover{border:none;}
+.forms .jz-modulePattern60  .g_msgArrow{border:none;}
+.forms .jz-modulePattern60 {border:none;}
+.forms .jz-modulePattern60  {border-radius:0;}
+.forms .jz-modulePattern60 .formBanner {height:46px;line-height:46px;}
+.forms .jz-modulePattern60 .formBannerTitle {height:46px;line-height:46px;}
+.forms .jz-modulePattern60 div.titleText {font-size:16px;}
+.forms .jz-modulePattern60 div.titleText {font-weight:normal;}
+.forms .jz-modulePattern60 .titleCenter {overflow:visible;}
+.forms .jz-modulePattern60 div.titleText .bannerNormalTitle{left:0px;}
+.forms .jz-modulePattern60 div.titleText  .bannerNormalTitle{top:0px;}
+.forms .jz-modulePattern60 div.titleText {font-family:微软雅黑;}
+.forms .jz-modulePattern60 div.titleText {color:#333333;}
+.forms .jz-modulePattern60 .formBanner {background:none;}
+.forms .jz-modulePattern60 .formBanner .left {background:none;width:0px;height:0px;}
+.forms .jz-modulePattern60 .formBanner .left {background:none;}
+.forms .jz-modulePattern60 .formBanner .center {background:none;}
+.forms .jz-modulePattern60 .formBanner .right {background:none;}
+.forms .jz-modulePattern60 .formBanner .left {display:none}
+.forms .jz-modulePattern60 .formBanner .right {display:none}
+.forms .jz-modulePattern60 .formBannerTitle .titleLeft {display:none;}
+.forms .jz-modulePattern60 .formBannerTitle .titleCenter {display:table-cell;*display:block;}
+.forms .jz-modulePattern60 .formBannerTitle .titleRight {display:none;}
+.forms .jz-modulePattern60 .formBannerTitle .titleCenter {background:none;}
+.forms .jz-modulePattern60 .formBannerTitle .titleCenter {border:none;}
+.forms .jz-modulePattern60 .formBannerTitle .titleLeft {}
+.forms .jz-modulePattern60 .formBannerTitle .titleCenter {border-radius:0;}
+.forms .jz-modulePattern60 .formBannerTitle .titleRight {}
+.forms .jz-modulePattern60 .formBanner {border-left:none;}
+.forms .jz-modulePattern60 .formBanner {border-right:none;}
+.forms .jz-modulePattern60 .formBanner {border-top:none;}
+.forms .jz-modulePattern60 .formBanner {border-bottom:none;}
+.forms .jz-modulePattern60 .formBanner {border-radius:0;}
+.forms .jz-modulePattern60  .formMiddleContent {background:none;}
+.forms .jz-modulePattern60 .formMiddle {font-family:微软雅黑;}
+.forms .jz-modulePattern60 .formMiddle {color:#666666;}
+.forms .jz-modulePattern60 .formMiddle {font-size:14px;}
+.forms .jz-modulePattern60 .formMiddle  a{text-decoration:none;}
+.forms .jz-modulePattern60 .formMiddle  a{font-family:微软雅黑;}
+.forms .jz-modulePattern60 .formMiddle  a{color:#666666;}
+.forms .jz-modulePattern60 .formMiddle  a{font-weight:normal;}
+.forms .jz-modulePattern60 .formMiddle  a{font-size:14px;}
+.forms .jz-modulePattern60  textarea{line-height:26px;}
+.forms .jz-modulePattern60  textarea::-webkit-input-placeholder{line-height:26px;}
+.forms .jz-modulePattern60  textarea:-moz-placeholder /* firefox 18- */{line-height:26px;}
+.forms .jz-modulePattern60  textarea::-moz-placeholder/* firefox 19+ */{line-height:26px;}
+.forms .jz-modulePattern60  textarea::-ms-textarea-placeholder{line-height:26px;}
+.forms .jz-modulePattern60  input::-webkit-input-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  textarea::-webkit-input-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  input:-moz-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  textarea:-moz-placeholder /* firefox 18- */{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  input::-moz-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  textarea::-moz-placeholder/* firefox 19+ */{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  input::-ms-input-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  textarea::-ms-textarea-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  input[type="text"]{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  input[type="tel"]{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  input[type="email"]{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  input[type="password"]{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  textarea{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  select{font-family: 微软雅黑;}
+.forms .jz-modulePattern60  .fk_lowIEPlaceholderStyle{font-family: 微软雅黑;}
+.forms .jz-modulePattern60 .formMiddleLeft {display:table-cell;background:none;}.forms .jz-modulePattern60 .formMiddleRight {display:table-cell;background:none;}.forms .jz-modulePattern60  .formMiddle {border-left:none;border-right:none;border-top:none;border-bottom:none;}.forms .jz-modulePattern60 .contentLineIcon {display:none}
+.forms .jz-modulePattern60  .formMiddle .g_hover, .forms .jz-modulePattern60  .formMiddle .g_hover a{ font-size: 14px; }
+.forms .jz-modulePattern60  .formMiddle .g_hover, .forms .jz-modulePattern60  .formMiddle .g_hover a{ color:#333333 }
+.forms .jz-modulePattern60  .formMiddle .g_hover, .forms .jz-modulePattern60  .formMiddle .g_hover a{ font-family: 微软雅黑; }
+.forms .jz-modulePattern60  .formMiddle .g_hover { background: none; }
+.forms .jz-modulePattern60 .formMiddle .g_separator {border-style:dashed;}
+.forms .jz-modulePattern60 .formMiddle .g_separator {border-color:#dbdbdb;}
+.forms .jz-modulePattern60 .formMiddle .g_separator {border-width:1px;}
+.forms .jz-modulePattern60 .formMiddle .g_separator {display:block;}
+.forms .jz-modulePattern60 .formMiddle .g_separator {border-top:none;}
+.forms .jz-modulePattern60 .formMiddle .g_separator {border-left:none;}
+.forms .jz-modulePattern60 .formMiddle .g_separator {border-right:none;}
+.forms .jz-modulePattern60 .contentLineIcon {*padding:0;}
+.forms .jz-modulePattern60 .contentLineIcon {*width:0;}
+.forms .jz-modulePattern60  .formMiddle .g_selected { background: none; }
+.forms .jz-modulePattern60  .formMiddle .g_hover a { font-size: 14px; }
+.forms .jz-modulePattern60  .formMiddle .g_hover a { font-family: 微软雅黑; }
+.forms .jz-modulePattern60  .formMiddle .g_hover a { font-weight: normal; }
+.forms .jz-modulePattern60  .formMiddle .g_hover a { text-decoration: blink; }
+.forms .jz-modulePattern60  .formMiddle .g_hover a { color: #333333; }
+.forms .jz-modulePattern60  .formMiddle .g_hover { font-size: 14px; }
+.forms .jz-modulePattern60  .formMiddle .g_hover { font-family: 微软雅黑; }
+.forms .jz-modulePattern60  .formMiddle .g_hover { font-weight: normal; }
+.forms .jz-modulePattern60  .formMiddle .g_hover { text-decoration: blink; }
+.forms .jz-modulePattern60  .formMiddle .g_hover { color: #333333; }
+.forms .jz-modulePattern60  {border-top:none;border-bottom:none;border-left:none;border-right:none;}
+.forms .jz-modulePattern60  .g_foldBtn{display:block;}
+.forms .jz-modulePattern60  .g_foldBtn{font-family:"icomoon",微软雅黑,"microsoft yahei",宋体,新宋体;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+.forms .jz-modulePattern60  .g_foldBtn:before{content:"\e912";}
+.forms .jz-modulePattern60  .g_foldBtn{color:#bbbbbb;}
+.forms .jz-modulePattern60  .g_foldBtn{font-size:40px;}
+.forms .jz-modulePattern60  .g_foldBtn{position:relative;}
+.forms .jz-modulePattern60  .g_foldBtn{right:-10px;}
+.forms .jz-modulePattern60  .g_foldBtn{top:0px;}
+.forms .jz-modulePattern60 .newsNewModuleStyle_three .newsCircle_hover{background-color:#333333;}
+.forms .jz-modulePattern60  .pagenation .pagePrev > a.g_hover {color:#333333;}
+.forms .jz-modulePattern60  .pagenation .pageNext > a.g_hover {color:#333333;}
+.forms .jz-modulePattern60  .pagenation .pageNo > a.g_hover {color:#333333;}
+.forms .jz-modulePattern60  .pagenation .pageNo > span {color:#333333;}
+.forms .jz-modulePattern60  .pagenation .g_hover{font-size:14px;}
+.forms .jz-modulePattern60  .pagenation .g_hover span{font-size:14px;}
+.forms .jz-modulePattern60  .pagenation span{font-size:14px;}
+.forms .jz-modulePattern60  .fk_setBuyBtnBorderRadius{border-radius:3px;}
+.forms .jz-modulePattern60  .fk_first_mallBuy{width: 88px ;height: 30px; background-image: none; padding: 0; font-size: 14px; text-align: center;border-radius:3px;}
+.forms .jz-modulePattern60  .fk_first_mallBuy span{font-size: 14px; letter-spacing: 0; line-height: 30px;;}
+.product-gallery .product-container .prop-container{height:30px;}
+.forms .jz-modulePattern60  .productTextListProp, .forms .jz-modulePattern60  .productHotTextListProp{height:42px;margin-bottom:20px;}
+.forms .jz-modulePattern60  .productTextListProp b, .forms .jz-modulePattern60  .productHotTextListProp b{font-weight:normal;}
+.forms .jz-modulePattern60  .productTextListTable, .forms .jz-modulePattern60  .productHotTextListTable{margin:14px 0;}
+.forms .jz-modulePattern60  .fk-fixBuyBtnSize{width:88px;}
+.forms .jz-modulePattern60  .fk-fixBuyBtnSize .propAlignCenter{padding:0;}
+.forms .jz-modulePattern60  .fk-mallBuy-big{}
+.forms .jz-modulePattern60  .fk-mall-addCart{background-color:transparent;}
+.forms .jz-modulePattern60 .g_close:before{content:"\e911";}
+.forms .jz-modulePattern60 .g_close:hover{color:#666666;}
+.forms .jz-modulePattern60 .fk-formContentOther .g_close:hover{color:#666666;}
+.forms .jz-modulePattern60 .formBannerBtn{position:relative;top:0;right:0;margin-right:10px;}
+.forms .jz-modulePattern60 .g_close{background:none;font-family:"icomoon",微软雅黑,"microsoft yahei",宋体,新宋体;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:#999999;font-size:40px;width:40px;height:40px;}
+.forms .jz-modulePattern60 .fk-formContentOther .g_close{background:none;font-family:"icomoon",微软雅黑,"microsoft yahei",宋体,新宋体;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:#999999;font-size:40px;width:40px;height:40px;}
+.forms .jz-modulePattern60 .formMiddle .productSmallPicForms .g_imgNext{background:none;font-family:"icomoon",微软雅黑,"microsoft yahei",宋体,新宋体;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:rgba(102,102,102,0.6);font-size:25px;}
+.forms .jz-modulePattern60 .formMiddle .productSmallPicForms .g_imgPrev{background:none;font-family:"icomoon",微软雅黑,"microsoft yahei",宋体,新宋体;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:rgba(102,102,102,0.6);font-size:25px;width:25px;height:25px;}
+.forms .jz-modulePattern60  .sort_item2 .sort_submit{background-color:#999999;}
+.forms .jz-modulePattern60  .sort_item2 .g_borderSelected{border:2px solid #999999;}
+.forms .jz-modulePattern119 .formBannerTitle .titleLeft {}
+.forms .jz-modulePattern119 .formBannerTitle .titleCenter {}
+.forms .jz-modulePattern119 .formBannerTitle .titleRight {}
+.forms .jz-modulePattern119  textarea{line-height:26px;}
+.forms .jz-modulePattern119  textarea::-webkit-input-placeholder{line-height:26px;}
+.forms .jz-modulePattern119  textarea:-moz-placeholder /* firefox 18- */{line-height:26px;}
+.forms .jz-modulePattern119  textarea::-moz-placeholder/* firefox 19+ */{line-height:26px;}
+.forms .jz-modulePattern119  textarea::-ms-textarea-placeholder{line-height:26px;}
+.forms .jz-modulePattern119  input::-webkit-input-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  textarea::-webkit-input-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  input:-moz-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  textarea:-moz-placeholder /* firefox 18- */{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  input::-moz-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  textarea::-moz-placeholder/* firefox 19+ */{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  input::-ms-input-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  textarea::-ms-textarea-placeholder{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  input[type="text"]{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  input[type="tel"]{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  input[type="email"]{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  input[type="password"]{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  textarea{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  select{font-family: 微软雅黑;}
+.forms .jz-modulePattern119  .fk_lowIEPlaceholderStyle{font-family: 微软雅黑;}
+.forms .jz-modulePattern119 .contentLineIcon {*padding:0;}
+.forms .jz-modulePattern119 .contentLineIcon {*width:0;}
+.forms .jz-modulePattern119  .fk_setBuyBtnBorderRadius{border-radius:3px;}
+.forms .jz-modulePattern119  .fk_first_mallBuy{width: 88px ;height: 30px; background-image: none; padding: 0; font-size: 14px; text-align: center;}
+.forms .jz-modulePattern119  .fk_first_mallBuy span{font-size: 14px; letter-spacing: 0; line-height: 30px;;}
+.product-gallery .product-container .prop-container{height:30px;}
+.forms .jz-modulePattern119  .productTextListProp, .forms .jz-modulePattern119  .productHotTextListProp{height:42px;margin-bottom:20px;}
+.forms .jz-modulePattern119  .productTextListProp b, .forms .jz-modulePattern119  .productHotTextListProp b{font-weight:normal;}
+.forms .jz-modulePattern119  .productTextListTable, .forms .jz-modulePattern119  .productHotTextListTable{margin:14px 0;}
+.forms .jz-modulePattern119  .fk-fixBuyBtnSize{width:88px;}
+.forms .jz-modulePattern119  .fk-fixBuyBtnSize .propAlignCenter{padding:0;}
+.forms .jz-modulePattern119  .fk-mallBuy-big{}
+.forms .jz-modulePattern119  .fk-mall-addCart{}
+.forms .jz-modulePattern119 .g_close:before{content:"\e911";}
+.forms .jz-modulePattern119 .formBannerBtn{position:relative;top:0;right:0;margin-right:10px;}
+.forms .jz-modulePattern119 .g_close{background:none;font-family:"icomoon",微软雅黑,"microsoft yahei",宋体,新宋体;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:40px;width:40px;height:40px;}
+.forms .jz-modulePattern119 .fk-formContentOther .g_close{background:none;font-family:"icomoon",微软雅黑,"microsoft yahei",宋体,新宋体;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:40px;width:40px;height:40px;}
+.forms .jz-modulePattern119 .formMiddle .productSmallPicForms .g_imgNext{background:none;font-family:"icomoon",微软雅黑,"microsoft yahei",宋体,新宋体;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:rgba(102,102,102,0.6);font-size:25px;}
+.forms .jz-modulePattern119 .formMiddle .productSmallPicForms .g_imgPrev{background:none;font-family:"icomoon",微软雅黑,"microsoft yahei",宋体,新宋体;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:rgba(102,102,102,0.6);font-size:25px;width:25px;height:25px;}
+.forms .jz-modulePattern119  .detailInfoTable .fk_productDetailBorderSelect{border-color:#f13a3a;}

@@ -312,7 +312,7 @@ $
 function getSession(deal) {
 	// alert(12);
 	$.ajax({
-		url : "getSession.action?_" + new Date().getTime(),
+		url : "getSession_getOperatorInfo.action?_" + new Date().getTime(),
 		type : "POST",
 		success : function(r) {
 

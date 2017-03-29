@@ -298,6 +298,9 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 
 		map.put("total", count);
 		map.put("rows", exampleList);
+		int totalPage= (int) Math.ceil((double)count/pageSize);
+		map.put("totalPage",totalPage);
+		
 		return;
 
 	}

@@ -2,7 +2,7 @@
         $(document).ready(function () {
         	
         	$.ajax({
-    			url : "getSession.action",
+    			url : "getSession_getOperatorInfo.action",
     			type : "POST",
     			success : function(result) {
     				var user = eval("(" + result + ")");

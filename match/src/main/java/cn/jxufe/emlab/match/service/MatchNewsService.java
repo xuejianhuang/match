@@ -51,5 +51,10 @@ public class MatchNewsService extends BaseDao<MatchNews> implements
 		hql = hql + " order by createtime desc";
 		fillPagetoMap(map, hql, null, page, pageSize);
 	}
+	
+	public MatchNews getMatchNewsById(String id)
+	{
+		return findById(id);
+	}
 
 }

@@ -50,5 +50,9 @@ public class MatchNoticeService extends BaseDao<MatchNotice> implements
 		hql = hql + " order by createtime desc";
 		fillPagetoMap(map, hql, null, page, pageSize);
 	}
+	public MatchNotice getMatchNoticeById(String id)
+	{
+		return findById(id);
+	}
 
 }

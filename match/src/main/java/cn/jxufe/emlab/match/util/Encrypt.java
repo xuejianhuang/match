@@ -4,6 +4,7 @@ package cn.jxufe.emlab.match.util;
 import java.util.Calendar;
 import java.util.Date;
 
+
 public class Encrypt
 {
 	public static String encryptPassword(String password)
@@ -15,6 +16,9 @@ public class Encrypt
 	}
 	public static void main(String[] args)
 	{
+		int a= (int) Math.ceil((double)0/10);
+		System.out.println(a);
+		System.out.println();
 		Date d=new Date();
 		System.out.println(d.getYear());
 		Calendar cal=	Calendar.getInstance();

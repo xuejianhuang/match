@@ -41,6 +41,9 @@
 		autowire="byName"  />
 		 <bean id="matchNoticeService" class="cn.jxufe.emlab.match.service.MatchNoticeService"
 		autowire="byName"  />
+			 <bean id="memberService" class="cn.jxufe.emlab.match.service.MemberService"
+		autowire="byName"  />
+		
 
 	<bean id="operatorAction" class="cn.jxufe.emlab.match.controller.OperatorAction"
 		autowire="byName" scope="prototype"></bean>
@@ -62,6 +65,9 @@
 		autowire="byName" scope="prototype"></bean>
 					<bean id="matchNoticeAction" class="cn.jxufe.emlab.match.controller.MatchNoticeAction"
 		autowire="byName" scope="prototype"></bean>
+			<bean id="memberAction" class="cn.jxufe.emlab.match.controller.MemberAction"
+		autowire="byName" scope="prototype"></bean>
+	
 
 
 </beans>
