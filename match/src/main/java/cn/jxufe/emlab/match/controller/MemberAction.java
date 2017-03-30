@@ -4,6 +4,8 @@
 package cn.jxufe.emlab.match.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class MemberAction extends BaseAction {
 	private String oldPassword;
 	private String newPassword;
 	private String verifyPassword;
-	private String validateCode;
+	private String captcha;
 	private String name;
 	private IMemberService memberService;
 	private Member member;
@@ -115,6 +117,11 @@ public class MemberAction extends BaseAction {
 	public String signup() throws IOException {
 		Map session = getSession();
 		Map jsondata = new HashMap();
+		
+		String sessionCaptcha=(String) getSession().get(KeyEnum.VALIDATE_EMAIL_CODE_KEY);
+		if(null!=captcha&&captcha.equals(sessionCaptcha))
+		{
+		member.setSignupTime(new Timestamp(System.currentTimeMillis()));
 			int flag = memberService.txSave(member);
 			if (flag == 1)
 				jsondata.put(KeyEnum.STATUS, StatusEnum.success);
@@ -123,6 +130,7 @@ public class MemberAction extends BaseAction {
 				jsondata.put(KeyEnum.REASON, "操作失败，该操作员已存在！请重新输入！");
 			}
 		jsonViewIE(jsondata);
+		}
 		return null;
 
 	}
@@ -212,12 +220,14 @@ public class MemberAction extends BaseAction {
 		this.verifyPassword = verifyPassword;
 	}
 
-	public String getValidateCode() {
-		return validateCode;
+
+
+	public String getCaptcha() {
+		return captcha;
 	}
 
-	public void setValidateCode(String validateCode) {
-		this.validateCode = validateCode;
+	public void setCaptcha(String captcha) {
+		this.captcha = captcha;
 	}
 
 	public String getName() {

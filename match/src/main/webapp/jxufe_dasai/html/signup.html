@@ -3939,13 +3939,76 @@
 
         function checkSignUpInfo() {
 
+            var email = $("#memberSignupAccount").val();
+            var captcha = $("#memberSignupCaptcha").val();
+            var name = $("#memberSignupName").val();
+            var phone = $("#memberSignupPhone").val();
+            var memberSignupPassword = $("#memberSignupPassword").val();
+            var memberSignupRepwd = $("#memberSignupRepwd").val();
+            //alert(password != repassword);
+            if (!validateEmail(email)) {
+                return false;
+            }
 
+            if (captcha == null || captcha == "") {
+                return false;
+                alert("验证码不能为空");
+
+            }
+            if (name == null || name == "") {
+                alert("姓名不能为空");
+                return false;
+            }
+            if (phone == null || phone == "" || phone.length != 11) {
+                alert("请填写正确的手机号");
+                return false;
+            }
+            if (memberSignupPassword == null || memberSignupPassword == "" || memberSignupPassword.length < 6) {
+                alert("密码不能少于6位");
+                return false;
+            }
+            if (memberSignupPassword != memberSignupRepwd) {
+                alert("两次密码填写不一致");
+                return false;
+            }
             return true;
         }
+        function submitForm() {
+           // if (checkSignUpInfo()) {
+                $("#memberSignupForm").form({
+                    onSubmit : function(param) {
+                        param.action = 'add';
+                        return $(this).form('validate');
+                    },
+                    success : function(result) {
+                        var data = eval("(" + data + ")");
+                        var result = data.STATUS;
+                        var reason = data.REASON;
+                        if (result == "success") {
+                            $.show_warning("提示", "操作成功");
+                        } else if (result == "failed") {
+                            // $.show_alert("错误",reason);
+                            alert(reason);
+                        }
+                    }
+                });
+                $("#memberSignupForm").submit();
+            //}
+
+        }
         function getCaptcha(a) {
-            var email = $("#account").val();
+            var email = $("#memberSignupAccount").val();
             if (validateEmail(email)) {
-                Site.changeCaptchaImg(a)
+                Site.changeCaptchaImg(a);
+                $.ajax({
+                    url: "/matchPlatform/getValidate_sendEmailCode.action?email=" + email,
+                    type: "GET",
+                    // data : para,
+                    dataType: "text",
+                    success: function (result) {
+                    }
+                });
+
             }
         }
 
@@ -3955,7 +4018,7 @@
                 return false;
             }
             if (!val.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/)) {
-                alert("格式不正确！请重新输入");
+                alert("邮箱格式不正确！请重新输入");
                 $("#account").focus();
                 return false;
             }
@@ -4390,8 +4453,10 @@
                                                                                         </tr>
                                                                                         </tbody>
                                                                                     </table>
-                                                                                    <form onsubmit="return checkSignUpInfo()"
-                                                                                          action="/matchPlatform/member_signup.action">
+                                                                                    <form
+                                                                                            id="memberSignupForm"
+                                                                                            method="post"
+                                                                                            action="/matchPlatform/member_signup.action">
                                                                                         <table class="memberSignup jz-memberSignup"
                                                                                                cellspacing="1"
                                                                                                cellpadding="1">
@@ -4405,7 +4470,7 @@
                                                                                                 <td class="itemCtrl">
                                                                                                     <div class="itemSpace">
                                                                                                         <input class="g_itext itemEdit"
-                                                                                                               id="account"
+                                                                                                               id="memberSignupAccount"
                                                                                                                name="member.account"
                                                                                                                maxlength="50"
                                                                                                                type="text">&nbsp;<font
@@ -4441,7 +4506,7 @@
                                                                                                 <td class="itemCtrl">
                                                                                                     <div class="itemSpace">
 
-                                                                                                        <select id="profession"
+                                                                                                        <select id="memberSignupProfession"
                                                                                                                 name="member.profession"
                                                                                                         >
                                                                                                             <option value="0">
@@ -4468,7 +4533,7 @@
                                                                                                 <td class="itemCtrl">
                                                                                                     <div class="itemSpace">
 
-                                                                                                        <select id="isJxufe"
+                                                                                                        <select id="memberSignupIsJxufe"
                                                                                                                 name="member.isJxufe"
                                                                                                         >
                                                                                                             <option value="1">
@@ -4492,9 +4557,10 @@
                                                                                                 </td>
                                                                                                 <td class="itemCtrl">
                                                                                                     <div class="itemSpace">
-                                                                                                        <input id="name"
-                                                                                                               name="姓名"
+                                                                                                        <input id="memberSignupName"
+                                                                                                               name="member.name"
                                                                                                                maxlength="50"
+                                                                                                               minlength="1"
                                                                                                                placeholder=""
                                                                                                                class="g_itext itemEdit userAddItem isCheckUAI"
                                                                                                                type="text">&nbsp;<font
@@ -4510,12 +4576,15 @@
                                                                                                 </td>
                                                                                                 <td class="itemCtrl">
                                                                                                     <div class="itemSpace">
-                                                                                                        <input id="phone"
-                                                                                                               name="电话"
-                                                                                                               maxlength="50"
+                                                                                                        <input id="memberSignupPhone"
+                                                                                                               name="member.phone"
+                                                                                                               maxlength="11"
+                                                                                                               minlength="11"
                                                                                                                placeholder=""
                                                                                                                class="g_itext itemEdit userAddItem"
                                                                                                                type="text">
+                                                                                                        <font
+                                                                                                                class="g_stress">*</font>
                                                                                                     </div>
                                                                                                 </td>
                                                                                             </tr>
@@ -4528,8 +4597,10 @@
                                                                                                 <td class="itemCtrl">
                                                                                                     <div class="itemSpace">
                                                                                                         <input class="g_itext itemEdit"
-                                                                                                               id="memberSignupPwd"
+                                                                                                               id="memberSignupPassword"
+                                                                                                               name="member.password"
                                                                                                                maxlength="20"
+                                                                                                               minlength="6"
                                                                                                                type="password">&nbsp;<font
                                                                                                             class="g_stress">*</font>
                                                                                                     </div>
@@ -4546,6 +4617,7 @@
                                                                                                         <input class="g_itext itemEdit"
                                                                                                                id="memberSignupRepwd"
                                                                                                                maxlength="20"
+                                                                                                               minlength="6"
                                                                                                                type="password">&nbsp;<font
                                                                                                             class="g_stress">*</font>
                                                                                                     </div>
@@ -4558,7 +4630,8 @@
                                                                                                     <input class="memberSignupBtn g_ibutton"
                                                                                                            extclass="g_ibutton"
                                                                                                            value="注&#12288;册"
-                                                                                                           type="submit">&nbsp;&nbsp;&nbsp;
+                                                                                                           type="button"
+                                                                                                           onclick="submitForm()">&nbsp;&nbsp;&nbsp;
                                                                                                     <input class="memberSignupBtn g_ibutton"
                                                                                                            extclass="g_ibutton"
                                                                                                            value="重&#12288;置"

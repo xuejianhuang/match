@@ -108,9 +108,9 @@ public class OperatorAction extends BaseAction {
 		if (time > 3) {
 			if (validateCode == null
 					|| validateCode.isEmpty()
-					|| null == session.get(KeyEnum.VALIDATE_CODE_KEY)
+					|| null == session.get(KeyEnum.VALIDATE_IMAGE_CODE_KEY)
 					|| !validateCode.equalsIgnoreCase(session.get(
-							KeyEnum.VALIDATE_CODE_KEY).toString())) {
+							KeyEnum.VALIDATE_IMAGE_CODE_KEY).toString())) {
 				reason = "验证码输入不正确";
 				status = StatusEnum.failed;
 				jsondata.put(KeyEnum.STATUS, status);

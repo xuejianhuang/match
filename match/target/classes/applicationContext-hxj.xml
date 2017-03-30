@@ -39,9 +39,9 @@
 		autowire="byName"  />
   <bean id="matchNewsService" class="cn.jxufe.emlab.match.service.MatchNewsService"
 		autowire="byName"  />
-		 <bean id="matchNoticeService" class="cn.jxufe.emlab.match.service.MatchNoticeService"
+<bean id="matchNoticeService" class="cn.jxufe.emlab.match.service.MatchNoticeService"
 		autowire="byName"  />
-			 <bean id="memberService" class="cn.jxufe.emlab.match.service.MemberService"
+ <bean id="memberService" class="cn.jxufe.emlab.match.service.MemberService"
 		autowire="byName"  />
 		
 

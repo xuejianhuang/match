@@ -16,6 +16,7 @@ public class Encrypt
 	}
 	public static void main(String[] args)
 	{
+		System.out.println(RandomGenerator.getRandomString(4));
 		int a= (int) Math.ceil((double)0/10);
 		System.out.println(a);
 		System.out.println();
