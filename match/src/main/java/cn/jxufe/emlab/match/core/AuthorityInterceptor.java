@@ -29,7 +29,9 @@ public class AuthorityInterceptor extends AbstractInterceptor {
 		if (actionMethod != null) {
 			if (actionMethod.startsWith("get")
 					|| actionMethod.startsWith("login")
-					|| actionMethod.startsWith("signup")) {
+					|| actionMethod.startsWith("signup")
+					|| actionMethod.startsWith("relogin")
+					) {
 				return invocation.invoke();
 			}
 		}
@@ -40,7 +42,7 @@ public class AuthorityInterceptor extends AbstractInterceptor {
 		Map jsondata = new HashMap();
 		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
 		if (operator != null
-				|| (member != null && actionMethod.startsWith("member"))) {
+				|| (member != null && actionName.startsWith("member"))) {
 			return invocation.invoke();
 		} else {
 			// ctx.put("tip", "系统使用超时，请重新登录...");

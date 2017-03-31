@@ -1,0 +1,119 @@
+<script type="text/javascript">
+train_matchId_change = function()
+{
+	$('#dg_train').datagrid('reload', {
+		matchId: $("#train_matchId").combobox('getValue'),
+		//belongId:operator_belongId
+	});
+};
+
+
+$(function() {
+$("#train_matchId").combobox({
+	onChange :train_matchId_change,
+    url: "match_getAllMatchNameAndId.action",
+    valueField:'id',   
+    textField:'name',  
+    multiple:false,  
+    panelHeight:'auto',
+    onLoadSuccess: function () { 
+    	var data = $('#train_matchId').combobox('getData');
+        if (data.length > 0) {
+            $('#train_matchId').combobox('select', data[0].id);
+        }
+    }
+});
+
+
+});
+function formatOper(val, row, index) {
+
+	var innerHtml = '';
+	if (val == 1) {
+		innerHtml += '<a href="#" onclick=changeIsLockedStatus("'
+			+ row.id + '",0)>开始报名</a>';
+
+	} else {
+		innerHtml += ' &nbsp; &nbsp;&nbsp;<a href="#" style="color: red;"  onclick=changeIsLockedStatus("'
+				+ row.id + '",1)>停止报名</a>';
+	}
+	//	alert(row.itid);
+	return innerHtml;
+}
+function changeIsLockedStatus(trainItemId,isLocked) {
+	ajaxSend('trainItem_changeTrainItemIsLockedStatus.action', {
+		id : trainItemId,
+		isLocked : isLocked
+	}, function() {
+		$('#dg_train').datagrid("reload");
+
+	});
+
+}
+</script>
+<div class="easyui-layout" data-options="fit : true,border : false">
+
+	<div
+		data-options="region:'north',title:'查询条件',border:false,iconCls:'icon-columns'"
+		style="height: 60px; background: #f4f4f4;padding-top: 5px">
+		 &nbsp;
+                <input id="train_matchId"  onchange="train_matchId_change()" />
+	</div>
+
+	<div data-options="region:'center',border:false">
+		<table id="dg_train" class="easyui-datagrid" title="培训管理"
+			data-options="url:'trainItem_getTrainItemByPage.action',
+                                idField : 'id',
+			                     fit : true,
+			                    striped:true,
+			                fitColumns : true,
+			                 singleSelect : false,
+			                 rownumbers : true,
+			                pagination : true,
+			                  pageSize : 10,
+			                 pageList : [ 10, 20, 30, 40, 50 ],
+                                toolbar:[{
+                                    text:'添加',
+                                    iconCls:'icon-add',
+                                    handler:function(){
+                                    add('train/train_add.html','添加培训','600','800','trainItem_saveTrainItem.action','dg_train')
+                                    }},'-',
+                                    {
+                                    text:'修改',
+                                    iconCls:'icon-edit',
+                                    handler:function()
+                                    {
+                                      edit('train/train_edit.html','修改培训','600','800','trainItem_updateTrainItem.action','dg_train')
+                                    }},'-',
+                                    {
+                                    text:'删除',
+                                    iconCls:'icon-remove',
+                                    handler:function()
+                                    {
+                                      del('trainItem_deleteTrainItem.action','dg_train')
+                                    }}]">
+			<thead>
+				<tr>
+					<th data-options="field:'ck',checkbox:true">
+					</th>
+					<th data-options="field:'caption',align:'center',width:50">
+						标题
+					</th>
+					<th data-options="field:'startDate',align:'center',width:10" formatter="formatterstringdate">
+						开始时间
+					</th>
+					<th data-options="field:'endDate',align:'center',width:10" formatter="formatterstringdate">
+						结束时间
+					</th>
+					<th data-options="field:'isLocked',align:'center',width:10" formatter="formatOper">
+					操作
+					</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	
+	 
+	 
+	
+</div>

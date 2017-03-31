@@ -3951,8 +3951,9 @@
             }
 
             if (captcha == null || captcha == "") {
-                return false;
+
                 alert("验证码不能为空");
+                return false;
 
             }
             if (name == null || name == "") {
@@ -3974,26 +3975,29 @@
             return true;
         }
         function submitForm() {
-           // if (checkSignUpInfo()) {
-                $("#memberSignupForm").form({
-                    onSubmit : function(param) {
-                        param.action = 'add';
-                        return $(this).form('validate');
-                    },
-                    success : function(result) {
-                        var data = eval("(" + data + ")");
-                        var result = data.STATUS;
-                        var reason = data.REASON;
-                        if (result == "success") {
-                            $.show_warning("提示", "操作成功");
-                        } else if (result == "failed") {
-                            // $.show_alert("错误",reason);
-                            alert(reason);
-                        }
-                    }
-                });
-                $("#memberSignupForm").submit();
-            //}
+           // alert("1");
+           if (checkSignUpInfo()) {
+
+               var options = {
+                   url: '/matchPlatform/member_signup.action',
+                   type: 'post',
+                   dataType: 'text',
+                   data: $("#memberSignupForm").serialize(),
+                   success: function (data) {
+                       var data = eval("(" + data + ")");
+                       var result = data.STATUS;
+                       var reason = data.REASON;
+                       if (result == "success") {
+                           $.show_warning("提示", "操作成功");
+                           window.location.href = "index.html";
+                       } else if (result == "failed") {
+                           // $.show_alert("错误",reason);
+                           alert(reason);
+                       }
+                   }
+               };
+               $.ajax(options);
+          }
 
         }
         function getCaptcha(a) {
@@ -4456,7 +4460,7 @@
                                                                                     <form
                                                                                             id="memberSignupForm"
                                                                                             method="post"
-                                                                                            action="/matchPlatform/member_signup.action">
+                                                                                           >
                                                                                         <table class="memberSignup jz-memberSignup"
                                                                                                cellspacing="1"
                                                                                                cellpadding="1">

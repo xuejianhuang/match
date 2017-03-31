@@ -25,6 +25,7 @@
 	    <action name="matchNotice_*" class="matchNoticeAction" method="{1}"/>
 	    <action name="oa_*" class="operatorAction" method="{1}"></action>
 	    <action name="member_*" class="memberAction" method="{1}"></action>
+	     <action name="trainItem_*" class="trainItemAction" method="{1}"></action>
 		
 	</package>
 </struts>    

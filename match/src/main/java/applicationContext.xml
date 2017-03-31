@@ -65,6 +65,7 @@
 			       <value>cn/jxufe/emlab/match/pojo/MatchNews.hbm.xml</value>
 			        <value>cn/jxufe/emlab/match/pojo/MatchNotice.hbm.xml</value>
 			          <value>cn/jxufe/emlab/match/pojo/Member.hbm.xml</value>
+			           <value>cn/jxufe/emlab/match/pojo/TrainItem.hbm.xml</value>
 			</list>
 		</property></bean>
 	<bean id="transactionManager"

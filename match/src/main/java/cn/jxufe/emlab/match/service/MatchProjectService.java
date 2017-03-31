@@ -5,6 +5,7 @@ import java.util.List;
 import cn.jxufe.emlab.match.core.BaseDao;
 import cn.jxufe.emlab.match.pojo.MatchProject;
 import cn.jxufe.emlab.match.pojo.Operator;
+import cn.jxufe.emlab.match.util.DateUtil;
 import cn.jxufe.emlab.match.util.StatusEnum;
 
 @SuppressWarnings("unchecked")
@@ -12,13 +13,15 @@ public class MatchProjectService extends BaseDao<MatchProject> implements
 		IMatchProjectService {
 	@Override
 	public boolean txSaveMatchProject(Operator oper, MatchProject matchProject) {
-
-		if (validateMatchProject(matchProject)) {
-			matchProject.setId(null);
-			matchProject.setStatus(StatusEnum.initialize.ordinal());
-			save(matchProject);
-			writeLog(oper, "添加", "赛项", matchProject);
-			return true;
+		if (matchProject != null) {
+			if (DateUtil.validateDateOrder(matchProject.getStartDate(),
+					matchProject.getEndDate())) {
+				matchProject.setId(null);
+				matchProject.setStatus(StatusEnum.initialize.ordinal());
+				save(matchProject);
+				writeLog(oper, "添加", "赛项", matchProject);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -39,11 +42,14 @@ public class MatchProjectService extends BaseDao<MatchProject> implements
 	public boolean txUpdateMatchProject(Operator oper,
 			MatchProject matchProject, String id) {
 
-		if (validateMatchProject(matchProject)) {
-			matchProject.setId(id);
-			saveOrUpdate(matchProject);
-			writeLog(oper, "修改", "赛项", matchProject);
-			return true;
+		if (matchProject != null) {
+			if (DateUtil.validateDateOrder(matchProject.getStartDate(),
+					matchProject.getEndDate())) {
+				matchProject.setId(id);
+				saveOrUpdate(matchProject);
+				writeLog(oper, "修改", "赛项", matchProject);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -69,16 +75,4 @@ public class MatchProjectService extends BaseDao<MatchProject> implements
 		return find(hql);
 	}
 
-	private boolean validateMatchProject(MatchProject matchProject) {
-		if (null != matchProject) {
-			if (null != matchProject.getStartDate()
-					&& null != matchProject.getEndDate()) {
-				if (!matchProject.getEndDate().before(
-						matchProject.getStartDate())) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 }

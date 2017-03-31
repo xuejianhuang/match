@@ -36,7 +36,7 @@ public class MemberAction extends BaseAction {
 
 	@SuppressWarnings("rawtypes")
 	public String logout() throws IOException {
-		getSession().clear();
+		getSession().remove(KeyEnum.MEMBER);
 		Map jsondata = new HashMap();
 		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
 		jsonViewIE(jsondata);

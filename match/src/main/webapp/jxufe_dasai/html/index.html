@@ -12,6 +12,8 @@
     <meta http-equiv="Cache-Control" content="no-transform"/>
     <meta name="renderer" content="webkit">
     <script type="text/javascript" src="../js/jquery/jquery-core.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../js/jquery.leanModal.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../js/login_up.js"></script>
     <script type="text/javascript">
 
         function getSmallImgPath(path)
@@ -23,7 +25,7 @@
         $(function(){
           //  $('.webHeaderTable').load('header.html');
             $('.webFooterTable').load('footer.html');
-
+            $('#modaltrigger').leanModal({ top: 110, overlay: 0.45, closeButton: ".hidemodal" });
             var baseUrl="/ufinder/";
             $.ajax({
                 url : baseUrl+"/ufinderServlet?cmd=ls&target=%2Fdasaipingtai%2Ffengcai%2Fsmall%2F&_"+Math.random(),
@@ -106,6 +108,8 @@
 
 
     <link type='text/css' href='../css/fkModule.css' rel='stylesheet' id='jzModule2_1'>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../css/dialog_style.css">
 
 
     <style type="text/css">
@@ -3996,6 +4000,203 @@
 
 </head>
 <body class="g_body g_locale2052 g_cusSiteWidth">
+
+
+<div id="loginmodal" style="display:none;" align="center">
+    <h2 align="center">用户注册</h2 >
+    <form
+            id="memberSignupForm"
+            method="post"
+    >
+        <input type="button" class="hidemodal" hidden="hidden">
+
+        <table class="memberSignup jz-memberSignup"
+               cellspacing="1"
+               cellpadding="1">
+            <tbody>
+            <tr>
+                <td class="itemName">
+                    <div class="itemSpace">
+                        <span>帐号(邮箱)：</span>
+                    </div>
+                </td>
+                <td class="itemCtrl">
+                    <div class="itemSpace">
+                        <input class="g_itext itemEdit"
+                               id="memberSignupAccount"
+                               name="member.account"
+                               maxlength="50"
+                               type="text">&nbsp;<font
+                            class="g_stress">*</font>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="itemName">
+                    验证码：
+                </td>
+                <td class="itemCtrl">
+                    <div class="memberSignupCaptcha">
+                        <input class="g_itext itemCaptcha"
+                               id="memberSignupCaptcha"
+                               name="captcha"
+                               maxlength="4"
+                               type="text">
+                        <input type="button"
+                               onclick="getCaptcha(this)"
+                               value="免费获取验证码">
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="itemName">
+                    <div class="itemSpace">
+                        <span>身份：</span>
+                    </div>
+                </td>
+                <td class="itemCtrl">
+                    <div class="itemSpace">
+
+                        <select id="memberSignupProfession"
+                                name="member.profession"
+                        >
+                            <option value="0">
+                                学生
+                            </option>
+                            <option value="1">
+                                老师
+                            </option>
+                            <option value="2">
+                                其他
+                            </option>
+                        </select> &nbsp;<font
+                            class="g_stress">*</font>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td class="itemName">
+                    <div class="itemSpace">
+                        <span>是否本校人员：</span>
+                    </div>
+                </td>
+                <td class="itemCtrl">
+                    <div class="itemSpace">
+
+                        <select id="memberSignupIsJxufe"
+                                name="member.isJxufe"
+                        >
+                            <option value="1">
+                                是
+                            </option>
+                            <option value="0">
+                                否
+                            </option>
+                        </select> &nbsp;<font
+                            class="g_stress">*</font>
+                    </div>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td class="itemName">
+                    <div class="itemSpace">
+                        <span>姓名：</span>
+                    </div>
+                </td>
+                <td class="itemCtrl">
+                    <div class="itemSpace">
+                        <input id="memberSignupName"
+                               name="member.name"
+                               maxlength="50"
+                               minlength="1"
+                               placeholder=""
+                               class="g_itext itemEdit userAddItem isCheckUAI"
+                               type="text">&nbsp;<font
+                            class="g_stress">*</font>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="itemName">
+                    <div class="itemSpace">
+                        <span>电话：</span>
+                    </div>
+                </td>
+                <td class="itemCtrl">
+                    <div class="itemSpace">
+                        <input id="memberSignupPhone"
+                               name="member.phone"
+                               maxlength="11"
+                               minlength="11"
+                               placeholder=""
+                               class="g_itext itemEdit userAddItem"
+                               type="text">
+                        <font
+                                class="g_stress">*</font>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="itemName">
+                    <div class="itemSpace">
+                        <span>密码：</span>
+                    </div>
+                </td>
+                <td class="itemCtrl">
+                    <div class="itemSpace">
+                        <input class="g_itext itemEdit"
+                               id="memberSignupPassword"
+                               name="member.password"
+                               maxlength="20"
+                               minlength="6"
+                               type="password">&nbsp;<font
+                            class="g_stress">*</font>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="itemName">
+                    <div class="itemSpace">
+                        <span>确认密码：</span>
+                    </div>
+                </td>
+                <td class="itemCtrl">
+                    <div class="itemSpace">
+                        <input class="g_itext itemEdit"
+                               id="memberSignupRepwd"
+                               maxlength="20"
+                               minlength="6"
+                               type="password">&nbsp;<font
+                            class="g_stress">*</font>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="itemName"></td>
+                <td class="itemCtrl">
+                    <input class="memberSignupBtn g_ibutton"
+                           extclass="g_ibutton"
+                           value="注&#12288;册"
+                           type="button"
+                           onclick="submitForm()">&nbsp;&nbsp;&nbsp;
+                    <input class="memberSignupBtn g_ibutton"
+                           extclass="g_ibutton"
+                           value="重&#12288;置"
+                           type="reset">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+</div>
+
 <div id="memberBarArea" class="memberBarArea g_editPanel">
 
 </div>
@@ -5367,7 +5568,7 @@
                                                                                                     <td class='formMiddleLeft formMiddleLeft653'></td>
                                                                                                     <td class='formMiddleCenter formMiddleCenter653 '
                                                                                                         valign='top'>
-                                                                                                        <div class='formMiddleContent formMiddleContent653 fk-formContentOtherPadding'
+                                                                                                        <div  id="memberLoginPanel" class='formMiddleContent formMiddleContent653 fk-formContentOtherPadding'
                                                                                                              tabStyle='0'>
                                                                                                             <div class='J_memberLoginPanel memberLoginPanel member'>
                                                                                                                 <div class='memberLoginItemList'>
@@ -5375,7 +5576,7 @@
                                                                                                                         <input id='memberAcct'
                                                                                                                                class='generateInput memberAcctInput'
                                                                                                                                type='text'
-                                                                                                                               placeholder='帐号'
+                                                                                                                               placeholder='帐号(邮箱)'
                                                                                                                                value=''/>
                                                                                                                     </div>
                                                                                                                     <div class='J_memberLoginItem memberLoginItem itemSpace'>
@@ -5396,9 +5597,9 @@
                                                                                                                              title='看不清，换一张'/>
                                                                                                                     </div>
                                                                                                                     <div class='memberLoginItem memberLoginItem_Button'>
-                                                                                                                        <div class='J_loginButton loginButton loginButton1'>
+                                                                                                                        <div class='loginButton loginButton1'>
                                                                                                                             <div class='left'></div>
-                                                                                                                            <div class='middle'>
+                                                                                                                            <div class='middle' onclick="login('member_login.action','#memberAcct','#memberPwd')">
                                                                                                                                 登录
                                                                                                                             </div>
                                                                                                                             <div class='right'></div>
@@ -5406,9 +5607,9 @@
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                                 <div class='signup'>
-                                                                                                                    <a class='regAcct'
+                                                                                                                    <a id="modaltrigger" class='regAcct'
                                                                                                                        hidefocus='true'
-                                                                                                                       href='javascript:Site.memberSignup();'>免费注册></a>
+                                                                                                                       href="#loginmodal"   >免费注册></a>
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                             <div class='memberMsg'></div>
@@ -7229,12 +7430,18 @@ $('#sitePopVister').show();
                     "<img id='topBarMemberPic' class='msgBoard_member_headpic' src='../image/member.png' style='height:30px'>" +
                     "</a> " +
                     "<a href='mCenter.jsp'><span class='userLabel' title='等级：普通会员' id='memberName'>"+member.name+"</span></a> " +
-                    "<a href='javascript:onLogout();' class='exit'>[退出]</a> </div> <div class='right'> " +
+                    "<a href='javascript:void(0);'  onclick=onLogout() class='exit'>[退出]</a> </div> <div class='right'> " +
                     "</div> <div id='topBarMsg' style='display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:#eee; text-align:center; z-index: 9010;'></div> </div>")
+
+                $(".J_memberLoginPanel").hide();
+                $("#memberLoginPanel").append("<div class='memberWelcome'> "+member.name+"，欢迎登录。</div>")
             }
             else
             {
                 $("#memberBarArea").hide();
+                $(".J_memberLoginPanel").show();
+                $(".memberWelcome").remove();
+
             }
 
         }

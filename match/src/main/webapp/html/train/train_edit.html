@@ -1,0 +1,63 @@
+<script type="text/javascript">
+	$(function() {
+		initImageUpload($('#trainItem_add_btnUploadImg'), $('#show_image'),
+				$('#logo'));
+		$('#introduction').xheditor({
+			html5Upload : false,
+			upImgUrl : 'upload.action?type=img',
+			upImgExt : 'jpg,jpeg,gif,png'
+		});
+	});
+</script>
+
+<div style="margin:0 auto;width:780px;">
+	<form id="form_edit" method="post">
+		<table class="tableForm" style="width: 100%">
+			<tr>
+				<td>所属赛事：</td>
+				<td colspan="2"><input id="matchId" class="easyui-combobox" name="trainItem.matchId"
+				data-options=" 
+				   url:'match_getAllMatchNameAndId.action?_2',
+                    valueField:'id',  
+                    textField:'name',  
+                    multiple:false,
+                   	panelHeight : 'auto'" /></td>
+			</tr>
+			<tr>
+				<td>名称：</td>
+				<td colspan="2"><input id="caption" name="trainItem.caption"
+					type="text" class="easyui-validatebox" data-options="required:true"
+					style="width:90%" /></td>
+
+
+			</tr>
+
+         <tr>
+				<td>开始时间：</td>
+				<td><input class="easyui-datebox"
+					id="startDate" name="trainItem.startDate"
+					data-options="required:true"></td>
+			</tr>
+
+			<tr>
+				<td>结束时间：</td>
+				<td><input class="easyui-datebox" id="endDate"
+					name="trainItem.endDate" data-options="required:true"></td>
+				<td><input type="button" class='easyui-linkbutton'
+					id="trainItem_add_btnUploadImg" value="Logo上传" /></td>
+			</tr>
+
+		</table>
+		<input type="hidden" name="trainItem.logo" class="image" id="logo" />
+
+
+		<div class="uploadImg" style="text-align: left;">
+			<img id="show_image" width="auto" height="auto" src="" /><br>
+		</div>
+		<b>培训介绍:</b><br>
+	<textarea id="introduction" name="trainItem.introduction" class="xheditor" rows="20" cols="100"
+			style="width: 100%"></textarea>
+	</form>
+
+</div>
+

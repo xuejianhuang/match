@@ -426,8 +426,8 @@ function changepwds() {
 	$("<div/>").attr("id", "dialog_changepassword").dialog({
 		title : " 修改密码",
 		href : "changepassword.html",
-		width : 250,
-		height : 220,
+		width : 320,
+		height : 230,
 		closable : false,
 		iconCls : "icon-lock",
 		modal : true,
