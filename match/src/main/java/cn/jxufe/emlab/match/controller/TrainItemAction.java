@@ -5,6 +5,7 @@ package cn.jxufe.emlab.match.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.jxufe.emlab.match.pojo.MatchNews;
@@ -36,6 +37,26 @@ public class TrainItemAction extends BaseAction {
 		Map jsondata = new HashMap();
 		trainItemService.getTrainItemByPage(jsondata, page, rows, matchId,
 				operator);
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	
+	public String getTrainStatisticsByPage() throws IOException {
+		Map session = this.getSession();
+		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
+		Map jsondata = new HashMap();
+		trainItemService.getTrainStatisticsByPage(jsondata, page, rows, matchId,
+				operator);
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	public String getEnableTrainItem() throws IOException
+	{
+		Map jsondata = new HashMap();
+		List<TrainItem> list= trainItemService.getEnableTrainItem();
+		jsondata.put("rows",list);
 		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
 		jsonViewIE(jsondata);
 		return null;

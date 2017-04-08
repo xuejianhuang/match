@@ -176,7 +176,22 @@ $.extend($.fn.validatebox.defaults.rules, {
 		message : '密码不一致！'
 	}
 });
+// 自定义验证
+$.extend($.fn.validatebox.defaults.rules, {
+	phone : {
+		validator : function(value) {
+			var rex = /^1[3-8]+\d{9}$/;
+			var rex2 = /^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+			if (rex.test(value) || rex2.test(value)) {
+				return true;
+			} else {
+				return false;
+			}
 
+		},
+		message : '请输入正确电话或手机格式'
+	}
+});
 /*
  * 
  * 用户未登录 或session超时 弹出登录框重新登录
@@ -366,9 +381,9 @@ function loadForm(formid, data) {
 	for ( var item in data) {
 		var loca = formid + " #" + item;
 		var classname = $(loca).attr("class");
-		
+
 		// alert(loca+":"+classname+"="+data[item]);
-		
+
 		if (classname == "easyui-datebox datebox-f combo-f"
 				&& data[item] != null && data[item].length > 8) {
 			$(loca).datetimebox({
@@ -387,7 +402,7 @@ function loadForm(formid, data) {
 
 			$('#show_image').attr('src', data[item]);
 		} else {
-			
+
 			$(loca).val(data[item]);
 		}
 	}
@@ -500,6 +515,22 @@ function logout() {
 		}
 	});
 }
+function openDialog(hrefurl,title,width,height)
+{
+	$("<div/>").dialog({
+		href : hrefurl,
+		title : title,
+		height : height,
+		width : width,
+		modal : true,
+		iconCls : "icon-add",
+		onClose : function() {
+			$(this).dialog('destroy');
+		}
+	});
+	
+}
+
 function add(hrefurl, title, height, width, handlerurl, datagridid) {
 	$("<div/>").dialog({
 		href : hrefurl,
@@ -753,7 +784,7 @@ function formatterMatchLevel(val) {
 
 }
 function formatterregistrationScope(val) {
-	 if (val == 1)
+	if (val == 1)
 		return '本校';
 	else if (val == 2)
 		return '全省';
@@ -764,10 +795,30 @@ function formatterregistrationScope(val) {
 
 }
 function formatterisTeamMatch(val) {
-	 if (val == 0)
+	if (val == 0)
 		return '个人赛';
 	else if (val == 1)
 		return '团体赛';
+	return val;
+
+}
+function formatterIsJxufe(val) {
+	if (val == 0)
+		return "否";
+	else if (val == 1)
+		return '是';
+	else
+		return val;
+
+}
+function formatterProfession(val) {
+	if (val == 0)
+		return "学生";
+	else if (val == 1)
+		return '老师';
+	else if (val == 2)
+		return '其他';
+	else
 		return val;
 
 }

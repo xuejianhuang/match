@@ -3,6 +3,14 @@ package cn.jxufe.emlab.match.pojo;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Set;
+
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 
 /**
@@ -27,6 +35,11 @@ public class TrainItem extends cn.jxufe.emlab.match.pojo.BasePojo implements jav
      private int isLocked;
      private int status;
      private String logo;
+     
+   
+     private Set<Member> members;
+     
+     private int memberSum;
 
 
     // Constructors
@@ -39,24 +52,6 @@ public class TrainItem extends cn.jxufe.emlab.match.pojo.BasePojo implements jav
     public TrainItem(String id) {
         this.id = id;
     }
-    
-    /** full constructor */
-    public TrainItem(String id, String name, String comment, Timestamp createtime, String caption, String matchId,  String matchProjectId, String introduction, Date startDate, Date endDate, int isLocked, int status, String logo) {
-        this.id = id;
-        this.name = name;
-        this.comment = comment;
-        this.createtime = createtime;
-        this.caption = caption;
-        this.matchId = matchId;
-        this.matchProjectId=matchProjectId;
-        this.introduction = introduction;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.isLocked = isLocked;
-        this.status = status;
-        this.logo = logo;
-    }
-
    
     // Property accessors
 
@@ -167,6 +162,51 @@ public class TrainItem extends cn.jxufe.emlab.match.pojo.BasePojo implements jav
     public void setLogo(String logo) {
         this.logo = logo;
     }
+
+    public int getMemberSum() {
+		return memberSum;
+	}
+
+	public void setMemberSum(int memberSum) {
+		this.memberSum = memberSum;
+	}
+
+	@JsonIgnore public Set<Member> getMembers() {
+		return members;
+	}
+
+    @JsonIgnore	public void setMembers(Set<Member> members) {
+		this.members = members;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TrainItem other = (TrainItem) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+    
+    
+
+	
    
 
 

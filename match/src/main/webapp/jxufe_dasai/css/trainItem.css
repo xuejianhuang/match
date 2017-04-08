@@ -1,0 +1,91 @@
+
+.cf::after, .cf::before {
+    content: "";
+    display: table;
+}
+.cf::after {
+    clear: both;
+}
+.cf::after, .cf::before {
+    content: "";
+    display: table;
+}
+.newsDetail  ul {
+    box-sizing: border-box;
+    margin-right: 0 !important;
+    padding: 0 0px;
+    width: 1120px;
+}
+.newsDetail ol,  .newsDetail ul {
+    list-style: outside none none;
+}
+
+
+.newsDetail ul li {
+    float: left;
+    margin: 20px 17px 10px 0px;
+    width: 250px;
+}
+
+
+.newsDetail ul li a {
+    background-color: #fff;
+    display: block;
+    height: 100%;
+    position: relative;
+    text-decoration: none;
+    width: 100%;
+}
+.newsDetail ul li span {
+    background-color: #fff;
+    display: block;
+
+}
+.newsDetail ul li .normal {
+    border: 1px solid rgba(51, 51, 51, 0.1);
+    height: 150px;
+    width: 250px;
+}
+.newsDetail ul li .normal img {
+    height: 150px;
+    position: absolute;
+    width: 250px;
+}
+.newsDetail .scrollLoading {
+    background: rgba(0, 0, 0, 0) url("../image/loading_2.gif") no-repeat scroll 50% 50%;
+}
+
+.newsDetail ul li h3 {
+    -moz-box-orient: vertical;
+    color: #333;
+    display: -webkit-box;
+    font-size: 20px;
+    height: 60px;
+    line-height: 22px;
+    overflow: hidden;
+    padding: 10px 10px 0;
+    text-overflow: ellipsis;
+    width: 220px;
+    font-weight: 100;
+}
+.newsDetail ul li .rec_courses_ref {
+    color: #999;
+    padding: 0 10px;
+    border: 0 none;
+}
+.newsDetail .rec_courses ul li .rec_courses_ref {
+    color: #999;
+}
+.newsDetail .fr  {
+    float: right;
+}
+.newsDetail ul li .rec_courses_ref  button{
+    margin-bottom: 2px;
+    color: #00a0e9;
+}
+
+body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video, input {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}

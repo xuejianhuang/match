@@ -1,9 +1,12 @@
 package cn.jxufe.emlab.match.service;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import cn.jxufe.emlab.match.core.BaseDao;
-import cn.jxufe.emlab.match.pojo.MatchProject;
+import cn.jxufe.emlab.match.pojo.Member;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.pojo.TrainItem;
 import cn.jxufe.emlab.match.util.DateUtil;
@@ -52,6 +55,7 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 		}
 		return false;
 	}
+
 	public void txUpdateTrainItemIsLockedStatus(Operator oper, String id,
 			int isLocked) {
 		TrainItem trainItem = findById(id);
@@ -59,6 +63,7 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 			trainItem.setIsLocked(isLocked);
 		}
 	}
+
 	@Override
 	public void getTrainItemByPage(Map map, int page, int pageSize,
 			String matchId, Operator oper) {
@@ -71,6 +76,31 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 		hql = hql + " order by createtime desc";
 		fillPagetoMap(map, hql, null, page, pageSize);
 	}
-	
+
+	public void getTrainStatisticsByPage(Map map, int page, int pageSize,
+			String matchId, Operator oper) {
+		String hql = "from TrainItem ";
+		if (null != matchId && matchId.length() != 0) {
+
+			hql += " where matchId = '" + matchId + "' ";
+		}
+
+		hql = hql + " order by createtime desc";
+		List<TrainItem> trainList = findByPage(hql, null,
+				(page - 1) * pageSize, pageSize);
+		for(TrainItem item:trainList)
+		{
+			item.setMemberSum(item.getMembers().size());
+		
+		}
+		Long count = getCount(hql,null);
+		map.put("total", count);
+		map.put("rows", trainList);
+	}
+
+	public List<TrainItem> getEnableTrainItem() {
+		String hql = "from TrainItem where  isLocked='0' order by createtime desc";
+		return find(hql);
+	}
 
 }

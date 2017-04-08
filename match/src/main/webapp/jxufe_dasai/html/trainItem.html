@@ -12,46 +12,38 @@
     <meta http-equiv="Cache-Control" content="no-transform"/>
     <meta name="renderer" content="webkit">
     <script type="text/javascript" src="../js/jquery/jquery-core.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../js/jquery.leanModal.js"></script>
+    <script type="text/javascript" src="../js/login_up.js"></script>
     <script type="text/javascript">
 
-        var searchStr = location.search;
-       // alert(searchStr);
-       // 由于searchStr属性值包括“?”，所以除去该字符
-        searchStr = searchStr.substr(1);//将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
-       // alert(searchStr);
-        var searchs = searchStr.split("&");//获得第一个参数和值
-       // alert(searchStr);
-        var id = searchs[0].split("=")[1];
-        var type= searchs[1].split("=")[1];  //0:新闻通知  2:通知
-        //alert(address);
-        var url="/matchPlatform/";
+
         $(function(){
-
-          //  $('.webHeaderTable').load('header.html');
-            $('.webFooterTable').load('footer.html');
-
-            if(type==0) //新闻
-            {
-                //  var newsTypeCode=searchs[2].split("=")[1];
-                url+="/matchPlatform/matchNews_getMatchNewsById.action?id="+id;
-            }
-
-            else if(type==2) //通知
-            {
-                url+="/matchPlatform/matchNotice_getMatchNoticeById.action?id="+id;
-            }
-
-
             $.ajax({
-                url : url,
+                url : "/matchPlatform/trainItem_getEnableTrainItem.action",
                 type : "GET",
                 // data : para,
                 dataType : "text",
                 success : function(result) {
                     var rows = jQuery.parseJSON(result).rows;
+                    $.each(rows,function(index,row)
+                    {
+                        $("#trainItem").append(" " +
+                            " <li>" +
+                            " <span> " +
+                            "<a href='' title='"+row.caption+"' target='_blank'  data-element='1' data-click='onClick'>" +
+                            " <div class='normal'>" +
+                            " <img class='scrollLoading' data-url='"+row.logo+"' src='"+row.logo+"' alt='"+row.caption+"' title='"+row.caption+"'>" +
+                            " </div> " +
+                            "<h3>"+row.caption+"</h3>" +
+                            " </a> " +
+                            "<div class='rec_courses_ref cf'> " +
+                            "<span class='rec_courses_time fl'>"+row.startDate.substring(5,10)+"--"+row.endDate.substring(5,10)+"</span>" +
+                            " <span class='rec_courses_num fr'><button type='button' style='margin-bottom: 2px;color: #00a0e9' onclick=attendTrain('"+row.id+"')>点击报名</button></span>" +
+                            " </div> " +
+                            "</span> " +
+                            "</li>");
+                    });
 
-                        $(".richContent").append(rows.body);
-                        $(".title").append(rows.caption);
 
                 }
             });
@@ -93,6 +85,9 @@
 
 
     <link type="text/css" href="../css/poshytipAndmCustomScrollbar.css" rel="stylesheet"/>
+    <link type="text/css" href="../css/trainItem.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../css/dialog_style.css">
 
 
     <style id='stylemodule'>
@@ -3175,7 +3170,7 @@
         }
 
         #footer .footerContent {
-            padding-bottom: 0px;
+            padding-bottom: 30px;
         }
 
         #footer div.footerInfo a {
@@ -3975,9 +3970,85 @@
 
 </head>
 <body class="g_body g_locale2052 g_cusSiteWidth">
+<div id="loginmodal" style="display:none;" align="center">
+    <a id="login_modaltrigger" class='regAcct'
+       hidefocus='true'
+       href="#loginmodal"></a>
+
+    <h2 align="center" style="margin-bottom: 10px">登录</h2 >
+    <form
+            id="memberSigninForm"
+            method="post"
+    >
+        <input type="button" class="hidemodal" hidden="hidden">
+
+        <table class="memberSignup jz-memberSignup"
+               cellspacing="5"
+               cellpadding="5" >
+            <tbody>
+            <tr>
+                <td class="itemName">
+                    <div class="itemSpace">
+                        <span>帐号(邮箱)：</span>
+                    </div>
+                </td>
+                <td class="itemCtrl">
+                    <div class="itemSpace">
+                        <input class="g_itext itemEdit"
+                               id="memberSigninAccount"
+                               name="member.account"
+                               maxlength="50"
+                               type="text">&nbsp;<font
+                            class="g_stress">*</font>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="itemName">
+                    <div class="itemSpace">
+                        <span>密码：</span>
+                    </div>
+                </td>
+                <td class="itemCtrl">
+                    <div class="itemSpace">
+                        <input class="g_itext itemEdit"
+                               id="memberSigninPassword"
+                               name="member.password"
+                               maxlength="20"
+                               minlength="6"
+                               type="password">&nbsp;<font
+                            class="g_stress">*</font>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="itemName"></td>
+                <td class="itemCtrl">
+                    <a id="signup_modaltrigger" class='regAcct'
+                       hidefocus='true'
+                       href="#signupmodal">注&#12288;册</a>
+                    &nbsp;&nbsp;
+                    <input class="memberSignupBtn g_ibutton"
+                           extclass="g_ibutton"
+                           value="登&#12288;录"
+                           onclick="login('member_login.action','#memberSigninAccount','#memberSigninPassword','trainItem.html')"
+                           type="button">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+</div>
+
+<div id="signupmodal" style="display:none;" align="center">
+
+</div>
+
+
 <div id="memberBarArea" class="memberBarArea2 g_editPanel" ></div>
 
-<div id="g_main" class='g_main g_col2 '>
+<div id="g_main" class='g_main g_col2 ' >
     <div id="web" class="g_web ">
         <table class="webTopTable" cellpadding="0" cellspacing="0">
             <tr>
@@ -4011,7 +4082,7 @@
                                    cellspacing='0'>
                                 <tr>
                                     <td class='formMiddleLeft formMiddleLeft433'></td>
-                                    <td class='formMiddleCenter formMiddleCenter433 ' valign='top'>
+                                    <td class='formMiddleCenter formMiddleCenter433 '  valign='top'>
                                         <div class='formMiddleContent formMiddleContent433 fk-formContentOtherPadding'
                                              tabStyle='0'>
                                             <div class='richContent richContent0'><p><span
@@ -4050,7 +4121,7 @@
                                    cellspacing='0'>
                                 <tr>
                                     <td class='formMiddleLeft formMiddleLeft434'></td>
-                                    <td class='formMiddleCenter formMiddleCenter434 ' valign='top'>
+                                    <td class='formMiddleCenter formMiddleCenter434 '  valign='top'>
                                         <div class='formMiddleContent formMiddleContent434 fk-formContentOtherPadding'
                                              tabStyle='0'>
                                             <div class='includeWeather3'></div>
@@ -4320,21 +4391,12 @@
                                                                     <table class="formTop formTop12" cellspacing="0" cellpadding="0"><tbody><tr><td class="left"></td><td class="center"></td><td class="right"></td></tr></tbody></table>
                                                                     <table class=" formMiddle formMiddle12" style="" cellspacing="0" cellpadding="0"><tbody><tr>
                                                                         <td class="formMiddleLeft formMiddleLeft12"></td>
-                                                                        <td class="formMiddleCenter formMiddleCenter12 " valign="top">
+                                                                        <td class="formMiddleCenter formMiddleCenter12 "   style="background:#fafafa "  valign="top">
                                                                             <div class="formMiddleContent formMiddleContent12 fk-formContentOtherPadding" tabstyle="0">
                                                                                 <div class="newsDetail" newsid="80">
-                                                                                    <div class="title" style="font-size:16px;color:#161616;font-family:微软雅黑;font-weight:normal"></div>
-                                                                                   <!-- <div class="sourceInfo">
-                                                                                        <span class="sourceInfoContent">
-                                                                                        浏览数:96次
-                                                                                        </span>
-                                                                                     &lt;!&ndash;   <span id="newsQrCode" class="webSiteQrCode">&nbsp;</span>&ndash;&gt;
-                                                                                    </div>-->
-                                                                              <!--      <div class="shareInfo">
-                                                                                        <div class="shareCtrl shareto">分享到：
-                                                                                        </div><div class="shareCtrl sharePanel"><a hidefocus="true" title="复制网址" href="javascript:;" onclick="Site.copyWebSite('http://www.mq11837910.icoc.me')"><div class="shareIcon copy"></div><div class="shareCtrl">复制网址</div></a><a hidefocus="true" title="分享到腾讯微博" href="javascript:;" onclick="window.open(&quot;http://v.t.qq.com/share/share.php?title=http%3A%2F%2Fwww.mq11837910.icoc.me%2Fnd.jsp%3Fid%3D80%26_sc%3D2&amp;url=http%3A%2F%2Fwww.mq11837910.icoc.me%2Fnd.jsp%3Fid%3D80%26_sc%3D2&amp;pic=&quot;)"><div class="shareIcon qq_weibo"></div><div class="shareCtrl">腾讯微博</div></a><a hidefocus="true" title="分享到新浪微博" href="javascript:;" onclick="window.open(&quot;http://service.weibo.com/share/share.php?title=%E3%80%902016%E5%B9%B4%E6%B1%9F%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BB%8F%E7%AE%A1%E7%B1%BB%E5%88%9B%E6%96%B0%E5%88%9B%E4%B8%9A%E5%A4%A7%E8%B5%9B+-+-%E3%80%91http%3A%2F%2Fwww.mq11837910.icoc.me%2Fnd.jsp%3Fid%3D80%26_sc%3D2&amp;url=http%3A%2F%2Fwww.mq11837910.icoc.me%2Fnd.jsp%3Fid%3D80%26_sc%3D2&amp;pic=&quot;)"><div class="shareIcon sina_weibo"></div><div class="shareCtrl">新浪微博</div></a><a hidefocus="true" title="分享到QQ空间" href="javascript:;" onclick="window.open(&quot;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?summary=http%3A%2F%2Fwww.mq11837910.icoc.me%2Fnd.jsp%3Fid%3D80%26_sc%3D2&amp;url=http%3A%2F%2Fwww.mq11837910.icoc.me%2Fnd.jsp%3Fid%3D80%26_sc%3D2&amp;pics=&amp;title=%E3%80%902016%E5%B9%B4%E6%B1%9F%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BB%8F%E7%AE%A1%E7%B1%BB%E5%88%9B%E6%96%B0%E5%88%9B%E4%B8%9A%E5%A4%A7%E8%B5%9B+-+-%E3%80%91&quot;)"><div class="shareIcon qq_zone"></div><div class="shareCtrl">QQ空间</div></a><a hidefocus="true" title="分享到豆瓣网" href="javascript:;" onclick="window.open(&quot;http://shuo.douban.com/!service/share?name=%E3%80%902016%E5%B9%B4%E6%B1%9F%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BB%8F%E7%AE%A1%E7%B1%BB%E5%88%9B%E6%96%B0%E5%88%9B%E4%B8%9A%E5%A4%A7%E8%B5%9B+-+-%E3%80%91http%3A%2F%2Fwww.mq11837910.icoc.me%2Fnd.jsp%3Fid%3D80%26_sc%3D2&amp;text=http%3A%2F%2Fwww.mq11837910.icoc.me%2Fnd.jsp%3Fid%3D80%26_sc%3D2&amp;image=&quot;)"><div class="shareIcon douban"></div><div class="shareCtrl">豆瓣网</div></a><a hidefocus="true" title="分享到网易微博" href="javascript:;" onclick="window.open(&quot;http://t.163.com/article/user/checkLogin.do?info=%E3%80%902016%E5%B9%B4%E6%B1%9F%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BB%8F%E7%AE%A1%E7%B1%BB%E5%88%9B%E6%96%B0%E5%88%9B%E4%B8%9A%E5%A4%A7%E8%B5%9B+-+-%E3%80%91http%3A%2F%2Fwww.mq11837910.icoc.me%2Fnd.jsp%3Fid%3D80%26_sc%3D2&amp;images=&amp;togImg=true&quot;)"><div class="shareIcon netease_weibo"></div><div class="shareCtrl">网易微博</div></a><a hidefocus="true" title="分享到百度贴吧" href="javascript:;" onclick="window.open(&quot;http://tieba.baidu.com/i/app/open_share_api?comment=&amp;pic=&amp;url=http%3A%2F%2Fwww.mq11837910.icoc.me%2Fnd.jsp%3Fid%3D80%26_sc%3D2&amp;title=%E3%80%902016%E5%B9%B4%E6%B1%9F%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BB%8F%E7%AE%A1%E7%B1%BB%E5%88%9B%E6%96%B0%E5%88%9B%E4%B8%9A%E5%A4%A7%E8%B5%9B+-+-%E3%80%91http%3A%2F%2Fwww.mq11837910.icoc.me%2Fnd.jsp%3Fid%3D80%26_sc%3D2&quot;)"><div class="shareIcon baidu_tieba"></div><div class="shareCtrl">百度贴吧</div></a></div></div>-->
-                                                                                    <div class="clearfloat" style="height:5px;"></div><div class="g_border line"></div>
-                                                                                    <div class="richContent  richContent3">
+                                                                                    <ul id="trainItem" class="cf">
+
+                                                                                    </ul>
                                                                                     </div>
                                                                              </div>
                                                                               <!--  <div id="prevAndNextDiv">
@@ -4344,9 +4406,9 @@
                                                                                     </div></td></tr></tbody></table>
                                                                                 </div>-->
                                                                                 <div id="newsCommentDiv"><table class="pdCommentSwitchTable fk-pdcomment-switch-table" style="width:100%" cellspacing="0" cellpadding="0"><tbody><tr>
-                                                                                </tr></tbody></table>
-                                                                                </div></div>
-                                                                        </td>
+                                                                                </tr></tbody>
+                                                                                </table>
+                                                                                </div>
                                                                         <td class="formMiddleRight formMiddleRight12"></td>
                                                                     </tr></tbody></table>
                                                                     <table class="formBottom formBottom12" cellspacing="0" cellpadding="0"><tbody><tr><td class="left left12"></td><td class="center center12"></td><td class="right right12"></td></tr></tbody></table>
@@ -4507,8 +4569,6 @@
 
 
 <script type="text/javascript" src="../js/index.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/jquery.leanModal.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/login_up.js"></script>
 
 <script type="text/javascript">
 
@@ -4521,19 +4581,6 @@
 
 </script>
 
-<!--
-<div class='siteAdvertisement_box' id='sitePopVister' style='height:172px; overflow:hidden;'>
-    <div class='siteAdvertisement_Inner'>		<div class='siteAdvertisement_title'>
-        <a class='reportUrl' href='http://www.faisco.com/ts.html?t=3&a=mq11837910'  target='_blank' >举报</a>
-        <a class='closeImg' href='javascript:void(0)'></a>
-    </div>
-        <a class='siteAdvertisement_adImg' target='_blank' href='http://jz.faisco.com/?_ta=4' onclick='Site.logDog(200004,1)'>
-            <img src='http://jz.faisys.com/image/pro/20151101/faisco_visitor.jpg' width='125' height='125' alt='轻松建网站' />
-        </a>
-    </div>
-    <a  class='freeJZ'  href='http://jz.faisco.com/?_ta=4'  target='_blank'><span>免费建站</span></a>
-</div>
--->
 <script type='text/javascript'>
 
 

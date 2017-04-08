@@ -1,6 +1,15 @@
 /**
  * Created by Administrator on 2017/3/31.
  */
+$(function() {
+    //  $('.webHeaderTable').load('header.html');
+    $('#webFooterTable').load('footer.html');
+   $('#signupmodal').load('signup_modal.html');
+  // $('#loginmodal').load('login_modal.html');
+    //  $('#webHeaderTable').load('header.html');
+    $('#signup_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal",anther:"#loginmodal"});
+    $('#login_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal",anther:"#signupmodal"});
+});
 function checkSignUpInfo() {
 
     var email = $("#memberSignupAccount").val();
@@ -24,7 +33,7 @@ function checkSignUpInfo() {
         alert("姓名不能为空");
         return false;
     }
-    if (phone == null || phone == "" || phone.length != 11) {
+    if(!(/^1[34578]\d{9}$/.test(phone))){
         alert("请填写正确的手机号");
         return false;
     }
@@ -49,20 +58,11 @@ function submitForm() {
             dataType: 'text',
             data: $("#memberSignupForm").serialize(),
             success: function (data) {
-                var data = eval("(" + data + ")");
-                var result = data.STATUS;
-                var reason = data.REASON;
-                if (result == "success") {
-                    //$.show_warning("提示", "操作成功");
-                   // close_modal("#loginmodal");
+
+                dealAjaxResult(data, function(r) {
                     $(".hidemodal").click();
-                  //  $("#loginmodal").hide();
                     alert("注册成功");
-                  //  window.location.href = "index.html";
-                } else if (result == "failed") {
-                    // $.show_alert("错误",reason);
-                    alert(reason);
-                }
+                });
             }
         };
         $.ajax(options);
@@ -98,7 +98,7 @@ function validateEmail(val) {
     }
     return true;
 }
-function login(action,account,password)
+function login(action,account,password,sendredirectURL)
 {
     if(validateEmail($(account).val()))
     {
@@ -109,16 +109,9 @@ function login(action,account,password)
                     account:$(account).val(),
                     password:$(password).val(),
                 }, function(result) {
-
-                    var data = eval("(" + result + ")");
-                    var result = data.STATUS;
-                    var reason = data.REASON;
-                    if (result == "success") {
-                        window.location.href = "index.html";
-                    } else if (result == "failed") {
-                        // $.show_alert("错误",reason);
-                        alert(reason);
-                    }
+                    dealAjaxResult(result, function(r) {
+                        window.location.href = sendredirectURL;
+                    });
                 }
             );
         }
@@ -129,11 +122,44 @@ function login(action,account,password)
     }
 }
 function onLogout() {
-	  $.ajax({
-          url : "member_logout.action",
-          type : "post",
-          success : function(r) {
-              window.location.href = "index.html";
-          }
-      });
+            $.ajax({
+                url : "member_logout.action",
+                type : "post",
+                success : function(result) {
+                    dealAjaxResult(result, function(r) {
+                        window.location.href = "index.html";
+                    });
+
+                }
+            });
+}
+function attendTrain(trainItemId)
+{
+    $.ajax({
+        url : "member_attendTrain.action?trainItemId="+trainItemId,
+        type : "post",
+        success : function(result) {
+            dealAjaxResult(result, function(r) {
+              //  window.location.href = "index.html";
+                alert("报名成功");
+            });
+
+        }
+    });
+}
+
+function dealAjaxResult(data, okFun) {
+   var data =eval("(" + data + ")");
+    var result = data.STATUS;
+    if (result == "timeout") {
+       // $.relogin();
+       // alert("sign in");
+        $('#login_modaltrigger').click();
+    }
+   else if (result == "success") {
+        okFun(result);
+    } else if (result == "failed") {
+        var reason = data.REASON;
+        alert(reason);
+    }
 }

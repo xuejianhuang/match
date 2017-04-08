@@ -1,0 +1,90 @@
+<script type="text/javascript">
+member_search = function()
+{
+	
+	$('#dg_member').datagrid('reload', {
+		name: $("#member_name").val(),
+		account : $('#member_account').val()
+	});
+};
+</script>
+<div class="easyui-layout" data-options="fit : true,border : false">
+
+	<div
+		data-options="region:'north',title:'查询条件',border:false,iconCls:'icon-columns'"
+		style="height: 80px; background: #f4f4f4;">
+		 &nbsp;
+		<div style="padding: 3px">
+			账  号：<input id="member_account" name="account">	&nbsp;&nbsp;
+		
+		          姓 名： <input id="member_name"  name="name" /> &nbsp;&nbsp;
+		         
+		
+			<input type="button" value="查询" onclick="member_search()">
+		</div>
+	</div>
+
+	<div data-options="region:'center',border:false">
+		<table id="dg_member" class="easyui-datagrid" title="操作员管理"
+			data-options="url:'member_getMemberByPage.action',
+                                idField : 'id',
+			                     fit : true,
+			                    striped:true,
+			                fitColumns : true,
+			                 singleSelect : false,
+			                 rownumbers : true,
+			                pagination : true,
+			                  pageSize : 10,
+			                 pageList : [ 10, 20, 30, 40, 50 ],
+                                toolbar:[{
+                                    text:'添加',
+                                    iconCls:'icon-add',
+                                    handler:function(){
+                                    add('member/member_add.html','添加操作员','300','400','member_addMember.action','dg_member')
+                                    }},'-',
+                                    {
+                                    text:'修改',
+                                    iconCls:'icon-edit',
+                                    handler:function()
+                                    {
+                                      edit('member/member_edit.html','修改操作员','300','600','member_editMember.action','dg_member')
+                                    }},'-',
+                                    {
+                                    text:'删除',
+                                    iconCls:'icon-remove',
+                                    handler:function()
+                                    {
+                                      del('member_deleteMember.action','dg_member')
+                                    }}]">
+			<thead>
+				<tr>
+					<th data-options="field:'ck',checkbox:true">
+					</th>
+					<th data-options="field:'account',align:'center',width:20">
+						账号
+					</th>
+					
+					<th data-options="field:'name',align:'center',width:20" >
+						姓名
+					</th>
+					<th data-options="field:'phone',align:'center',width:20" >
+						电话
+					</th>
+					<th data-options="field:'isJxufe',align:'center',width:10" formatter="formatterIsJxufe">
+						本校人员
+					</th>
+					<th data-options="field:'profession',align:'center',width:10" formatter="formatterProfession">
+						身份
+					</th>
+					<th data-options="field:'signupTime',align:'center',width:20" formatter="formatterstringdate">
+						注册时间
+					</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	
+	 
+	 
+	
+</div>

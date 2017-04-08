@@ -1,9 +1,11 @@
 package cn.jxufe.emlab.match.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.hibernate.Hibernate;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import cn.jxufe.emlab.match.poi.ExcelUtil;
+import cn.jxufe.emlab.match.pojo.Member;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -87,7 +89,18 @@ public abstract class BaseAction extends ActionSupport
 		mapper.getSerializationConfig().setDateFormat(format);
 		mapper.writeValue(writer, o);
 	}
-
+	protected  void exportExcel(ExcelUtil util,List list,String fileName) throws IOException
+	{
+		if(null!=util&&list!=null)
+		{
+		HttpServletResponse response=getResponse();
+		OutputStream os=response.getOutputStream();
+		response.reset();// 清空输出流        
+	    response.setHeader("Content-disposition", "attachment; filename="+ new String(fileName.getBytes("GB2312"),"ISO8859-1"));   // 设定输出文件头        
+	    response.setContentType("application/msexcel");// 定义输出类型   
+	     util.exportExcel(list, fileName, 65536, os);// 导出
+		}
+	}
 	protected void jsonViewIE(Object o) throws IOException
 	{
 		getResponse().setContentType("text/html;charset=utf-8");

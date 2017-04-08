@@ -145,6 +145,8 @@ public class OperatorService extends BaseDao<Operator> implements
 		operator.setId(id);
 		if(!checkAccountWhetherExist(operator.getAccount(),id))
 		{
+			String password=operator.getPassword().toString();
+			operator.setPassword(Encrypt.encryptPassword(password));
 		   saveOrUpdate(operator);
 	       writeLog(oper, "修改", "操作员信息",operator);	
 	       return true;

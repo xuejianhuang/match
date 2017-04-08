@@ -1,0 +1,625 @@
+.mCenter.fk-orange .mCenterLeft .mCenterLeftPanelItem .item .g_selected {
+    background: #f8f8f8 none repeat scroll 0 0;
+    color: #ff6537;
+}
+.mCenter {
+    height: 500px;
+    width: 100%;
+}
+.mCenter .mCenterLeft {
+    height: 100%;
+    vertical-align: top;
+    width: 180px;
+}
+.mCenter .mCenterNewLeft {
+    border: 1px solid #eee;
+}
+.mCenter .mCenterNewRight .g_border {
+    border-color: #eee;
+}
+.mCenter .mCenterLeft .mCenterLeftPanelTop {
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    width: 100%;
+}
+.mCenter .mCenterLeft .mCenterLeftPanelItem ul {
+    float: right;
+    list-style: outside none none;
+    margin: 10px 0 0;
+    padding: 0;
+    width: 100%;
+}
+.mCenter .mCenterLeft .mCenterLeftPanelItem .item {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+}
+.mCenter .mCenterLeft .mCenterLeftPanelItem .item span {
+    cursor: pointer;
+    display: block;
+    text-align: center;
+}
+.mCenter .mCenterLeft .mCenterLeftPanelItem .item.selected span {
+    font-weight: bold;
+}
+.mCenter .mCenterRight {
+    padding: 0 10px;
+    vertical-align: top;
+}
+.mCenter .mCenterRight .mCenterTitle {
+    border-left: 3px none;
+    border-right: 3px none;
+    border-top: 3px none;
+    border-width: 3px;
+    font-size: 14px;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 18px;
+    padding-left: 14px;
+}
+.mCenter .memberCenterMsg {
+    line-height: 26px;
+    margin: 0 50px;
+    text-align: center;
+    width: auto;
+}
+.mCenter .noCollIcon {
+    background: rgba(0, 0, 0, 0) url("/image/ss.png") no-repeat scroll 0 0;
+    height: 70px;
+    left: 233px;
+    position: relative;
+    top: 118px;
+    width: 70px;
+}
+.mCenter .noCollTip {
+    color: #b5b5b5;
+    font-family: 微软雅黑;
+    font-size: 18px;
+    left: 327px;
+    position: relative;
+    top: 80px;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel li {
+    display: inline-block;
+    height: 200px;
+    margin: 0 22px 30px;
+    vertical-align: top;
+    width: 140px;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pdImg {
+    height: 160px;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pdImg a {
+    display: inline-block;
+    line-height: 160px;
+    position: relative;
+    vertical-align: bottom;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pdImg img {
+    max-height: 160px;
+    max-width: 140px;
+    vertical-align: bottom;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pdName {
+    color: #333;
+    margin: 14px 0 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pdPrice {
+    display: inline-block;
+    width: 100%;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pdPrice div {
+    display: inline-block;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pdPrice .mallPrice {
+    color: #f40;
+    margin-right: 8px;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pdPrice .mallMarketPrice {
+    color: #999;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pdImg .delColl {
+    bottom: 0;
+    display: none;
+    height: 24px;
+    position: absolute;
+    right: 0;
+    width: 27px;
+    z-index: 9;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pdImg .delCollBg {
+    background-color: #000;
+    height: 100%;
+    opacity: 0.4;
+    width: 100%;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pdImg .delCollIcon {
+    background: rgba(0, 0, 0, 0) url("/image/delete.png") no-repeat scroll 0 0;
+    height: 100%;
+    left: 7px;
+    position: relative;
+    top: -20px;
+    width: 100%;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pagination {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.mCenter .memberCollectionPanel.memberCollectionOldPanel .pagination a {
+    cursor: pointer;
+    padding: 3px 5px;
+}
+.mCenter .memberCollectionNewPanel li {
+    border: 1px solid #eee;
+    font-size: 14px;
+    line-height: 60px;
+    list-style: outside none none;
+    margin-bottom: 20px;
+    overflow: hidden;
+    padding: 15px;
+    position: relative;
+}
+.mCenter .memberCollectionNewPanel .pagination {
+    font-size: 14px;
+}
+.mCenter .memberCollectionNewPanel .collectionList {
+    padding-top: 30px;
+}
+.mCenter .memberCollectionNewPanel .pdImg, .mCenter .memberCollectionNewPanel .pdName, .mCenter .memberCollectionNewPanel .pdPrice {
+    display: inline-block;
+    float: left;
+}
+.mCenter .memberCollectionNewPanel .pdImg {
+    margin-right: 25px;
+}
+.mCenter .memberCollectionNewPanel .pdName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 33%;
+}
+.mCenter .memberCollectionNewPanel .pdImg {
+    display: inline-block;
+    height: 60px;
+    width: 55px;
+}
+.mCenter .memberCollectionNewPanel .pdImg a {
+    border: 1px solid #eee;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+}
+.mCenter .memberCollectionNewPanel .pdImg img {
+    max-height: 100%;
+    max-width: 100%;
+    vertical-align: middle;
+}
+.mCenter .memberCollectionNewPanel .pdPrice {
+    margin-left: 18%;
+}
+.mCenterNew .mallPrice {
+    color: #ff6537;
+    display: inline-block;
+    font-weight: normal;
+}
+.mCenterNew .pdPrice .mallPrice0 {
+    color: #e4393c;
+}
+.mCenterNew .pdPrice .mallPrice1 {
+    color: #ed3da1;
+}
+.mCenterNew .pdPrice .mallPrice2 {
+    color: #c40000;
+}
+.mCenterNew .pdPrice .mallPrice3 {
+    color: #ff6537;
+}
+.mCenterNew .pdPrice .mallPrice4 {
+    color: #ffc001;
+}
+.mCenterNew .pdPrice .mallPrice5 {
+    color: #4ab344;
+}
+.mCenterNew .pdPrice .mallPrice6 {
+    color: #02b2b5;
+}
+.mCenterNew .pdPrice .mallPrice7 {
+    color: #3083eb;
+}
+.mCenterNew .pdPrice .mallPrice8 {
+    color: #1e50ae;
+}
+.mCenterNew .pdPrice .mallPrice9 {
+    color: #00a0e9;
+}
+.mCenterNew .pdPrice .mallPrice10 {
+    color: #8b0eea;
+}
+.mCenterNew .pdPrice .mallPrice11 {
+    color: #2b2b2b;
+}
+.mCenter .memberCollectionNewPanel .pdPrice .mallMarketPrice {
+    color: #999;
+    display: inline-block;
+    margin-left: 20px;
+}
+.mCenter .memberCollectionNewPanel .pdImg .delColl {
+    background: rgba(0, 0, 0, 0) url("/image/v2/vbg01.png?v=201703271741") no-repeat scroll 0 -377px;
+    cursor: pointer;
+    height: 22px;
+    margin-top: -10px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    width: 22px;
+    z-index: 9;
+}
+.mCenter .memberCouponPanel .couponList {
+    color: #636363;
+    padding: 0 10px;
+}
+.mCenter .memberCouponPanel .coupon-tab {
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 20px;
+    padding: 10px;
+    position: relative;
+}
+.mCenter .memberCouponPanel .coupon-tab em {
+    border-color: transparent;
+    border-style: solid;
+    border-width: 6px;
+    bottom: -12px;
+    display: block;
+    font-size: 0;
+    left: 50%;
+    line-height: 0;
+    margin-left: -6px;
+    position: absolute;
+}
+.mCenter .coupon-warp {
+    display: inline-block;
+    margin: 20px 10px 0 0;
+}
+.mCenter .coupon {
+    height: 131px;
+}
+.mCenter .coupon .coupon-content {
+    font-weight: normal;
+    padding: 0 8px;
+    width: 208px;
+}
+.mCenter .coupon-content div {
+    line-height: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    white-space: nowrap;
+    width: 100%;
+}
+.mCenter .coupon .couponSavePrice {
+    font-weight: bold;
+    line-height: 75px;
+    position: relative;
+    text-align: left;
+    width: 100%;
+}
+.mCenter .coupon .coupon-watermark {
+    border: 8px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    font-family: Microsoft YaHei;
+    font-size: 120px;
+    height: 174px;
+    opacity: 0.1;
+    overflow: hidden;
+    position: absolute;
+    right: -40px;
+    text-align: center;
+    top: -40px;
+    width: 174px;
+}
+.mCenter .coupon .coupon-red-left {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll 0 0;
+}
+.mCenter .coupon .coupon-red-right {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -11px 0;
+}
+.mCenter .coupon .coupon-orange-left {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -22px 0;
+}
+.mCenter .coupon .coupon-orange-right {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -33px 0;
+}
+.mCenter .coupon .coupon-yellow-left {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -44px 0;
+}
+.mCenter .coupon .coupon-yellow-right {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -55px 0;
+}
+.mCenter .coupon .coupon-green-left {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -66px 0;
+}
+.mCenter .coupon .coupon-green-right {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -77px 0;
+}
+.mCenter .coupon .coupon-blue-left {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -88px 0;
+}
+.mCenter .coupon .coupon-blue-right {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -99px 0;
+}
+.mCenter .coupon .coupon-pink-left {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -109px 0;
+}
+.mCenter .coupon .coupon-pink-right {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -121px 0;
+}
+.mCenter .coupon .coupon-purple-left {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -132px 0;
+}
+.mCenter .coupon .coupon-purple-right {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -143px 0;
+}
+.mCenter .coupon .coupon-gray-left {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -154px 0;
+}
+.mCenter .coupon .coupon-gray-right {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -165px 0;
+}
+.mCenter .coupon-delete {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/delete.png?v=201602221737") no-repeat scroll 0 0;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    position: absolute;
+    right: 3px;
+    top: 8px;
+    width: 20px;
+}
+.mCenter .coupon-delete:hover {
+    background: rgba(0, 0, 0, 0) url("/image/salePromotion/deleteSaleHover.png") no-repeat scroll 0 0;
+}
+.mCenter .editLayer {
+    bottom: 0;
+    display: block;
+    height: 29px;
+    position: absolute;
+    right: -32px;
+    width: 32px;
+}
+.mCenter .barlayer {
+    background: rgba(0, 0, 0, 0) url("/image/coupon/cp-del-bg.png?v=201602221737") no-repeat scroll 0 0;
+    height: 100%;
+    opacity: 0.2;
+    width: 100%;
+}
+.mCenter .fk-coupon-expired {
+    background: rgba(0, 0, 0, 0) url("/image/expired.png?v=201601251737") no-repeat scroll 0 0;
+    height: 59px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 61px;
+}
+.mBulletin_Area {
+    background-color: #f0f0f0;
+    margin-bottom: 10px;
+    padding-left: 14px;
+}
+.mBulletin_Area .mBulletin_title {
+    background: rgba(0, 0, 0, 0) url("/image/site/noticeIco1.gif") no-repeat scroll 0 center;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 25px;
+    padding-left: 20px;
+}
+.mBulletin_Area .mBulletin_content {
+    line-height: 20px;
+    max-width: 744px;
+}
+.mCenterNewRight .mBulletin_Area .mBulletin_title {
+    display: inline;
+}
+.mCenterNewRight .mBulletin_Area .mBulletin_content {
+    display: inline;
+}
+.memberCard {
+    background: rgba(0, 0, 0, 0) url("/image/site/3.png?v=201403041736") no-repeat scroll center center;
+    color: white;
+    display: inline-block;
+    height: 131px;
+    margin: 10px auto 20px;
+    overflow: hidden;
+    text-shadow: 0 0 3px #744c10;
+    width: 100%;
+}
+.memberHeadPic {
+    border: 3px solid #e6e6e6;
+    border-radius: 50%;
+    display: inline-block;
+    float: left;
+    height: 100px;
+    margin: 20px 20px 0;
+    overflow: hidden;
+    position: relative;
+    width: 100px;
+}
+.memberHeadPic img {
+    height: 100px;
+    position: relative;
+}
+.memberHeadPic .hoverTip {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    top: 70px;
+    width: 100%;
+}
+.memberHeadPic .hoverTip .picTipBg {
+    background-color: #000;
+    height: 30px;
+    opacity: 0.3;
+    position: relative;
+    width: 100%;
+}
+.memberHeadPic .hoverTip .picTip {
+    color: #fff;
+    line-height: 30px;
+    position: relative;
+    text-align: center;
+    top: -30px;
+}
+.memberBasicInfo {
+    display: inline-block;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    height: 100px;
+    margin-top: 30px;
+    position: relative;
+    vertical-align: top;
+    width: 400px;
+}
+.memberBasicInfo .m_bi_line {
+    margin: 8px 0;
+}
+.memberBasicInfo .user_level_name {
+    padding-left: 20px;
+}
+.memberSplit {
+    border-top: 1px solid #e2e2e2;
+    height: 1px;
+    margin: 0 auto 13px;
+    width: 535px;
+}
+.memberProfile {
+    border: 1px solid #e9e9e9;
+    margin: 0 20px 20px;
+    padding: 50px 0;
+    text-align: center;
+}
+.memberProfile .memberProfileItem {
+    height: 35px;
+    line-height: 35px;
+    margin-bottom: 20px;
+}
+.memberProfile .memberProfileItem tr {
+    line-height: 35px;
+}
+.memberProfile .memberProfileItem .itemCtrl input {
+    border-color: #dadada;
+    color: #8c8c8c;
+    font-family: 微软雅黑;
+    font-size: 12px;
+    height: 35px;
+    line-height: 35px;
+    padding: 0 5px;
+    width: 204px;
+}
+.memberProfile .memberProfileItem .itemCtrl select {
+    border-color: #dadada;
+    color: #8c8c8c;
+    font-family: 微软雅黑;
+    font-size: 12px;
+    height: 35px;
+    line-height: 35px;
+    width: 217px;
+}
+.memberProfile .memberProfileItem .itemCtrl option {
+    height: 35px;
+    line-height: 35px;
+    width: 200px;
+}
+.memberProfile .memberProfileItem .itemName {
+    float: left;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    height: 35px;
+    line-height: 35px;
+    text-align: right;
+    width: 33%;
+}
+.memberProfile .memberProfileItem .itemCtrl {
+    float: left;
+    padding: 0;
+    text-align: left;
+    width: 65%;
+}
+.memberProfile .memberProfileItem .itemCtrl a {
+    font-family: "微软雅黑";
+}
+.memberProfile .memberProfileItem .itemCtrl .g_stress {
+    color: #f7597a;
+    font-family: "微软雅黑";
+    font-size: 13px;
+    margin-left: 8px;
+}
+.memberProfile .memberProfileItem .itemEdit {
+    border: 1px solid #e9e9e9;
+    height: 23px;
+    line-height: 23px;
+    outline-color: #dedede;
+    padding: 0;
+    width: 183px;
+}
+.memberProfile .memberProfileItem .itemDropdown {
+    border: 1px solid #e9e9e9;
+    height: 23px;
+    line-height: 23px;
+    outline-color: #dedede;
+    padding: 0;
+    width: 183px;
+}
+.memberProfile .itemPwd {
+    display: none;
+}
+.memberProfile .memberProfileButtonItem {
+    height: 37px;
+    line-height: 37px;
+    margin-bottom: 20px;
+    padding-left: 33%;
+}
+.memberProfile .memberProfileButtonItem .memberProfileBtn {
+    background: rgba(0, 0, 0, 0) url("../image/mc_button.png") no-repeat scroll center center;
+    color: #747474;
+    cursor: pointer;
+    float: left;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    height: 37px;
+    line-height: 37px;
+    margin: 0 auto;
+    text-align: center;
+    width: 204px;
+}
+.memberProfile .memberProfileItem .acctOnlyOnceTip {
+    color: #999;
+    font-size: 12px;
+    height: 16px;
+    line-height: 16px;
+}
+.memberProfile .memberProfileItem.canReset {
+    height: 50px;
+}
+.memberProfileMsg {
+    background: #fffdef none repeat scroll 0 0;
+    border-spacing: 0;
+    color: #666;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    width: 100%;
+}
+.memberProfileMsg .msgItem {
+    width: 40%;
+}
+.memberProfileMsg .msgText {
+    text-align: left;
+    width: 60%;
+}

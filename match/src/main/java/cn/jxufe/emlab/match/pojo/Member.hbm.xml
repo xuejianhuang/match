@@ -40,5 +40,9 @@
         <property name="status" type="java.lang.Integer">
             <column name="status" />
         </property>
+        <set name="trainItems" table="T_trainMember" cascade="save-update" >
+        <key column="memberId"></key>
+        <many-to-many class="cn.jxufe.emlab.match.pojo.TrainItem" column="trainItemId"></many-to-many>
+        </set>
     </class>
 </hibernate-mapping>

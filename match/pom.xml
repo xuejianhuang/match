@@ -310,9 +310,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.alibaba.druid</groupId>
-			<artifactId>druid-wrapper</artifactId>
-			<version>0.2.9</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.29</version>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -337,7 +337,13 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		
+
+		<!-- excel处理模块 -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>match_poi</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 

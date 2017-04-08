@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.jxufe.emlab.match.poi.ExcelUtil;
 import cn.jxufe.emlab.match.pojo.Member;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.service.IMemberService;
@@ -33,6 +34,7 @@ public class MemberAction extends BaseAction {
 	private String id;
 	private int page;
 	private int rows;
+	private String trainItemId;
 
 	@SuppressWarnings("rawtypes")
 	public String logout() throws IOException {
@@ -47,7 +49,7 @@ public class MemberAction extends BaseAction {
 	@SuppressWarnings("rawtypes")
 	public String changePassword() throws IOException {
 		Map jsondata = new HashMap();
-		Member member= (Member) getSession().get(KeyEnum.MEMBER);
+		Member member = (Member) getSession().get(KeyEnum.MEMBER);
 		oldPassword = Encrypt.encryptPassword(oldPassword);
 		StatusEnum status = null;
 		String reason = null;
@@ -98,7 +100,6 @@ public class MemberAction extends BaseAction {
 
 	}
 
-
 	public String forgetPassword() throws Exception {
 
 		return null;
@@ -108,20 +109,41 @@ public class MemberAction extends BaseAction {
 		Map session = this.getSession();
 		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
 		Map jsondata = new HashMap();
-		memberService.getMemberByPage(jsondata, page, rows, account,"", operator);
+		memberService.getMemberByPage(jsondata, page, rows, account, name,
+				operator);
 		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
 		jsonViewIE(jsondata);
+		return null;
+	}
+	
+	public String getTrainMemberList() throws IOException {
+		Map session = this.getSession();
+		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
+		Map jsondata = new HashMap();
+		List<Member> list=memberService.getTrainMemberList(account, name, trainItemId, operator);
+		jsondata.put("rows",list);
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	
+	public String exportExcel() throws IOException {
+		Map session = this.getSession();
+		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
+		List<Member> list=memberService.getTrainMemberList(account, name, trainItemId, operator);
+		ExcelUtil<Member> util=new ExcelUtil<Member>(Member.class);
+		exportExcel(util,list, "培训报名名单");
 		return null;
 	}
 
 	public String signup() throws IOException {
 		Map session = getSession();
 		Map jsondata = new HashMap();
-		
-		String sessionCaptcha=(String) getSession().get(KeyEnum.VALIDATE_EMAIL_CODE_KEY);
-		if(null!=captcha&&captcha.equals(sessionCaptcha))
-		{
-		member.setSignupTime(new Timestamp(System.currentTimeMillis()));
+
+		String sessionCaptcha = (String) getSession().get(
+				KeyEnum.VALIDATE_EMAIL_CODE_KEY);
+		if (null != captcha && captcha.equals(sessionCaptcha)) {
+			member.setSignupTime(new Timestamp(System.currentTimeMillis()));
 			int flag = memberService.txSave(member);
 			if (flag == 1)
 				jsondata.put(KeyEnum.STATUS, StatusEnum.success);
@@ -129,10 +151,25 @@ public class MemberAction extends BaseAction {
 				jsondata.put(KeyEnum.STATUS, StatusEnum.failed);
 				jsondata.put(KeyEnum.REASON, "操作失败，该操作员已存在！请重新输入！");
 			}
-		jsonViewIE(jsondata);
+			jsonViewIE(jsondata);
 		}
 		return null;
 
+	}
+
+	public String addMember() throws IOException {
+		Map session = getSession();
+		Map jsondata = new HashMap();
+		member.setSignupTime(new Timestamp(System.currentTimeMillis()));
+		int flag = memberService.txSave(member);
+		if (flag == 1)
+			jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		else {
+			jsondata.put(KeyEnum.STATUS, StatusEnum.failed);
+			jsondata.put(KeyEnum.REASON, "操作失败，该操作员已存在！请重新输入！");
+		}
+		jsonViewIE(jsondata);
+		return null;
 	}
 
 	public String deleteMember() throws IOException {
@@ -154,20 +191,27 @@ public class MemberAction extends BaseAction {
 		Map jsondata = new HashMap();
 		StatusEnum status = StatusEnum.success;
 		String reason = null;
-			if (null != newPassword && newPassword.length() != 0) {
-				if (newPassword != null && verifyPassword != null
-						&& !newPassword.equals(verifyPassword)) {
-					status = StatusEnum.failed;
-					reason = "新密码两次输入不一致";
-				} else {
-					// status = StatusEnum.success;
-					member.setPassword(newPassword);
-				}
-			}
-			if (!memberService.txUpdate(member, id)) {
-				status = StatusEnum.failed;
-				reason = "账号已存在";
-			}
+		if (!memberService.txUpdate(member, id)) {
+			status = StatusEnum.failed;
+			reason = "账号已存在";
+		}
+
+		jsondata.put(KeyEnum.STATUS, status);
+		jsondata.put(KeyEnum.REASON, reason);
+		jsonViewIE(jsondata);
+		return null;
+	}
+
+	public String attendTrain() throws IOException {
+		Map session = getSession();
+		Map jsondata = new HashMap();
+		Member member = (Member) session.get(KeyEnum.MEMBER);
+		StatusEnum status = StatusEnum.success;
+		String reason = null;
+		if (!memberService.txAttendTrain(member.getId(), trainItemId)) {
+			status = StatusEnum.failed;
+			reason = "你已报名该培训,不要重复报名!";
+		}
 
 		jsondata.put(KeyEnum.STATUS, status);
 		jsondata.put(KeyEnum.REASON, reason);
@@ -190,7 +234,6 @@ public class MemberAction extends BaseAction {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 	public void setMemberService(IMemberService memberService) {
 		this.memberService = memberService;
@@ -220,8 +263,6 @@ public class MemberAction extends BaseAction {
 		this.verifyPassword = verifyPassword;
 	}
 
-
-
 	public String getCaptcha() {
 		return captcha;
 	}
@@ -237,8 +278,6 @@ public class MemberAction extends BaseAction {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	
 
 	/*
 	 * public String[] getIdlist() { return idlist; }
@@ -279,5 +318,12 @@ public class MemberAction extends BaseAction {
 		this.rows = rows;
 	}
 
+	public String getTrainItemId() {
+		return trainItemId;
+	}
+
+	public void setTrainItemId(String trainItemId) {
+		this.trainItemId = trainItemId;
+	}
 
 }

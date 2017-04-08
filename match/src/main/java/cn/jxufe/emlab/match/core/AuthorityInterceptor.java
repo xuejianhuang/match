@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts2.ServletActionContext;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import cn.jxufe.emlab.match.pojo.Member;
@@ -41,7 +42,7 @@ public class AuthorityInterceptor extends AbstractInterceptor {
 		Member member = (Member) session.get(KeyEnum.MEMBER);
 		Map jsondata = new HashMap();
 		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
-		if (operator != null
+		if ((operator != null)
 				|| (member != null && actionName.startsWith("member"))) {
 			return invocation.invoke();
 		} else {
@@ -51,15 +52,11 @@ public class AuthorityInterceptor extends AbstractInterceptor {
 
 			HttpServletResponse response = (HttpServletResponse) ctx
 					.get(org.apache.struts2.StrutsStatics.HTTP_RESPONSE);
-			response.setContentType("application/json;charset=utf-8");
+			response.setContentType("text/html;charset=utf-8");
 			PrintWriter writer = response.getWriter();
 			ObjectMapper mapper = new ObjectMapper();
-			SimpleDateFormat format = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm:ss");
-			// mapper.getSerializationConfig().with(format);
-			mapper.getSerializationConfig().setDateFormat(format);
-			// mapper.getSerializationConfig().setDateFormat(format);
 			mapper.writeValue(writer, jsondata);
+			
 			return null;
 		}
 	}

@@ -8,6 +8,9 @@
         <dependent-module archiveName="match_email-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/match_email/match_email">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="match_poi-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/match_poi/match_poi">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/match/WebRoot/WEB-INF/classes"/>
         <property name="context-root" value="/matchPlatform"/>
     </wb-module>

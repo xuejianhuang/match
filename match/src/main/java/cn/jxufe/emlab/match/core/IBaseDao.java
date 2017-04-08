@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.dao.DataAccessException;
 
 import cn.jxufe.emlab.match.pojo.Operator;
@@ -39,4 +41,6 @@ public interface IBaseDao<T> {
 			final int page, final int pageSize);
 	public void writeLog(Operator operator, String operation,
 			String objectType, T example);
+	
+	public List<T> findByCriteria(Map<String,String> propertyValue);
 }

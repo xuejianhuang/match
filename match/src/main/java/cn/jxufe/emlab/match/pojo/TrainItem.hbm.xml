@@ -46,5 +46,10 @@
         <property name="logo" type="java.lang.String">
             <column name="logo" length="50" />
         </property>
+        <set name="members" table="T_trainMember" cascade="save-update">
+        <key column="trainItemId"></key>
+        <many-to-many class="cn.jxufe.emlab.match.pojo.Member" column="memberId"></many-to-many>
+        </set>
+        
     </class>
 </hibernate-mapping>

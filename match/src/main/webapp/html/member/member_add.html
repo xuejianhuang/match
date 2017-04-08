@@ -1,0 +1,54 @@
+<div style="padding: 15px; overflow: hidden">
+
+	<form id="form_add" method="post">
+		<table class="tableForm" style="width: 100%">
+			<tr>
+				<td>帐号(邮箱)：</td>
+				<td><input id="account" name="member.account" type="email"
+					class="easyui-validatebox"
+					data-options="required:true,validType:'email'" /></td>
+
+			</tr>
+			<tr>
+				<td>姓名：</td>
+				<td><input id="name" name="member.name" type="text"
+					class="easyui-validatebox" data-options="required:true" /></td>
+			</tr>
+
+			<tr>
+				<td>电话：</td>
+				<td><input id="phone" name="member.phone" type="tel"
+					class="easyui-validatebox"
+					data-options="required:true,validType:'phone'" /></td>
+			</tr>
+			<tr>
+				<td>本校： <select id="isJxufe" name="member.isJxufe">
+						<option value="1">是</option>
+						<option value="0">否</option>
+				</select>
+				</td>
+
+				<td>身份： <select id="profession" name="member.profession">
+						<option value="0">学生</option>
+						<option value="1">老师</option>
+						<option value="2">其他</option>
+				</select></td>
+
+			</tr>
+			<tr>
+				<td>密码：</td>
+				<td><input type="password" name="member.password" id="password"
+					class="easyui-validatebox" data-options="required:true" /></td>
+			</tr>
+			<tr>
+				<td>确认密码：</td>
+				<td><input type="password" name="verifyPassword"
+					id="verifyPassword" class="easyui-validatebox"
+					data-options="required:true,validType:'eqPwd[\'#password\']'" /></td>
+			</tr>
+		</table>
+
+
+	</form>
+</div>
+

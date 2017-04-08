@@ -23,9 +23,6 @@
              return path.substring(0,index)+"/small"+path.substring(index,pot)+"_s"+path.substring(pot);
         }
         $(function(){
-          //  $('.webHeaderTable').load('header.html');
-            $('.webFooterTable').load('footer.html');
-            $('#modaltrigger').leanModal({ top: 110, overlay: 0.45, closeButton: ".hidemodal" });
             var baseUrl="/ufinder/";
             $.ajax({
                 url : baseUrl+"/ufinderServlet?cmd=ls&target=%2Fdasaipingtai%2Ffengcai%2Fsmall%2F&_"+Math.random(),
@@ -3200,7 +3197,7 @@
         }
 
         #footer .footerContent {
-            padding-bottom: 30px;
+            padding-bottom: 0px;
         }
 
         #footer div.footerInfo a {
@@ -4002,202 +3999,12 @@
 <body class="g_body g_locale2052 g_cusSiteWidth">
 
 
-<div id="loginmodal" style="display:none;" align="center">
-    <h2 align="center">用户注册</h2 >
-    <form
-            id="memberSignupForm"
-            method="post"
-    >
-        <input type="button" class="hidemodal" hidden="hidden">
+<div id="signupmodal" style="display:none;" align="center">
 
-        <table class="memberSignup jz-memberSignup"
-               cellspacing="1"
-               cellpadding="1">
-            <tbody>
-            <tr>
-                <td class="itemName">
-                    <div class="itemSpace">
-                        <span>帐号(邮箱)：</span>
-                    </div>
-                </td>
-                <td class="itemCtrl">
-                    <div class="itemSpace">
-                        <input class="g_itext itemEdit"
-                               id="memberSignupAccount"
-                               name="member.account"
-                               maxlength="50"
-                               type="text">&nbsp;<font
-                            class="g_stress">*</font>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="itemName">
-                    验证码：
-                </td>
-                <td class="itemCtrl">
-                    <div class="memberSignupCaptcha">
-                        <input class="g_itext itemCaptcha"
-                               id="memberSignupCaptcha"
-                               name="captcha"
-                               maxlength="4"
-                               type="text">
-                        <input type="button"
-                               onclick="getCaptcha(this)"
-                               value="免费获取验证码">
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="itemName">
-                    <div class="itemSpace">
-                        <span>身份：</span>
-                    </div>
-                </td>
-                <td class="itemCtrl">
-                    <div class="itemSpace">
-
-                        <select id="memberSignupProfession"
-                                name="member.profession"
-                        >
-                            <option value="0">
-                                学生
-                            </option>
-                            <option value="1">
-                                老师
-                            </option>
-                            <option value="2">
-                                其他
-                            </option>
-                        </select> &nbsp;<font
-                            class="g_stress">*</font>
-                    </div>
-
-                </td>
-            </tr>
-            <tr>
-                <td class="itemName">
-                    <div class="itemSpace">
-                        <span>是否本校人员：</span>
-                    </div>
-                </td>
-                <td class="itemCtrl">
-                    <div class="itemSpace">
-
-                        <select id="memberSignupIsJxufe"
-                                name="member.isJxufe"
-                        >
-                            <option value="1">
-                                是
-                            </option>
-                            <option value="0">
-                                否
-                            </option>
-                        </select> &nbsp;<font
-                            class="g_stress">*</font>
-                    </div>
-
-                </td>
-            </tr>
-
-            <tr>
-                <td class="itemName">
-                    <div class="itemSpace">
-                        <span>姓名：</span>
-                    </div>
-                </td>
-                <td class="itemCtrl">
-                    <div class="itemSpace">
-                        <input id="memberSignupName"
-                               name="member.name"
-                               maxlength="50"
-                               minlength="1"
-                               placeholder=""
-                               class="g_itext itemEdit userAddItem isCheckUAI"
-                               type="text">&nbsp;<font
-                            class="g_stress">*</font>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="itemName">
-                    <div class="itemSpace">
-                        <span>电话：</span>
-                    </div>
-                </td>
-                <td class="itemCtrl">
-                    <div class="itemSpace">
-                        <input id="memberSignupPhone"
-                               name="member.phone"
-                               maxlength="11"
-                               minlength="11"
-                               placeholder=""
-                               class="g_itext itemEdit userAddItem"
-                               type="text">
-                        <font
-                                class="g_stress">*</font>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="itemName">
-                    <div class="itemSpace">
-                        <span>密码：</span>
-                    </div>
-                </td>
-                <td class="itemCtrl">
-                    <div class="itemSpace">
-                        <input class="g_itext itemEdit"
-                               id="memberSignupPassword"
-                               name="member.password"
-                               maxlength="20"
-                               minlength="6"
-                               type="password">&nbsp;<font
-                            class="g_stress">*</font>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="itemName">
-                    <div class="itemSpace">
-                        <span>确认密码：</span>
-                    </div>
-                </td>
-                <td class="itemCtrl">
-                    <div class="itemSpace">
-                        <input class="g_itext itemEdit"
-                               id="memberSignupRepwd"
-                               maxlength="20"
-                               minlength="6"
-                               type="password">&nbsp;<font
-                            class="g_stress">*</font>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="itemName"></td>
-                <td class="itemCtrl">
-                    <input class="memberSignupBtn g_ibutton"
-                           extclass="g_ibutton"
-                           value="注&#12288;册"
-                           type="button"
-                           onclick="submitForm()">&nbsp;&nbsp;&nbsp;
-                    <input class="memberSignupBtn g_ibutton"
-                           extclass="g_ibutton"
-                           value="重&#12288;置"
-                           type="reset">
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </form>
 
 </div>
 
-<div id="memberBarArea" class="memberBarArea g_editPanel">
+<div id="memberBarArea" class="memberBarArea2 g_editPanel" >
 
 </div>
 
@@ -4310,146 +4117,146 @@
         </table>
        <table class="webHeaderTable" cellpadding="0" cellspacing="0" id="webHeaderTable">
            <tr>
-                <td align="center" class="webHeaderTd">
-                    <div id="webHeader" class="webHeader">
-                        <table class='headerTable' cellpadding='0' cellspacing='0'>
-                            <tr>
-                                <td class='headerCusLeft'></td>
-                                <td class='headerCusMiddle' align='center' valign='top'>
-                                    <div class='headerNav'>
-                                        <div id='nav' class='nav nav2 fixedNavPos '>
-                                            <div class='navMainContent'>
-                                                <table class='navTop' cellpadding='0' cellspacing='0'>
-                                                    <tr>
-                                                        <td class='navTopLeft'></td>
-                                                        <td class='navTopCenter'></td>
-                                                        <td class='navTopRight'></td>
-                                                    </tr>
-                                                </table>
-                                                <table class='navContent' cellpadding='0' cellspacing='0'>
-                                                    <tr>
-                                                        <td class='navLeft'></td>
-                                                        <td class='navCenterContent' id='navCenterContent' valign='top'
-                                                            align='left'>
-                                                            <div id='navCenter' class='navCenter' style='width:682px;'>
-                                                                <div class='itemPrev'></div>
-                                                                <div class='itemContainer'>
-                                                                    <table title='' class='item itemCol2 itemIndex1'
-                                                                           cellpadding='0' cellspacing='0' colId='2'
-                                                                           id='nav2' onclick='window.open("index.html", "_self")'
-                                                                           _jump='window.open("index.html", "_self")'>
-                                                                        <tr>
-                                                                            <td class='itemLeft'></td>
-                                                                            <td class='itemCenter'><a hidefocus='true'
-                                                                                                      style='outline:none;'
-                                                                                                      href='index.html'
-                                                                                                      target='_self'
-                                                                                                      onclick='return false;'><span
-                                                                                    class='itemName0'>首页</span></a></td>
-                                                                            <td class='itemRight'></td>
-                                                                        </tr>
-                                                                    </table>
-                                                                    <div class='itemSep'></div>
-                                                                    <table title='' class='item itemCol102 itemIndex2'
-                                                                           cellpadding='0' cellspacing='0' colId='102'
-                                                                           id='nav102'
-                                                                           onclick='window.open("nr.html?type=0&page=0", "_self")'
-                                                                           _jump='window.open("nr.html?type=0&page=0", "_self")'>
-                                                                        <tr>
-                                                                            <td class='itemLeft'></td>
-                                                                            <td class='itemCenter'><a hidefocus='true'
-                                                                                                      style='outline:none;'
-                                                                                                      href='nr.html?type=0&page=0'
-                                                                                                      target='_self'
-                                                                                                      onclick='return false;'><span
-                                                                                    class='itemName0'>大赛动态</span></a>
-                                                                            </td>
-                                                                            <td class='itemRight'></td>
-                                                                        </tr>
-                                                                    </table>
-                                                                    <div class='itemSep'></div>
-                                                                    <table title='' class='item itemCol112 itemIndex3'
-                                                                           cellpadding='0' cellspacing='0' colId='112'
-                                                                           id='nav112'
-                                                                           onclick='window.open("/col.jsp?id=112", "_self")'
-                                                                           _jump='window.open("/col.jsp?id=112", "_self")'>
-                                                                        <tr>
-                                                                            <td class='itemLeft'></td>
-                                                                            <td class='itemCenter'><a hidefocus='true'
-                                                                                                      style='outline:none;'
-                                                                                                      href='/col.jsp?id=112'
-                                                                                                      target='_self'
-                                                                                                      onclick='return false;'><span
-                                                                                    class='itemName0'>大赛培训</span></a>
-                                                                            </td>
-                                                                            <td class='itemRight'></td>
-                                                                        </tr>
-                                                                    </table>
-                                                                    <div class='itemSep'></div>
-                                                                    <table title='' class='item itemCol107 itemIndex4'
-                                                                           cellpadding='0' cellspacing='0' colId='107'
-                                                                           id='nav107'
-                                                                           onclick='window.open("/col.jsp?id=107", "_self")'
-                                                                           _jump='window.open("/col.jsp?id=107", "_self")'>
-                                                                        <tr>
-                                                                            <td class='itemLeft'></td>
-                                                                            <td class='itemCenter'><a hidefocus='true'
-                                                                                                      style='outline:none;'
-                                                                                                      href='/col.jsp?id=107'
-                                                                                                      target='_self'
-                                                                                                      onclick='return false;'><span
-                                                                                    class='itemName0'>报名入口</span></a>
-                                                                            </td>
-                                                                            <td class='itemRight'></td>
-                                                                        </tr>
-                                                                    </table>
-                                                                    <div class='itemSep'></div>
-                                                                    <table title='' class='item itemCol6 itemIndex5'
-                                                                           cellpadding='0' cellspacing='0' colId='6'
-                                                                           id='nav6'
-                                                                           onclick='window.open("contact.html", "_self")'
-                                                                           _jump='window.open("contact.html", "_self")'>
-                                                                        <tr>
-                                                                            <td class='itemLeft'></td>
-                                                                            <td class='itemCenter'><a hidefocus='true'
-                                                                                                      style='outline:none;'
-                                                                                                      href='contact.html'
-                                                                                                      target='_self'
-                                                                                                      onclick='return false;'><span
-                                                                                    class='itemName0'>联系我们</span></a>
-                                                                            </td>
-                                                                            <td class='itemRight'></td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </div>
-                                                                <div class='itemNext'></div>
-                                                            </div>
-                                                        </td>
-                                                        <td class='navRight'></td>
-                                                    </tr>
-                                                </table>
-                                                <table class='navBottom' cellpadding='0' cellspacing='0'>
-                                                    <tr>
-                                                        <td class='navBottomLeft'></td>
-                                                        <td class='navBottomCenter'></td>
-                                                        <td class='navBottomRight'></td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <a href='/col.jsp?id=108' style='display:none;'>赛事通知</a><a
-                                            href='/col.jsp?id=113' style='display:none;'>培训指南</a><a
-                                            href='/col.jsp?id=115' style='display:none;'>培训平台</a><a
-                                            href='/col.jsp?id=110' style='display:none;'>大赛报名</a><a
-                                            href='/col.jsp?id=111' style='display:none;'>成绩查询</a>
-                                    </div>
-                                </td>
-                                <td class='headerCusRight'></td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
+               <td align="center" class="webHeaderTd">
+                   <div id="webHeader" class="webHeader">
+                       <table class='headerTable' cellpadding='0' cellspacing='0'>
+                           <tr>
+                               <td class='headerCusLeft'></td>
+                               <td class='headerCusMiddle' align='center' valign='top'>
+                                   <div class='headerNav'>
+                                       <div id='nav' class='nav nav2 fixedNavPos '>
+                                           <div class='navMainContent'>
+                                               <table class='navTop' cellpadding='0' cellspacing='0'>
+                                                   <tr>
+                                                       <td class='navTopLeft'></td>
+                                                       <td class='navTopCenter'></td>
+                                                       <td class='navTopRight'></td>
+                                                   </tr>
+                                               </table>
+                                               <table class='navContent' cellpadding='0' cellspacing='0'>
+                                                   <tr>
+                                                       <td class='navLeft'></td>
+                                                       <td class='navCenterContent' id='navCenterContent' valign='top'
+                                                           align='left'>
+                                                           <div id='navCenter' class='navCenter' style='width:682px;'>
+                                                               <div class='itemPrev'></div>
+                                                               <div class='itemContainer'>
+                                                                   <table title='' class='item itemCol2 itemIndex1'
+                                                                          cellpadding='0' cellspacing='0' colId='2'
+                                                                          id='nav2' onclick='window.open("index.html", "_self")'
+                                                                          _jump='window.open("index.html", "_self")'>
+                                                                       <tr>
+                                                                           <td class='itemLeft'></td>
+                                                                           <td class='itemCenter'><a hidefocus='true'
+                                                                                                     style='outline:none;'
+                                                                                                     href='index.html'
+                                                                                                     target='_self'
+                                                                                                     onclick='return false;'><span
+                                                                                   class='itemName0'>首页</span></a></td>
+                                                                           <td class='itemRight'></td>
+                                                                       </tr>
+                                                                   </table>
+                                                                   <div class='itemSep'></div>
+                                                                   <table title='' class='item itemCol102 itemIndex2'
+                                                                          cellpadding='0' cellspacing='0' colId='102'
+                                                                          id='nav102'
+                                                                          onclick='window.open("nr.html?type=0&page=0", "_self")'
+                                                                          _jump='window.open("nr.html?type=0&page=0", "_self")'>
+                                                                       <tr>
+                                                                           <td class='itemLeft'></td>
+                                                                           <td class='itemCenter'><a hidefocus='true'
+                                                                                                     style='outline:none;'
+                                                                                                     href='nr.html?type=0&page=0'
+                                                                                                     target='_self'
+                                                                                                     onclick='return false;'><span
+                                                                                   class='itemName0'>大赛动态</span></a>
+                                                                           </td>
+                                                                           <td class='itemRight'></td>
+                                                                       </tr>
+                                                                   </table>
+                                                                   <div class='itemSep'></div>
+                                                                   <table title='' class='item itemCol112 itemIndex3'
+                                                                          cellpadding='0' cellspacing='0' colId='112'
+                                                                          id='nav112'
+                                                                          onclick='window.open("/col.jsp?id=112", "_self")'
+                                                                          _jump='window.open("/col.jsp?id=112", "_self")'>
+                                                                       <tr>
+                                                                           <td class='itemLeft'></td>
+                                                                           <td class='itemCenter'><a hidefocus='true'
+                                                                                                     style='outline:none;'
+                                                                                                     href='/col.jsp?id=112'
+                                                                                                     target='_self'
+                                                                                                     onclick='return false;'><span
+                                                                                   class='itemName0'>大赛培训</span></a>
+                                                                           </td>
+                                                                           <td class='itemRight'></td>
+                                                                       </tr>
+                                                                   </table>
+                                                                   <div class='itemSep'></div>
+                                                                   <table title='' class='item itemCol107 itemIndex4'
+                                                                          cellpadding='0' cellspacing='0' colId='107'
+                                                                          id='nav107'
+                                                                          onclick='window.open("/col.jsp?id=107", "_self")'
+                                                                          _jump='window.open("/col.jsp?id=107", "_self")'>
+                                                                       <tr>
+                                                                           <td class='itemLeft'></td>
+                                                                           <td class='itemCenter'><a hidefocus='true'
+                                                                                                     style='outline:none;'
+                                                                                                     href='/col.jsp?id=107'
+                                                                                                     target='_self'
+                                                                                                     onclick='return false;'><span
+                                                                                   class='itemName0'>报名入口</span></a>
+                                                                           </td>
+                                                                           <td class='itemRight'></td>
+                                                                       </tr>
+                                                                   </table>
+                                                                   <div class='itemSep'></div>
+                                                                   <table title='' class='item itemCol6 itemIndex5'
+                                                                          cellpadding='0' cellspacing='0' colId='6'
+                                                                          id='nav6'
+                                                                          onclick='window.open("contact.html", "_self")'
+                                                                          _jump='window.open("contact.html", "_self")'>
+                                                                       <tr>
+                                                                           <td class='itemLeft'></td>
+                                                                           <td class='itemCenter'><a hidefocus='true'
+                                                                                                     style='outline:none;'
+                                                                                                     href='contact.html'
+                                                                                                     target='_self'
+                                                                                                     onclick='return false;'><span
+                                                                                   class='itemName0'>联系我们</span></a>
+                                                                           </td>
+                                                                           <td class='itemRight'></td>
+                                                                       </tr>
+                                                                   </table>
+                                                               </div>
+                                                               <div class='itemNext'></div>
+                                                           </div>
+                                                       </td>
+                                                       <td class='navRight'></td>
+                                                   </tr>
+                                               </table>
+                                               <table class='navBottom' cellpadding='0' cellspacing='0'>
+                                                   <tr>
+                                                       <td class='navBottomLeft'></td>
+                                                       <td class='navBottomCenter'></td>
+                                                       <td class='navBottomRight'></td>
+                                                   </tr>
+                                               </table>
+                                           </div>
+                                       </div>
+                                       <a href='/col.jsp?id=108' style='display:none;'>赛事通知</a><a
+                                           href='/col.jsp?id=113' style='display:none;'>培训指南</a><a
+                                           href='/col.jsp?id=115' style='display:none;'>培训平台</a><a
+                                           href='/col.jsp?id=110' style='display:none;'>大赛报名</a><a
+                                           href='/col.jsp?id=111' style='display:none;'>成绩查询</a>
+                                   </div>
+                               </td>
+                               <td class='headerCusRight'></td>
+                           </tr>
+                       </table>
+                   </div>
+               </td>
+           </tr>
         </table>
 
         <table class="webBannerTable J_webBannerTable" cellpadding="0" cellspacing="0">
@@ -5599,7 +5406,7 @@
                                                                                                                     <div class='memberLoginItem memberLoginItem_Button'>
                                                                                                                         <div class='loginButton loginButton1'>
                                                                                                                             <div class='left'></div>
-                                                                                                                            <div class='middle' onclick="login('member_login.action','#memberAcct','#memberPwd')">
+                                                                                                                            <div class='middle' onclick="login('member_login.action','#memberAcct','#memberPwd','index.html')">
                                                                                                                                 登录
                                                                                                                             </div>
                                                                                                                             <div class='right'></div>
@@ -5607,9 +5414,9 @@
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                                 <div class='signup'>
-                                                                                                                    <a id="modaltrigger" class='regAcct'
+                                                                                                                    <a id="signup_modaltrigger" class='regAcct'
                                                                                                                        hidefocus='true'
-                                                                                                                       href="#loginmodal"   >免费注册></a>
+                                                                                                                       href="#signupmodal"   >免费注册></a>
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                             <div class='memberMsg'></div>
@@ -7382,112 +7189,9 @@
 <script type="text/javascript" src="../js/index.js"></script>
 
 <script type="text/javascript">
-
-
-
-</script>
-
-
-<script>
-
-</script>
-
-<!--
-<div class='siteAdvertisement_box' id='sitePopVister' style='height:172px; overflow:hidden;'>
-    <div class='siteAdvertisement_Inner'>		<div class='siteAdvertisement_title'>
-        <a class='reportUrl' href='http://www.faisco.com/ts.html?t=3&a=mq11837910'  target='_blank' >举报</a>
-        <a class='closeImg' href='javascript:void(0)'></a>
-    </div>
-        <a class='siteAdvertisement_adImg' target='_blank' href='http://jz.faisco.com/?_ta=4' onclick='Site.logDog(200004,1)'>
-            <img src='http://jz.faisys.com/image/pro/20151101/faisco_visitor.jpg' width='125' height='125' alt='轻松建网站' />
-        </a>
-    </div>
-    <a  class='freeJZ'  href='http://jz.faisco.com/?_ta=4'  target='_blank'><span>免费建站</span></a>
-</div>
--->
-<script type='text/javascript'>
-
-
-
-    if ($.cookie('faiscoAd') == 'true') {
-    $('.siteAdvertisement_box').show();
-}
-$('#sitePopVister').show();
-
-    $.ajax({
-        url : "/matchPlatform/getSession_getMemberInfo.action",
-        type : "GET",
-        // data : para,
-        dataType : "text",
-        success : function(result) {
-            var  member = jQuery.parseJSON(result);
-            if(member!=null) {
-                $("#memberBarArea").show();
-                $("#memberBarArea").append(" <div id='arrow' class='g_arrow g_arrow_up'></div> " +
-                    "<div id='memberBar' class='memberBar'>" +
-                    " <div class='m_left'> " +
-                    "<a class='memberHeadPicOuter' href='mCenter.jsp'>" +
-                    "<img id='topBarMemberPic' class='msgBoard_member_headpic' src='../image/member.png' style='height:30px'>" +
-                    "</a> " +
-                    "<a href='mCenter.jsp'><span class='userLabel' title='等级：普通会员' id='memberName'>"+member.name+"</span></a> " +
-                    "<a href='javascript:void(0);'  onclick=onLogout() class='exit'>[退出]</a> </div> <div class='right'> " +
-                    "</div> <div id='topBarMsg' style='display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:#eee; text-align:center; z-index: 9010;'></div> </div>")
-
-                $(".J_memberLoginPanel").hide();
-                $("#memberLoginPanel").append("<div class='memberWelcome'> "+member.name+"，欢迎登录。</div>")
-            }
-            else
-            {
-                $("#memberBarArea").hide();
-                $(".J_memberLoginPanel").show();
-                $(".memberWelcome").remove();
-
-            }
-
-        }
-    });
-
-
-
-
-function getMatchNewsByPage(para) {
-    $.ajax({
-        url: "/matchPlatform/matchNews_getMatchNewsByPage.action?"+para,
-        type: "GET",
-        // data : para,
-        dataType: "text",
-        success: function (result) {
-            $("#newsList624").html("");
-            var rows = jQuery.parseJSON(result).rows;
-            $.each(rows, function (index, row) {
-                $("#newsList624").append("  <div topclassname='top2' topswitch='off' newsid='" + row.id + "' newsname='" + row.caption + "' class='J_newsListLine line noHover' style='padding:0;height:auto;overflow:hidden;'> " +
-                    "<table id='lineBody" + row.id + "' class='J_lineBody lineBody' cellspacing='0' cellpadding='0'>" +
-                    " <tbody>" +
-                    "<tr id='module624tr" + row.id + "'> " +
-                    "<td class='J_newsTitle newsTitle mixNewsTitle' style='width: 100%;' valign='top'> " +
-                    "<div class='J_articlePhotoBox articlePhotoBox' newid='" + row.id + "' newsflag='8'>" +
-                    " <a class='J_articlePicHref' href='nd.html?id=" + row.id + "&type=0' style='display:block;width:90px;height:80px;overflow:hidden;'>" +
-                    "<img class='J_newsListPic newsPic' alt='文章附图' title='' src='" + row.smallImageUrl + "' style='width:80px;height:80px;float:left;'></a> </div> <div class='mixNewsStyleTitleContainer'> " +
-                    "<div class='J_newsListTopFlag ' style='margin:0;position:relative;'>" +
-                    " <a class='no-mixNewsStyleTitleTip' href='nd.html?id=" + row.id + "&type=0' ></a> </div> " +
-                    "<span class='mixNewsStyleDate fk-newsListDate'>" + row.publishTime.substring(0, 10) + "</span>" +
-                    "<a hidefocus='true' href='nd.html?id=" + row.id + "&type=0'  title='" + row.caption + "' class='J_mixNewsStyleTitle fk-newsListTitle mixNewsStyleTitle  pic-mixNewsStyleTitle' mix='1' style='width: 100px;'>" + row.caption + "</a> " +
-                    "</div> <p class='mixNewsStyleSummary fk-newsListSummary  pic-mixNewsStyleSummary '> " + row.abstractText.substring(0, 50) + "...</p>" +
-
-                    " </td>" +
-                    " </tr> </tbody></table> </div>");
-                if (index != rows.length - 1) {
-                    $("#newsList624").append("  <div class='J_separatorLine separatorLine g_separator  pic-separatorLine '></div>");
-                }
-            });
-        }
-    });
-}
- getMatchNewsByPage("page=1&rows=3");
-
     function getMatchNoticeByPage(para) {
         $.ajax({
-            url: "/matchPlatform/matchNotice_getMatchNoticeByPage.action?"+para,
+            url: "/matchPlatform/matchNotice_getMatchNoticeByPage.action?" + para,
             type: "GET",
             // data : para,
             dataType: "text",
@@ -7508,44 +7212,80 @@ function getMatchNewsByPage(para) {
             }
         });
     }
-getMatchNoticeByPage("page=1&rows=7");
+    function getMatchNewsByPage(para) {
+        $.ajax({
+            url: "/matchPlatform/matchNews_getMatchNewsByPage.action?" + para,
+            type: "GET",
+            // data : para,
+            dataType: "text",
+            success: function (result) {
+                $("#newsList624").html("");
+                var rows = jQuery.parseJSON(result).rows;
+                $.each(rows, function (index, row) {
+                    $("#newsList624").append("  <div topclassname='top2' topswitch='off' newsid='" + row.id + "' newsname='" + row.caption + "' class='J_newsListLine line noHover' style='padding:0;height:auto;overflow:hidden;'> " +
+                        "<table id='lineBody" + row.id + "' class='J_lineBody lineBody' cellspacing='0' cellpadding='0'>" +
+                        " <tbody>" +
+                        "<tr id='module624tr" + row.id + "'> " +
+                        "<td class='J_newsTitle newsTitle mixNewsTitle' style='width: 100%;' valign='top'> " +
+                        "<div class='J_articlePhotoBox articlePhotoBox' newid='" + row.id + "' newsflag='8'>" +
+                        " <a class='J_articlePicHref' href='nd.html?id=" + row.id + "&type=0' style='display:block;width:90px;height:80px;overflow:hidden;'>" +
+                        "<img class='J_newsListPic newsPic' alt='文章附图' title='' src='" + row.smallImageUrl + "' style='width:80px;height:80px;float:left;'></a> </div> <div class='mixNewsStyleTitleContainer'> " +
+                        "<div class='J_newsListTopFlag ' style='margin:0;position:relative;'>" +
+                        " <a class='no-mixNewsStyleTitleTip' href='nd.html?id=" + row.id + "&type=0' ></a> </div> " +
+                        "<span class='mixNewsStyleDate fk-newsListDate'>" + row.publishTime.substring(0, 10) + "</span>" +
+                        "<a hidefocus='true' href='nd.html?id=" + row.id + "&type=0'  title='" + row.caption + "' class='J_mixNewsStyleTitle fk-newsListTitle mixNewsStyleTitle  pic-mixNewsStyleTitle' mix='1' style='width: 100px;'>" + row.caption + "</a> " +
+                        "</div> <p class='mixNewsStyleSummary fk-newsListSummary  pic-mixNewsStyleSummary '> " + row.abstractText.substring(0, 50) + "...</p>" +
 
-    function updateMatchNoticeAndNews(matchId)
-    {
-        getMatchNewsByPage("page=1&rows=3&matchId="+matchId);
-        getMatchNoticeByPage("page=1&rows=7&matchId="+matchId);
+                        " </td>" +
+                        " </tr> </tbody></table> </div>");
+                    if (index != rows.length - 1) {
+                        $("#newsList624").append("  <div class='J_separatorLine separatorLine g_separator  pic-separatorLine '></div>");
+                    }
+                });
+            }
+        });
     }
-    $.ajax({
-        url : "/matchPlatform/match_getMatchByPage.action?page=1&rows=3",
-        type : "GET",
-        // data : para,
-        dataType : "text",
-        success : function(result) {
-            var rows = jQuery.parseJSON(result).rows;
-            $.each(rows,function(index,row)
-            {
-                $("#newsList629").append(
+    function updateMatchNoticeAndNews(matchId) {
+        getMatchNewsByPage("page=1&rows=3&matchId=" + matchId);
+        getMatchNoticeByPage("page=1&rows=7&matchId=" + matchId);
+    }
 
-                    " <div topclassname='top2' topswitch='off' newsid='"+row.id+"' newsname='"+row.caption+"' class='J_newsListLine line noHover' style='padding:0;height:auto;overflow:hidden; dis'> " +
-                    "<table id='lineBody"+row.id+"' class='J_lineBody lineBody' cellspacing='0' cellpadding='0'> " +
-                    "<tbody><tr id='module624tr"+row.id+"'>" +
-                    " <td class='J_newsTitle newsTitle mixNewsTitle' style='width: 100%;' valign='top'>" +
-                    " <div class='J_articlePhotoBox articlePhotoBox' newid='"+row.id+"' newsflag='8'> " +
-                    "<a class='J_articlePicHref'  href='javascript:void(0);' onclick=updateMatchNoticeAndNews('"+row.id+"')  style='display:block;width:90px;height:80px;overflow:hidden;'>" +
-                    "<img class='J_newsListPic newsPic' alt='文章附图' title='' src='"+row.bannerThumbnailUrl+"' style='width:80px;height:80px;float:left;'>" +
-                    "</a> " +
-                    "</div> <div class='mixNewsStyleTitleContainer'>" +
-                    //" <span class='mixNewsStyleDate fk-newsListDate'>"+row.datePeriod+"</span>" +
-                    "<a hidefocus='true' href='javascript:void(0);' onclick=updateMatchNoticeAndNews('"+row.id+"')  title='"+row.caption+"' class='J_mixNewsStyleTitle fk-newsListTitle mixNewsStyleTitle  pic-mixNewsStyleTitle' mix='1' style='width: 230px;'>"+row.caption+"</a> </div> " +
-                    "<p class='mixNewsStyleSummary fk-newsListSummary  pic-mixNewsStyleSummary '> 主办方： "+row.sponsor+"<br>承办方： "+row.organizer+"</p> </td> </tr> </tbody></table> </div>");
-                if(index!=rows.length-1)
-                {
-                    $("#newsList629").append("  <div class='J_separatorLine separatorLine g_separator  pic-separatorLine '></div>");
-                }
-            });
+    $(function() {
+
+        if ($.cookie('faiscoAd') == 'true') {
+            $('.siteAdvertisement_box').show();
         }
+        $('#sitePopVister').show();
+        getMatchNewsByPage("page=1&rows=3");
+        getMatchNoticeByPage("page=1&rows=7");
+        $.ajax({
+            url: "/matchPlatform/match_getMatchByPage.action?page=1&rows=3",
+            type: "GET",
+            // data : para,
+            dataType: "text",
+            success: function (result) {
+                var rows = jQuery.parseJSON(result).rows;
+                $.each(rows, function (index, row) {
+                    $("#newsList629").append(
+                        " <div topclassname='top2' topswitch='off' newsid='" + row.id + "' newsname='" + row.caption + "' class='J_newsListLine line noHover' style='padding:0;height:auto;overflow:hidden; dis'> " +
+                        "<table id='lineBody" + row.id + "' class='J_lineBody lineBody' cellspacing='0' cellpadding='0'> " +
+                        "<tbody><tr id='module624tr" + row.id + "'>" +
+                        " <td class='J_newsTitle newsTitle mixNewsTitle' style='width: 100%;' valign='top'>" +
+                        " <div class='J_articlePhotoBox articlePhotoBox' newid='" + row.id + "' newsflag='8'> " +
+                        "<a class='J_articlePicHref'  href='javascript:void(0);' onclick=updateMatchNoticeAndNews('" + row.id + "')  style='display:block;width:90px;height:80px;overflow:hidden;'>" +
+                        "<img class='J_newsListPic newsPic' alt='文章附图' title='' src='" + row.bannerThumbnailUrl + "' style='width:80px;height:80px;float:left;'>" +
+                        "</a> " +
+                        "</div> <div class='mixNewsStyleTitleContainer'>" +
+                        //" <span class='mixNewsStyleDate fk-newsListDate'>"+row.datePeriod+"</span>" +
+                        "<a hidefocus='true' href='javascript:void(0);' onclick=updateMatchNoticeAndNews('" + row.id + "')  title='" + row.caption + "' class='J_mixNewsStyleTitle fk-newsListTitle mixNewsStyleTitle  pic-mixNewsStyleTitle' mix='1' style='width: 230px;'>" + row.caption + "</a> </div> " +
+                        "<p class='mixNewsStyleSummary fk-newsListSummary  pic-mixNewsStyleSummary '> 主办方： " + row.sponsor + "<br>承办方： " + row.organizer + "</p> </td> </tr> </tbody></table> </div>");
+                    if (index != rows.length - 1) {
+                        $("#newsList629").append("  <div class='J_separatorLine separatorLine g_separator  pic-separatorLine '></div>");
+                    }
+                });
+            }
+        });
     });
-
 
 </script>
 

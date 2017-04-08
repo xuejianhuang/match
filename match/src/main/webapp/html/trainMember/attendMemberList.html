@@ -1,0 +1,73 @@
+<script type="text/javascript">
+member_search = function()
+{
+	
+	$('#dg_attendMemberList').datagrid('reload', {
+		name: $("#attendMemberList_name").val(),
+		account : $('#attendMemberList_account').val()
+	});
+};
+
+exportExcel=function()
+{
+	window.open("member_exportExcel.action?trainItemId="+memberListClickTrainItemId+"&_"+new Date().getTime());
+}
+
+$(function() {
+	$('#dg_attendMemberList').datagrid({
+		   url:'member_getTrainMemberList.action?trainItemId='+memberListClickTrainItemId
+	});
+});
+
+</script>
+<div class="easyui-layout" data-options="fit : true,border : false">
+
+	<div
+		data-options="region:'north',title:'查询条件',border:false,iconCls:'icon-columns'"
+		style="height: 80px; background: #f4f4f4;">
+		 &nbsp;
+		<div style="padding: 3px">
+			账  号：<input id="attendMemberList_account" name="account">	&nbsp;&nbsp;
+		
+		          姓 名： <input id="attendMemberList_name"  name="name" /> &nbsp;&nbsp;
+		         
+			<input type="button" value="查询" onclick="member_search()">&nbsp;&nbsp;
+			<a href="javascript:exportExcel()">培训报名名单下载</a>
+		</div>
+	</div>
+
+	<div data-options="region:'center',border:false">
+		<table id="dg_attendMemberList" title="操作员管理"
+			data-options="
+                               idField : 'id',
+			                     fit : true,
+			                    striped:true,
+			                  fitColumns : true,
+			                 singleSelect : false
+                            ">
+			<thead>
+				<tr>
+					<th data-options="field:'account',align:'center',width:20">
+						账号
+					</th>
+					<th data-options="field:'name',align:'center',width:20" >
+						姓名
+					</th>
+					<th data-options="field:'phone',align:'center',width:20" >
+						电话
+					</th>
+					<th data-options="field:'isJxufe',align:'center',width:10" formatter="formatterIsJxufe">
+						本校人员
+					</th>
+					<th data-options="field:'profession',align:'center',width:10" formatter="formatterProfession">
+						身份
+					</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	
+	 
+	 
+	
+</div>

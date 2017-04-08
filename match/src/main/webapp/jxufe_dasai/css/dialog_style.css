@@ -32,7 +32,6 @@ blockquote, q { quotes: none; }
 blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
 strong { font-weight: bold; } 
 
-table { border-collapse: collapse; border-spacing: 0; }
 img { border: 0; max-width: 100%; }
 
 
@@ -150,8 +149,7 @@ img { border: 0; max-width: 100%; }
 }
 
 
-#loginmodal {
-  width: 380px;
+#loginmodal,#signupmodal {
   padding: 10px 20px;
   background: #f3f6fa;
   -webkit-border-radius: 6px;

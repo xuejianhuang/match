@@ -2,6 +2,11 @@ package cn.jxufe.emlab.match.pojo;
 // default package
 
 import java.sql.Timestamp;
+import java.util.Set;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import cn.jxufe.emlab.match.poi.ExcelVOAttribute;
 
 
 /**
@@ -14,16 +19,21 @@ public class Member extends cn.jxufe.emlab.match.pojo.BasePojo implements java.i
     // Fields    
 
      private String id;
+     @ExcelVOAttribute(name="姓名",column="B")
      private String name;
      private String comment;
      private Timestamp createtime;
+     @ExcelVOAttribute(name="账号",column="A")
      private String account;
      private String password;
      private int isJxufe;
      private int profession;
+     @ExcelVOAttribute(name="手机号",column="C")
      private String phone;
      private Timestamp signupTime;
      private int status;
+     
+     private Set<TrainItem> trainItems;
 
 
     // Constructors
@@ -142,6 +152,14 @@ public class Member extends cn.jxufe.emlab.match.pojo.BasePojo implements java.i
     public void setStatus(int status) {
         this.status = status;
     }
+
+    @JsonIgnore public Set<TrainItem> getTrainItems() {
+		return trainItems;
+	}
+
+	 @JsonIgnore	public void setTrainItems(Set<TrainItem> trainItems) {
+		this.trainItems = trainItems;
+	}
    
 
 
