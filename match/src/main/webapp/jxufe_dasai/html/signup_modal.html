@@ -83,6 +83,7 @@
 
                     <select id="memberSignupIsJxufe"
                             name="member.isJxufe"
+                            onchange="singup_isJxufeSelectItemChange(this.options[this.options.selectedIndex].value,'#memberSignupSchool')"
                     >
                         <option value="1">
                             是
@@ -139,6 +140,47 @@
         <tr>
             <td class="itemName">
                 <div class="itemSpace">
+                    <span>学校：</span>
+                </div>
+            </td>
+            <td class="itemCtrl">
+                <div class="itemSpace">
+                    <input id="memberSignupSchool"
+                           name="member.school"
+                           maxlength="30"
+                           minlength="4"
+                           placeholder=""
+                           class="g_itext itemEdit userAddItem"
+                             value="江西财经大学"
+                           type="text">
+                    <font
+                            class="g_stress">*</font>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="itemName">
+                <div class="itemSpace">
+                    <span>专业：</span>
+                </div>
+            </td>
+            <td class="itemCtrl">
+                <div class="itemSpace">
+                    <input id="memberSignupMajor"
+                           name="member.major"
+                           maxlength="10"
+                           minlength="2"
+                           placeholder=""
+                           class="g_itext itemEdit userAddItem"
+                           type="text">
+                    <font
+                            class="g_stress">*</font>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="itemName">
+                <div class="itemSpace">
                     <span>密码：</span>
                 </div>
             </td>
@@ -179,7 +221,7 @@
                        extclass="g_ibutton"
                        value="注&#12288;册"
                        type="button"
-                       onclick="submitForm()">&nbsp;&nbsp;
+                       onclick="submitForm()">&nbsp;&nbsp;&nbsp;
                 <input class="memberSignupBtn g_ibutton"
                        extclass="g_ibutton"
                        value="重&#12288;置"

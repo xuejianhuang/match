@@ -5,11 +5,13 @@ package cn.jxufe.emlab.match.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.jxufe.emlab.match.pojo.Match;
 import cn.jxufe.emlab.match.pojo.MatchProject;
 import cn.jxufe.emlab.match.pojo.Operator;
+import cn.jxufe.emlab.match.pojo.TrainItem;
 import cn.jxufe.emlab.match.service.IMatchProjectService;
 import cn.jxufe.emlab.match.service.IMatchService;
 import cn.jxufe.emlab.match.util.KeyEnum;
@@ -35,6 +37,15 @@ public class MatchProjectAction extends BaseAction {
 		Map jsondata = new HashMap();
 		jsondata.put("rows",
 				matchProjectService.getMatchProjectByMatchId(matchId, operator));
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	public String getEnableMatchProject() throws IOException
+	{
+		Map jsondata = new HashMap();
+		List<MatchProject> list= matchProjectService.getEnableMatchProject();
+		jsondata.put("rows",list);
 		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
 		jsonViewIE(jsondata);
 		return null;
@@ -100,6 +111,15 @@ public class MatchProjectAction extends BaseAction {
 		 matchProjectService.txUpdateMatchProjectIsLockedStatus(oper, id, isLocked);
 		status = StatusEnum.success;
 		jsondata.put(KeyEnum.STATUS, status);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	public String getMatchProjectById() throws IOException {
+
+		Map jsondata = new HashMap();
+		jsondata.put("content",
+				matchProjectService.findById(id));
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
 		jsonViewIE(jsondata);
 		return null;
 	}

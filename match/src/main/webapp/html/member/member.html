@@ -1,10 +1,25 @@
 <script type="text/javascript">
+function singup_isJxufeSelectItemChange(isJxufe,school)
+{
+    if(isJxufe==1)
+    {
+        $(school).val("江西财经大学");
+    }
+    else
+    {
+        if( $(school).val()=="江西财经大学")
+        $(school).val("");
+    }
+
+}
 member_search = function()
 {
 	
 	$('#dg_member').datagrid('reload', {
 		name: $("#member_name").val(),
-		account : $('#member_account').val()
+		account : $('#member_account').val(),
+		school : $('#member_school').val(),
+		major : $('#member_major').val()
 	});
 };
 </script>
@@ -15,6 +30,8 @@ member_search = function()
 		style="height: 80px; background: #f4f4f4;">
 		 &nbsp;
 		<div style="padding: 3px">
+	    	学  校：<input id="member_school" name="school">	&nbsp;&nbsp;
+	    	专  业：<input id="member_major" name="major">	&nbsp;&nbsp;
 			账  号：<input id="member_account" name="account">	&nbsp;&nbsp;
 		
 		          姓 名： <input id="member_name"  name="name" /> &nbsp;&nbsp;
@@ -40,14 +57,14 @@ member_search = function()
                                     text:'添加',
                                     iconCls:'icon-add',
                                     handler:function(){
-                                    add('member/member_add.html','添加操作员','300','400','member_addMember.action','dg_member')
+                                    add('member/member_add.html','添加操作员','370','400','member_addMember.action','dg_member')
                                     }},'-',
                                     {
                                     text:'修改',
                                     iconCls:'icon-edit',
                                     handler:function()
                                     {
-                                      edit('member/member_edit.html','修改操作员','300','600','member_editMember.action','dg_member')
+                                      edit('member/member_edit.html','修改操作员','370','400','member_editMember.action','dg_member')
                                     }},'-',
                                     {
                                     text:'删除',
@@ -70,8 +87,11 @@ member_search = function()
 					<th data-options="field:'phone',align:'center',width:20" >
 						电话
 					</th>
-					<th data-options="field:'isJxufe',align:'center',width:10" formatter="formatterIsJxufe">
-						本校人员
+					<th data-options="field:'school',align:'center',width:20">
+					 学校
+					</th>
+					<th data-options="field:'major',align:'center',width:20">
+					 专业
 					</th>
 					<th data-options="field:'profession',align:'center',width:10" formatter="formatterProfession">
 						身份

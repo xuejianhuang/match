@@ -8,11 +8,13 @@ import cn.jxufe.emlab.match.core.IBaseDao;
 import cn.jxufe.emlab.match.pojo.Match;
 import cn.jxufe.emlab.match.pojo.MatchProject;
 import cn.jxufe.emlab.match.pojo.Operator;
+import cn.jxufe.emlab.match.pojo.TrainItem;
 
 
 
 public interface IMatchProjectService  extends IBaseDao<MatchProject>{
 	public List<MatchProject> getMatchProjectByMatchId(String matchId,Operator oper);
+	public List<MatchProject> getEnableMatchProject();
 	public boolean txSaveMatchProject(Operator oper,MatchProject matchProject);
 	public void txDeleteMatchProject(Operator oper,String[] idList);
 	public boolean txUpdateMatchProject(Operator oper,MatchProject matchProject,String id);

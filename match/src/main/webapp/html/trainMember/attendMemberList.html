@@ -4,7 +4,9 @@ member_search = function()
 	
 	$('#dg_attendMemberList').datagrid('reload', {
 		name: $("#attendMemberList_name").val(),
-		account : $('#attendMemberList_account').val()
+		account : $('#attendMemberList_account').val(),
+		school : $('#attendMemberList_school').val(),
+		major : $('#attendMemberList_major').val()
 	});
 };
 
@@ -27,6 +29,8 @@ $(function() {
 		style="height: 80px; background: #f4f4f4;">
 		 &nbsp;
 		<div style="padding: 3px">
+		学  校：<input id="attendMemberList_school" name="school">	&nbsp;&nbsp;
+	    	专  业：<input id="attendMemberList_major" name="major">	&nbsp;&nbsp;
 			账  号：<input id="attendMemberList_account" name="account">	&nbsp;&nbsp;
 		
 		          姓 名： <input id="attendMemberList_name"  name="name" /> &nbsp;&nbsp;
@@ -37,7 +41,7 @@ $(function() {
 	</div>
 
 	<div data-options="region:'center',border:false">
-		<table id="dg_attendMemberList" title="操作员管理"
+		<table id="dg_attendMemberList" title="报名名单"
 			data-options="
                                idField : 'id',
 			                     fit : true,
@@ -56,8 +60,11 @@ $(function() {
 					<th data-options="field:'phone',align:'center',width:20" >
 						电话
 					</th>
-					<th data-options="field:'isJxufe',align:'center',width:10" formatter="formatterIsJxufe">
-						本校人员
+					<th data-options="field:'school',align:'center',width:20">
+					 学校
+					</th>
+					<th data-options="field:'major',align:'center',width:20">
+					 专业
 					</th>
 					<th data-options="field:'profession',align:'center',width:10" formatter="formatterProfession">
 						身份

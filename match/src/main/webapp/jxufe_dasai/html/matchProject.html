@@ -16,26 +16,28 @@
     <script type="text/javascript" src="../js/login_up.js"></script>
     <script type="text/javascript">
 
-        function trainItemIntroduction(trainItemId)
+        function matchProjectIntroduction(matchProjectId)
         {
-
             $.ajax({
-                url : "/matchPlatform/trainItem_getTrainItemById.action?id="+trainItemId,
+                url : "/matchPlatform/matchProject_getMatchProjectById.action?id="+matchProjectId,
                 type : "GET",
                 // data : para,
                 dataType : "text",
                 success : function(result) {
-                    $('#trainItemIntroductionmodal').html("");
-                    var trainItem = jQuery.parseJSON(result).content;
-                    $('#trainItemIntroductionmodal').append("<a id='trainItemIntroductionmodal_modaltrigger' class='regAcct' hidefocus='true' href='#trainItemIntroductionmodal'></a>"+trainItem.introduction);
-                    $('#trainItemIntroductionmodal_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
-                    $('#trainItemIntroductionmodal_modaltrigger').click();
+                    $('#matchProjectIntroductionmodal').html("");
+                    var matchProject = jQuery.parseJSON(result).content;
+                    $('#matchProjectIntroductionmodal').append(" <a id='matchProjectIntroductionmodal_modaltrigger' class='regAcct' hidefocus='true'href='#matchProjectIntroductionmodal'></a> "+matchProject.introduction);
+                    $('#matchProjectIntroductionmodal_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
+                    $('#matchProjectIntroductionmodal_modaltrigger').click();
                 }
             });
+
+            return false;
+
         }
         $(function(){
             $.ajax({
-                url : "/matchPlatform/trainItem_getEnableTrainItem.action",
+                url : "/matchPlatform/matchProject_getEnableMatchProject.action",
                 type : "GET",
                 // data : para,
                 dataType : "text",
@@ -43,22 +45,31 @@
                     var rows = jQuery.parseJSON(result).rows;
                     $.each(rows,function(index,row)
                     {
-                        $("#trainItem").append(" " +
-                            " <li>" +
+                        var content= " <li>" +
                             " <span> " +
-                            "<a  href='javascript:void(0);' onclick=\"trainItemIntroduction('"+row.id+"');return false;\" title='"+row.caption+"' target='_blank'  data-element='1' data-click='onClick'>" +
+                            "<a  href='javascript:void(0);' onclick=\"matchProjectIntroduction('"+row.id+"');return false;\" title='"+row.caption+"' target='_blank'  data-element='1' data-click='onClick'>" +
                             " <div class='normal'>" +
                             " <img class='scrollLoading' data-url='"+row.logo+"' src='"+row.logo+"' alt='"+row.caption+"' title='"+row.caption+"'>" +
                             " </div> " +
                             "<h3>"+row.caption+"</h3>" +
                             " </a> " +
                             "<div class='rec_courses_ref cf'> " +
-                            "<span class='rec_courses_time fl'>"+row.startDate.substring(5,10)+"--"+row.endDate.substring(5,10)+"</span>" +
-                            " <span class='rec_courses_num fr'><button type='button' style='margin-bottom: 2px;color: #00a0e9' onclick=attendTrain('"+row.id+"')>点击报名</button></span>" +
-                            " </div> " +
+                            "<span class='rec_courses_time fl'>"+row.startDate.substring(5,10)+"--"+row.endDate.substring(5,10)+"</span>";
+                        if(row.isTeamMatch==0)
+                        {
+                            content+=  " <span class='rec_courses_num fr'>个人赛&nbsp;<button type='button' style='margin-bottom: 2px;color: #00a0e9' onclick=attendMatchProject('"+row.id+"')>点击报名</button></span>"
+                        }
+                        else
+                        {
+                            content+=  " <span class='rec_courses_num fr'>团体赛("+row.groupMemberCount+"人)&nbsp;<button type='button' style='margin-bottom: 2px;color: #00a0e9' onclick=attendMatchProject('"+row.id+"')>进入组队</button></span>"
+                        }
+                        content+= " </div> " +
                             "</span> " +
-                            "</li>");
+                            "</li>";
+
+                        $("#trainItem").append(content);
                     });
+
 
 
                 }
@@ -4058,9 +4069,11 @@
 
 </div>
 
-<div id="signupmodal"  class="dialogPanle"style="display:none;" align="center"></div>
+<div id="signupmodal" class="dialogPanle" style="display:none;" align="center"></div>
 
-<div id="trainItemIntroductionmodal"  class="dialogPanle" style="display:none;" align="center"></div>
+<div id="matchProjectIntroductionmodal" class="dialogPanle" style="display:none;" align="center">
+
+</div>
 
 
 <div id="memberBarArea" class="memberBarArea2 g_editPanel" ></div>

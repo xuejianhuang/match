@@ -4457,7 +4457,6 @@ body .sideForm .siteEditor .formMiddle {
     border:#ddd 1px solid
 }
 .msgBoard_msgUser_level {
-    background:url(/image/site/msgUpImg/memberLevel.png?v=201603211725) no-repeat;
     width:15px;
     height:13px;
     display:inline-block;
@@ -8863,7 +8862,6 @@ body .sideForm .siteEditor .formMiddle {
     color:#4c4c4c
 }
 .user_level_icon {
-    background:url(/image/site/msgUpImg/memberLevel.png?v=201603211725) no-repeat;
     line-height:20px;
     width:20px;
     height:20px;

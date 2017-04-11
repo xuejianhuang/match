@@ -149,7 +149,7 @@ img { border: 0; max-width: 100%; }
 }
 
 
-#loginmodal,#signupmodal {
+.dialogPanle{
   padding: 10px 20px;
   background: #f3f6fa;
   -webkit-border-radius: 6px;

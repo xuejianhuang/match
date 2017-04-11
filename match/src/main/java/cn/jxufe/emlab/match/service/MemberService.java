@@ -29,7 +29,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 
 	@Override
 	public void getMemberByPage(Map map, int page, int pageSize,
-			String account, String name, Operator oper) {
+			String account, String name,String school,String major, Operator oper) {
 
 		String hql = "from Member where  status!="
 				+ StatusEnum.disable.ordinal();
@@ -46,12 +46,22 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 			al.add(account);
 			paramNums++;
 		}
+		if (null != school && school.length() != 0) {
+			hql += " and school like ?";
+			al.add("%" + school + "%");
+			paramNums++;
+		}
+		if (null != major && major.length() != 0) {
+			hql += " and major like ?";
+			al.add("%" + major + "%");
+			paramNums++;
+		}
 		Object[] values = al.toArray(new Object[paramNums]);
 		fillPagetoMap(map, hql, values, page, pageSize);
 
 	}
 
-	public List<Member> getTrainMemberList(String account, String name, String trainItemId, Operator oper) {
+	public List<Member> getTrainMemberList(String account, String name,String school,String major, String trainItemId, Operator oper) {
 		
 		String sql="select * from T_member where status!="
 					+ StatusEnum.disable.ordinal() ;  //id in( select memberId from T_trainMember where trainItemId='b7574d5a-2a21-45e9-bf80-fc6e1febb2ee')
@@ -63,7 +73,12 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		if (null != name && name.length() != 0) {
 			sql += " and name like '%"+name+"%'";
 		}
-
+		if (null != school && school.length() != 0) {
+			sql += " and school like '%"+school+"%'";
+		}
+		if (null != major && major.length() != 0) {
+			sql += " and major like '%"+major+"%'";
+		}
 		if (null != trainItemId && trainItemId.length() != 0) {
 			sql += " and id in( select memberId from T_trainMember where trainItemId='"+trainItemId+"')";
 		}
@@ -106,10 +121,29 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 			nativeMember.setPhone(member.getPhone());
 			nativeMember.setIsJxufe(member.getIsJxufe());
 			nativeMember.setProfession(member.getProfession());
+			nativeMember.setSchool(member.getSchool());
+			nativeMember.setMajor(member.getMajor());
 			// saveOrUpdate(nativeMember);
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	@Override
+	public Member txMemberUpdate(Member member, String id) {
+		Member nativeMember = findById(id);
+		if (null!=nativeMember&&member!=null) {
+			nativeMember.setName(member.getName());
+			nativeMember.setPhone(member.getPhone());
+			nativeMember.setMajor(member.getMajor());
+			if(member.getPassword()!=null&&member.getPassword().length()!=0)
+			{
+				nativeMember.setPassword(member.getPassword());
+			}
+			return nativeMember;
+		} else {
+			return member;
 		}
 	}
 
@@ -132,6 +166,18 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 			if (!memeber.getTrainItems().contains(item)) {
 				memeber.getTrainItems().add(item);
 				saveOrUpdate(memeber);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean txCancelTrain(String memeberId, String trainItemId) {
+		if (memeberId != null && null != trainItemId) {
+			TrainItem item = trainItemService.findById(trainItemId);
+			Member memeber = findById(memeberId);
+			if (memeber.getTrainItems().contains(item)) {
+				memeber.getTrainItems().remove(item);
 				return true;
 			}
 		}

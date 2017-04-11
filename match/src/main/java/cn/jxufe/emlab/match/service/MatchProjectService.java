@@ -5,6 +5,7 @@ import java.util.List;
 import cn.jxufe.emlab.match.core.BaseDao;
 import cn.jxufe.emlab.match.pojo.MatchProject;
 import cn.jxufe.emlab.match.pojo.Operator;
+import cn.jxufe.emlab.match.pojo.TrainItem;
 import cn.jxufe.emlab.match.util.DateUtil;
 import cn.jxufe.emlab.match.util.StatusEnum;
 
@@ -72,6 +73,11 @@ public class MatchProjectService extends BaseDao<MatchProject> implements
 		}
 
 		hql = hql + " order by createtime desc";
+		return find(hql);
+	}
+	
+	public List<MatchProject> getEnableMatchProject() {
+		String hql = "from MatchProject where  isLocked='0' order by createtime desc";
 		return find(hql);
 	}
 

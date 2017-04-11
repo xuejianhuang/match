@@ -93,7 +93,7 @@ public class UploadAction extends BaseAction {
 			//	Thumbnails.of(filedata).size(340, 200).toFile(target);
 		    	FileUtils.copyFile(filedata, target);
 				json.put("err", "");
-				json.put("msg", "/match_web/upload/" + newFileName);
+				json.put("msg", "/matchPlatform/upload/" + newFileName);
 			} catch (IOException e) {
 				json.put("err", "文件上传失败！");
 				json.put("msg", "");				

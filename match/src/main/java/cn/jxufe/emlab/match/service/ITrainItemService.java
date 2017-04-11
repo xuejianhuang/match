@@ -21,4 +21,6 @@ public interface ITrainItemService  extends IBaseDao<TrainItem>{
 	public boolean txUpdateTrainItem(Operator oper,TrainItem trainItem,String id);
 	public void txUpdateTrainItemIsLockedStatus(Operator oper,String id,int isLocked);
 	public void getTrainStatisticsByPage(Map map, int page, int pageSize,String matchId, Operator oper);
+	
+	public List<TrainItem> getTrainByMemberId(String memberId);
 }

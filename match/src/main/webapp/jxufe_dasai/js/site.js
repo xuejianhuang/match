@@ -9597,6 +9597,7 @@ Site.loadPdCollectionList = function (c, b, d, e, a) {
     }
 })(jQuery, Site.loadPdCollectionList);
 Site.memberProfileResetPwd = function (c) {
+
     var a = Fai.top.$("#module" + c);
     var b = a.find(".itemPwd");
     if (b.is(":visible")) {
@@ -9615,12 +9616,14 @@ Site.memberProfileSubmit = function (j, q) {
     var i = false;
     var o = true;
     $(".userEditItem").each(function () {
-        userEditItemName = $(this).attr("id");
+       var userEditItemName = $(this).attr("id");
         h = $(this).val();
         p[userEditItemName] = h;
-        if ("mobile" == userEditItemName && h.length > 0) {
+        if ("phone" == userEditItemName && h.length > 0) {
             if ($(this).attr("disabled") != "disabled") {
-                if (!Fai.isNationMobile(h)) {
+           //     if (!Fai.isNationMobile(h)) {
+                if(!(/^1[34578]\d{9}$/.test(h)))
+                {
                     d.html(LS.mobileNumRegular);
                     $(this).focus();
                     o = false;
@@ -9638,6 +9641,7 @@ Site.memberProfileSubmit = function (j, q) {
         return
     }
     var c = b.find(".itemPwd");
+    var oldPassword="";
     if (c.is(":visible")) {
         var n = $("#memberProfileOldPwd").val();
         if (n == null || n == "") {
@@ -9662,8 +9666,8 @@ Site.memberProfileSubmit = function (j, q) {
             $("#memberProfileRepwd").focus();
             return
         }
-        p.oldPwd = $.md5(n);
-        p.pwd = $.md5(e)
+       oldPassword = $.md5(n);
+        p.password = $.md5(e)
     }
     var l = "";
     var h = "";
@@ -9726,35 +9730,18 @@ Site.memberProfileSubmit = function (j, q) {
     var f = b.find(".memberProfileBtn");
     f.attr("disabled", true);
     d.html(LS.memberProfileSubmitting);
-    if (newImg && "id" in newImg && oldImgId != newImg.id) {
-        $.ajax({
-            type: "post",
-            url: "../ajax/member_h.jsp?cmd=cimg",
-            data: "oldImgId=" + oldImgId + "&mid=" + q + "&newImg=" + Fai.encodeUrl($.toJSON(newImg)),
-            async: false,
-            error: function () {
-                Fai.ing(LS.systemError)
-            }, success: function (s) {
-                s = jQuery.parseJSON(s);
-                if (s.success) {
-                    headPic.thumbId = s.fileId
-                }
-            }
-        })
-    }
-    p.headPic = headPic;
     $.ajax({
         type: "post",
         async: false,
-        url: "ajax/member_h.jsp?cmd=set",
-        data: "id=" + q + "&info=" + Fai.encodeUrl($.toJSON(p)),
+        url: "/matchPlatform/member_memberUpdateInfo.action",
+        data: "id=" + q + "&oldPassword="+oldPassword+"&jsonMember=" + Fai.encodeUrl($.toJSON(p)),
         error: function () {
             f.removeAttr("disabled");
             d.html(LS.memberProfileError)
         }, success: function (s) {
             f.removeAttr("disabled");
             var t = jQuery.parseJSON(s);
-            if (t.success) {
+            if (t.STATUS=="success") {
                 d.html(LS.memberProfileOK);
                 setTimeout(function () {
                     d.html("");
@@ -9774,17 +9761,13 @@ Site.memberProfileSubmit = function (j, q) {
                     b.find("#mobileCt").remove()
                 }
                 Site.checkMemberDataIntegrity(j)
-            } else {
-                if (t.rt == -3) {
-                    d.html(LS.memberProfileOldPwdIncorrectError)
-                } else {
-                    if (t.mobileErr == true) {
-                        d.html(LS.mobileNumRegular);
-                        $("#mobile").focus()
-                    } else {
-                        d.html(LS.memberProfileError)
-                    }
-                }
+            }
+            else if(t.STAUTS=="timeout")
+            {
+                d.html(LS.siteFormSubmitNotLogin)
+            }
+            else if(t.STAUTS=="failed") {
+                d.html(t.REASON);
             }
         }
     })

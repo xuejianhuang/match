@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.jxufe.emlab.match.pojo.MatchNews;
+import cn.jxufe.emlab.match.pojo.Member;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.pojo.TrainItem;
 import cn.jxufe.emlab.match.service.IMatchNewsService;
@@ -58,6 +59,23 @@ public class TrainItemAction extends BaseAction {
 		List<TrainItem> list= trainItemService.getEnableTrainItem();
 		jsondata.put("rows",list);
 		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	public String getTrainItemByMemberId() throws IOException
+	{
+		Map jsondata = new HashMap();
+		Member sessionMember=(Member) getSession().get(KeyEnum.MEMBER);
+		if(sessionMember==null)
+		{
+			jsondata.put(KeyEnum.STATUS,  StatusEnum.timeout);
+		}
+		else
+		{
+		List<TrainItem> list= trainItemService.getTrainByMemberId(sessionMember.getId());
+		jsondata.put("rows",list);
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		}
 		jsonViewIE(jsondata);
 		return null;
 	}
@@ -114,6 +132,16 @@ public class TrainItemAction extends BaseAction {
 		jsonViewIE(jsondata);
 		return null;
 	}
+	public String getTrainItemById() throws IOException {
+
+		Map jsondata = new HashMap();
+		jsondata.put("content",
+				trainItemService.findById(id));
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
+
 
 
 	public ITrainItemService getTrainItemService() {
@@ -168,5 +196,6 @@ public class TrainItemAction extends BaseAction {
 	public void setIsLocked(int isLocked) {
 		this.isLocked = isLocked;
 	}
+
 
 }

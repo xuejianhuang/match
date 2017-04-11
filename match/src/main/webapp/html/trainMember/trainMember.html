@@ -64,27 +64,8 @@
 			                 rownumbers : true,
 			                pagination : true,
 			                  pageSize : 10,
-			                 pageList : [ 10, 20, 30, 40, 50 ],
-                                toolbar:[{
-                                    text:'添加',
-                                    iconCls:'icon-add',
-                                    handler:function(){
-                                    add('trainMember/trainMember_add.html','添加培训','600','800','trainItem_savetrainItem.action','dg_trainMember')
-                                    }},'-',
-                                    {
-                                    text:'修改',
-                                    iconCls:'icon-edit',
-                                    handler:function()
-                                    {
-                                      edit('trainMember/trainMember_edit.html','修改培训','600','800','trainItem_updatetrainItem.action','dg_trainMember')
-                                    }},'-',
-                                    {
-                                    text:'删除',
-                                    iconCls:'icon-remove',
-                                    handler:function()
-                                    {
-                                      del('trainItem_deletetrainItem.action','dg_trainMember')
-                                    }}]">
+			                 pageList : [ 10, 20, 30, 40, 50 ]
+                               ">
 			<thead>
 				<tr>
 					<th data-options="field:'ck',checkbox:true"></th>

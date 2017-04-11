@@ -147,7 +147,33 @@ function attendTrain(trainItemId)
         }
     });
 }
+function attendMatchProject(matchProjectId)
+{
+    $.ajax({
+        url : "member_attendTrain.action?trainItemId="+matchProjectId,
+        type : "post",
+        success : function(result) {
+            dealAjaxResult(result, function(r) {
+                //  window.location.href = "index.html";
+                alert("报名成功");
+            });
 
+        }
+    });
+}
+function singup_isJxufeSelectItemChange(isJxufe,school)
+{
+    if(isJxufe==1)
+    {
+        $(school).val("江西财经大学");
+    }
+    else
+    {
+        if( $(school).val()=="江西财经大学")
+            $(school).val("");
+    }
+
+}
 function dealAjaxResult(data, okFun) {
    var data =eval("(" + data + ")");
     var result = data.STATUS;

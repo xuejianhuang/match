@@ -19,13 +19,13 @@
             return this.each(function() {
                 var o = options;
                 $(this).click(function(e) {
-                      //  $("#lean_overlay").click();
-                	if(o.anther)
-                		{
-                	  $(o.anther).css({
-                         "display": "none"
-                      });
-                		}
+                    //  $("#lean_overlay").click();
+                    if(o.anther)
+                    {
+                        $(o.anther).css({
+                            "display": "none"
+                        });
+                    }
                     var modal_id = $(this).attr("href");
                     $("#lean_overlay").click(function() {
                         close_modal(modal_id);
@@ -43,12 +43,17 @@
                     $(modal_id).css({
                         "display": "block",
                         "position": "fixed",
+                        "overflow" :"auto",
                         "opacity": 0,
                         "z-index": 11000,
                         "left": 50 + "%",
                         "margin-left": -(modal_width / 2) + "px",
                         "top": o.top + "px"
                     });
+                    if(modal_height>600)
+                    	{
+                    	 $(modal_id).css("height","600px");
+                    	}
                     $(modal_id).fadeTo(200, 1);
                     e.preventDefault()
                 })

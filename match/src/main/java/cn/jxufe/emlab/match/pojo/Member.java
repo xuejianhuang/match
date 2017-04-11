@@ -33,6 +33,11 @@ public class Member extends cn.jxufe.emlab.match.pojo.BasePojo implements java.i
      private Timestamp signupTime;
      private int status;
      
+     @ExcelVOAttribute(name="学校",column="D")
+     private String school;
+     
+     @ExcelVOAttribute(name="专业",column="E")
+     private String major;
      private Set<TrainItem> trainItems;
 
 
@@ -47,20 +52,7 @@ public class Member extends cn.jxufe.emlab.match.pojo.BasePojo implements java.i
         this.id = id;
     }
     
-    /** full constructor */
-    public Member(String id, String name, String comment, Timestamp createtime, String account, String password, int isJxufe, int profession, String phone, Timestamp signupTime, int status) {
-        this.id = id;
-        this.name = name;
-        this.comment = comment;
-        this.createtime = createtime;
-        this.account = account;
-        this.password = password;
-        this.isJxufe = isJxufe;
-        this.profession = profession;
-        this.phone = phone;
-        this.signupTime = signupTime;
-        this.status = status;
-    }
+   
 
    
     // Property accessors
@@ -152,8 +144,27 @@ public class Member extends cn.jxufe.emlab.match.pojo.BasePojo implements java.i
     public void setStatus(int status) {
         this.status = status;
     }
+    
+    
+    
 
-    @JsonIgnore public Set<TrainItem> getTrainItems() {
+    public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+
+	public String getMajor() {
+		return major;
+	}
+
+	public void setMajor(String major) {
+		this.major = major;
+	}
+
+	@JsonIgnore public Set<TrainItem> getTrainItems() {
 		return trainItems;
 	}
 

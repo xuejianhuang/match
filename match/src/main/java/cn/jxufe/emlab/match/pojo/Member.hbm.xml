@@ -34,6 +34,12 @@
         <property name="phone" type="java.lang.String">
             <column name="phone" />
         </property>
+         <property name="school" type="java.lang.String">
+            <column name="school" />
+        </property>
+         <property name="major" type="java.lang.String">
+            <column name="major" />
+        </property>
         <property name="signupTime" type="java.sql.Timestamp">
             <column name="signupTime" length="23" />
         </property>

@@ -140,7 +140,7 @@
     width: 100%;
 }
 .mCenter .memberCollectionPanel.memberCollectionOldPanel .pdImg .delCollIcon {
-    background: rgba(0, 0, 0, 0) url("/image/delete.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("../image/delete.png") no-repeat scroll 0 0;
     height: 100%;
     left: 7px;
     position: relative;
@@ -374,7 +374,7 @@
     background: rgba(0, 0, 0, 0) url("/image/coupon/mv_waveLine.png?v=201602221737") no-repeat scroll -165px 0;
 }
 .mCenter .coupon-delete {
-    background: rgba(0, 0, 0, 0) url("/image/coupon/delete.png?v=201602221737") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("../image/delete.png") no-repeat scroll 0 0;
     cursor: pointer;
     display: inline-block;
     height: 20px;
@@ -622,4 +622,209 @@
 .memberProfileMsg .msgText {
     text-align: left;
     width: 60%;
+}
+
+.mallOrderList {
+    position: relative;
+}
+.mallOrderList .listMsg {
+    clear: both;
+    padding: 5px 0;
+    text-align: center;
+    width: 100%;
+}
+.mallOrderList .listEmpty {
+    clear: both;
+    padding: 5px 0;
+    text-align: center;
+    width: 100%;
+}
+.mallOrderList .itemList {
+    margin: 10px 0;
+}
+.mallOrderList .itemList .line {
+    clear: both;
+    margin: 0;
+    overflow-wrap: break-word;
+    padding: 0;
+    width: 100%;
+    word-break: keep-all;
+}
+.mallOrderList .itemList .lineBody {
+    border: 1px solid #f0f0f0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    line-height: 29px;
+    table-layout: fixed;
+    width: 100%;
+}
+.mallOrderList .itemList .itemCode {
+    padding: 0 5px;
+}
+.mallOrderList .itemList .itemDate {
+    padding: 0 5px;
+}
+.mallOrderList .itemList .itemPrice {
+    padding: 0 5px;
+}
+.mallOrderList .itemList .itemStatus {
+    padding: 0 5px;
+}
+.mallOrderList .itemList .itemStatus span {
+    padding-right: 10px;
+}
+.mallOrderList .itemList .itemOpt {
+    padding: 0 5px;
+}
+.mallOrderList .itemList .i-flow {
+    color: #fe6428 !important;
+    display: inline-block;
+    text-decoration: none;
+}
+.mallOrderList .itemList .optView {
+    margin-right: 6px;
+}
+.memberHeadEdit .confirmBtn:hover {
+    cursor: pointer;
+}
+.memberHeadEdit .cancelBtn:hover {
+    cursor: pointer;
+}
+.mallOrderList .itemList .con-rpt {
+    border: 1px solid #ccc;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 20px;
+    overflow: hidden;
+    overflow-wrap: normal;
+    padding: 0 4px;
+    text-align: center;
+    text-overflow: ellipsis;
+    vertical-align: -7px;
+    white-space: nowrap;
+    width: 60px;
+}
+.mallOrderList .pd-ct {
+    background: rgba(0, 0, 0, 0) url("/image/site/mc_pd_ct.png?v=201506011730") no-repeat scroll 0 0;
+    cursor: pointer;
+    display: inline-block;
+    height: 14px;
+    line-height: 12px;
+    padding-left: 18px;
+}
+.mallOrderList .order-cancel {
+    background: rgba(0, 0, 0, 0) url("../image/delete.png") no-repeat scroll 0 0;
+    cursor: pointer;
+    display: inline-block;
+    height: 14px;
+    line-height: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    padding-left: 18px;
+}
+.mallOrderList .order-cancel-hover {
+    background: rgba(0, 0, 0, 0) url("../image/site/delete_hover.png?v=201506301919") no-repeat scroll 0 0;
+    cursor: pointer;
+    display: inline-block;
+    height: 14px;
+    line-height: 10px;
+    margin-left: 85px;
+    margin-top: 10px;
+    padding-left: 18px;
+}
+.mallOrderList .pd-panel {
+    display: none;
+}
+.mallOrderList .pd-panel .l-body {
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    width: 100%;
+    word-break: break-all;
+}
+.mallOrderList .pd-panel .l-body tr {
+    border-bottom: 1px solid #dbeaef;
+}
+.mallOrderList .pd-panel .l-body td {
+    padding: 10px 0;
+}
+.mallOrderList .pd-panel .i-title {
+    line-height: 30px;
+    text-align: center;
+}
+.mallOrderList .pd-panel .i-pic {
+    width: 100px;
+}
+.mallOrderList .pd-panel .i-name {
+    width: 40%;
+}
+.mallOrderList .pd-panel .i-comment {
+    width: 60%;
+}
+.mallOrderList .pd-panel .pd-img {
+    height: 60px;
+    margin-left: 20px;
+    width: 60px;
+}
+.mallOrderList .pd-ct-panel {
+    padding: 0 20px 0 25px;
+    position: relative;
+    text-align: right;
+}
+.mallOrderList .ct-area-d {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+.mallOrderList .ct-area {
+    border-color: #ccc;
+    height: 70px;
+    padding: 6px 0;
+    width: 100%;
+}
+.mallOrderList .ct-area2 {
+    color: #666;
+    display: inline-block;
+    max-height: 62px;
+    min-height: 34px;
+    overflow-y: auto;
+    text-align: left;
+    width: 100%;
+}
+.mallOrderList .ct-area3 {
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+}
+.mallOrderList .ct-time {
+    color: #666;
+    line-height: 23px;
+}
+.mallOrderList .pd-ct-panel .g_ibutton {
+    border-color: #ccc;
+}
+.mallOrderList .pd-n {
+    padding-left: 10px;
+}
+.mallOrderList .pd-o {
+    color: #ccc;
+    padding-left: 10px;
+    padding-top: 4px;
+}
+.mallOrderList .ct-star-list {
+    float: left;
+    height: 34px;
+    margin-top: 5px;
+}
+.mallOrderList .ct-comm-title {
+    display: inline-block;
+    float: left;
+    height: 34px;
+    line-height: 28px;
+}
+.mallOrderList .comm-star-list {
+    bottom: 0;
+    left: 26px;
+    right: auto;
+    top: auto;
 }

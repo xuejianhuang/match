@@ -10,6 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.util.JSONPObject;
+
+import com.alibaba.druid.support.json.JSONUtils;
+import com.google.gson.Gson;
+
 import cn.jxufe.emlab.match.poi.ExcelUtil;
 import cn.jxufe.emlab.match.pojo.Member;
 import cn.jxufe.emlab.match.pojo.Operator;
@@ -35,6 +44,9 @@ public class MemberAction extends BaseAction {
 	private int page;
 	private int rows;
 	private String trainItemId;
+	private String jsonMember;
+	private String major;
+	private String school;
 
 	@SuppressWarnings("rawtypes")
 	public String logout() throws IOException {
@@ -109,30 +121,32 @@ public class MemberAction extends BaseAction {
 		Map session = this.getSession();
 		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
 		Map jsondata = new HashMap();
-		memberService.getMemberByPage(jsondata, page, rows, account, name,
+		memberService.getMemberByPage(jsondata, page, rows, account, name,school,major,
 				operator);
 		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
 		jsonViewIE(jsondata);
 		return null;
 	}
-	
+
 	public String getTrainMemberList() throws IOException {
 		Map session = this.getSession();
 		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
 		Map jsondata = new HashMap();
-		List<Member> list=memberService.getTrainMemberList(account, name, trainItemId, operator);
-		jsondata.put("rows",list);
+		List<Member> list = memberService.getTrainMemberList(account, name,school,major,
+				trainItemId, operator);
+		jsondata.put("rows", list);
 		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
 		jsonViewIE(jsondata);
 		return null;
 	}
-	
+
 	public String exportExcel() throws IOException {
 		Map session = this.getSession();
 		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
-		List<Member> list=memberService.getTrainMemberList(account, name, trainItemId, operator);
-		ExcelUtil<Member> util=new ExcelUtil<Member>(Member.class);
-		exportExcel(util,list, "培训报名名单");
+		List<Member> list = memberService.getTrainMemberList(account, name,school,major,
+				trainItemId, operator);
+		ExcelUtil<Member> util = new ExcelUtil<Member>(Member.class);
+		exportExcel(util, list, "培训报名名单");
 		return null;
 	}
 
@@ -202,17 +216,64 @@ public class MemberAction extends BaseAction {
 		return null;
 	}
 
+	public String memberUpdateInfo() throws IOException {
+		Map session = getSession();
+		Map jsondata = new HashMap();
+		StatusEnum status = StatusEnum.success;
+		String reason = null;
+		Member sessionMember=(Member) session.get(KeyEnum.MEMBER);
+		if(sessionMember==null)
+		{
+			status = StatusEnum.timeout;
+		}
+		else if (null != oldPassword &&oldPassword.length()!=0&& !sessionMember.getPassword().equals(oldPassword)) {
+			status = StatusEnum.failed;
+			reason = "原密码输入不正确";
+		} else {
+			session.put(KeyEnum.MEMBER,
+					memberService.txMemberUpdate(member, id));
+		}
+		jsondata.put(KeyEnum.STATUS, status);
+		jsondata.put(KeyEnum.REASON, reason);
+		jsonViewIE(jsondata);
+		return null;
+	}
+
 	public String attendTrain() throws IOException {
 		Map session = getSession();
 		Map jsondata = new HashMap();
 		Member member = (Member) session.get(KeyEnum.MEMBER);
 		StatusEnum status = StatusEnum.success;
 		String reason = null;
-		if (!memberService.txAttendTrain(member.getId(), trainItemId)) {
-			status = StatusEnum.failed;
-			reason = "你已报名该培训,不要重复报名!";
+		if (member == null) {
+			status = StatusEnum.timeout;
+		} else {
+			if (!memberService.txAttendTrain(member.getId(), trainItemId)) {
+				status = StatusEnum.failed;
+				reason = "你已报名该培训,不要重复报名!";
+			}
 		}
 
+		jsondata.put(KeyEnum.STATUS, status);
+		jsondata.put(KeyEnum.REASON, reason);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	
+	public String cancelTrain() throws IOException {
+		Map session = getSession();
+		Map jsondata = new HashMap();
+		Member member = (Member) session.get(KeyEnum.MEMBER);
+		StatusEnum status = StatusEnum.success;
+		String reason = null;
+		if (member == null) {
+			status = StatusEnum.timeout;
+		} else {
+			if (!memberService.txCancelTrain(member.getId(), trainItemId)) {
+				status = StatusEnum.failed;
+				reason = "取消失败!";
+			}
+		}
 		jsondata.put(KeyEnum.STATUS, status);
 		jsondata.put(KeyEnum.REASON, reason);
 		jsonViewIE(jsondata);
@@ -293,6 +354,26 @@ public class MemberAction extends BaseAction {
 		this.member = member;
 	}
 
+	public String getJsonMember() {
+		return jsonMember;
+	}
+
+	public void setJsonMember(String jsonMember) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			this.member = mapper.readValue(jsonMember, Member.class);
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -325,5 +406,22 @@ public class MemberAction extends BaseAction {
 	public void setTrainItemId(String trainItemId) {
 		this.trainItemId = trainItemId;
 	}
+
+	public String getMajor() {
+		return major;
+	}
+
+	public void setMajor(String major) {
+		this.major = major;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+	
 
 }

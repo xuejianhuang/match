@@ -23,7 +23,7 @@
 					data-options="required:true,validType:'phone'" /></td>
 			</tr>
 			<tr>
-				<td>本校： <select id="isJxufe" name="member.isJxufe">
+				<td>本校： <select id="isJxufe" name="member.isJxufe" onchange="singup_isJxufeSelectItemChange(this.options[this.options.selectedIndex].value,'#school')">
 						<option value="1">是</option>
 						<option value="0">否</option>
 				</select>
@@ -36,6 +36,19 @@
 				</select></td>
 
 			</tr>
+			<tr>
+				<td>学校：</td>
+				<td><input id="school" name="member.school" type="text"
+					class="easyui-validatebox"
+					data-options="required:true" /></td>
+			</tr>
+			<tr>
+				<td>专业：</td>
+				<td><input id="major" name="member.major" type="text"
+					class="easyui-validatebox"
+					data-options="required:true" /></td>
+			</tr>
+			<tr>
 			<tr>
 				<td>密码：</td>
 				<td><input type="password" name="member.password" id="memberPassword"
