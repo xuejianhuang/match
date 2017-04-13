@@ -39,6 +39,8 @@ public class Member extends cn.jxufe.emlab.match.pojo.BasePojo implements java.i
      @ExcelVOAttribute(name="专业",column="E")
      private String major;
      private Set<TrainItem> trainItems;
+     
+     private Set<Group> groups;
 
 
     // Constructors
@@ -163,6 +165,7 @@ public class Member extends cn.jxufe.emlab.match.pojo.BasePojo implements java.i
 	public void setMajor(String major) {
 		this.major = major;
 	}
+	
 
 	@JsonIgnore public Set<TrainItem> getTrainItems() {
 		return trainItems;
@@ -171,6 +174,16 @@ public class Member extends cn.jxufe.emlab.match.pojo.BasePojo implements java.i
 	 @JsonIgnore	public void setTrainItems(Set<TrainItem> trainItems) {
 		this.trainItems = trainItems;
 	}
+
+	 @JsonIgnore public Set<Group> getGroups() {
+		return groups;
+	}
+
+	 @JsonIgnore public void setGroups(Set<Group> groups) {
+		this.groups = groups;
+	}
+	 
+	 
    
 
 

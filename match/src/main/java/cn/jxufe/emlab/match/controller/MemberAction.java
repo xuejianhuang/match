@@ -44,9 +44,12 @@ public class MemberAction extends BaseAction {
 	private int page;
 	private int rows;
 	private String trainItemId;
+	private String matchProjectId;
 	private String jsonMember;
 	private String major;
 	private String school;
+	private String caption;
+	private String groupId;
 
 	@SuppressWarnings("rawtypes")
 	public String logout() throws IOException {
@@ -103,6 +106,7 @@ public class MemberAction extends BaseAction {
 		} else {
 			status = StatusEnum.success;
 			session.put(KeyEnum.MEMBER, member);
+			jsondata.put(KeyEnum.MEMBER, member);
 		}
 
 		jsondata.put(KeyEnum.STATUS, status);
@@ -260,6 +264,74 @@ public class MemberAction extends BaseAction {
 		return null;
 	}
 	
+	public String attendIndividualMatchProject() throws IOException {
+		Map session = getSession();
+		Map jsondata = new HashMap();
+		Member member = (Member) session.get(KeyEnum.MEMBER);
+		StatusEnum status = StatusEnum.success;
+		String reason = null;
+		if (member == null) {
+			status = StatusEnum.timeout;
+		} else {
+			if (!memberService.txAttendIndividualMatchProject(member.getId(), matchProjectId)) {
+				status = StatusEnum.failed;
+				reason = "你已报名该比赛,不要重复报名!";
+			}
+		}
+
+		jsondata.put(KeyEnum.STATUS, status);
+		jsondata.put(KeyEnum.REASON, reason);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	public String buildTeamMatchProjectGroup() throws IOException {
+		Map session = getSession();
+		Map jsondata = new HashMap();
+		Member member = (Member) session.get(KeyEnum.MEMBER);
+		StatusEnum status = StatusEnum.success;
+		String reason = null;
+		if (member == null) {
+			status = StatusEnum.timeout;
+		} else {
+			if (!memberService.txBuildTeamMatchProjectGroup(member.getId(), matchProjectId,caption)) {
+				status = StatusEnum.failed;
+				reason = "你已加入其他小组,不能建队!";
+			}
+		}
+		jsondata.put(KeyEnum.STATUS, status);
+		jsondata.put(KeyEnum.REASON, reason);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	public String attendGroup() throws IOException {
+		Map session = getSession();
+		Map jsondata = new HashMap();
+		Member member = (Member) session.get(KeyEnum.MEMBER);
+		StatusEnum status = StatusEnum.success;
+		String reason = null;
+		if (member == null) {
+			status = StatusEnum.timeout;
+		} else {
+			int result=memberService.txAttendGroup(member.getId(), groupId); // 0:加入小组成功    1:加入失败，小组已达最大人数   2:加入失败，已加入其他小组
+			if (1==result) {
+				status = StatusEnum.failed;
+				reason = "加入失败,小组已达最大人数!";
+			}
+			else if(2==result)
+			{
+				status = StatusEnum.failed;
+				reason = "加入失败,你已加入其他小组，不能同时加入多个组!";
+			}
+				
+		}
+
+		jsondata.put(KeyEnum.STATUS, status);
+		jsondata.put(KeyEnum.REASON, reason);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	
+	
 	public String cancelTrain() throws IOException {
 		Map session = getSession();
 		Map jsondata = new HashMap();
@@ -279,6 +351,17 @@ public class MemberAction extends BaseAction {
 		jsonViewIE(jsondata);
 		return null;
 	}
+	
+	public String getMemberById() throws IOException {
+
+		Map jsondata = new HashMap();
+		jsondata.put("content",
+				memberService.findById(id));
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
+
 
 	public String getAccount() {
 		return account;
@@ -422,6 +505,31 @@ public class MemberAction extends BaseAction {
 	public void setSchool(String school) {
 		this.school = school;
 	}
+
+	public String getMatchProjectId() {
+		return matchProjectId;
+	}
+
+	public void setMatchProjectId(String matchProjectId) {
+		this.matchProjectId = matchProjectId;
+	}
+
+	public String getCaption() {
+		return caption;
+	}
+
+	public void setCaption(String caption) {
+		this.caption = caption;
+	}
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+	
 	
 
 }

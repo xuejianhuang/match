@@ -1,0 +1,37 @@
+<a id="createteam_modaltrigger" class='regAcct'
+   hidefocus='true'
+   href="#createteammodal"></a>
+
+<form id="createteamForm" method="post">
+    <input type="button" class="hidemodal" hidden="hidden">
+
+    <table class="memberSignup jz-memberSignup"
+           cellspacing="5"
+           cellpadding="5" >
+        <tbody>
+        <tr>
+            <td class="itemName">
+                <div class="itemSpace">
+                    <span>团队名称：</span>
+                </div>
+            </td>
+            <td class="itemCtrl">
+                <div class="itemSpace">
+                    <input class="g_itext itemEdit"
+                           id="teamName"
+                           name="caption"
+                           maxlength="50"
+                           type="text">&nbsp;
+                </div>
+            </td>
+            <td>
+                <input class="memberSignupBtn g_ibutton"
+                       extclass="g_ibutton"
+                       value="确&#12288;定"
+                       onclick="submitCreateTeamInfo('#teamName')"
+                       type="button">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>

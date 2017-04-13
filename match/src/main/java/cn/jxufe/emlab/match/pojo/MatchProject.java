@@ -3,6 +3,9 @@ package cn.jxufe.emlab.match.pojo;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Set;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 
 /**
@@ -29,6 +32,8 @@ public class MatchProject extends cn.jxufe.emlab.match.pojo.BasePojo implements 
      private int isLocked;
      private int status;
      private String logo;
+     
+     private Set<Group> groups;
 
 
     // Constructors
@@ -186,6 +191,14 @@ public class MatchProject extends cn.jxufe.emlab.match.pojo.BasePojo implements 
     public void setLogo(String logo) {
         this.logo = logo;
     }
+
+    @JsonIgnore public Set<Group> getGroups() {
+		return groups;
+	}
+
+	@JsonIgnore public void setGroups(Set<Group> groups) {
+		this.groups = groups;
+	}
    
 
 

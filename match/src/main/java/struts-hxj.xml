@@ -2,30 +2,33 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 	<package name="login" extends="my-default">
-	<action name="getValidate_*" class="getVaildateCode" method="{1}"/>
-	<action name="getSession_*" class="getSession" method="{1}"/>
-	
+		<action name="getValidate_*" class="getVaildateCode" method="{1}" />
+		<action name="getSession_*" class="getSession" method="{1}" />
+
 	</package>
 
 	<package name="lyy" extends="my-default">
 		<interceptors>
-			<interceptor name="authority" class="cn.jxufe.emlab.match.core.AuthorityInterceptor" /> 
+			<interceptor name="authority"
+				class="cn.jxufe.emlab.match.core.AuthorityInterceptor" />
 			<interceptor-stack name="lyy-interceptor">
-				  <interceptor-ref name="authority" /> 
-				  <interceptor-ref name="defaultStack" /> 
-			</interceptor-stack> 
+				<interceptor-ref name="authority" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
 		</interceptors>
-		<default-interceptor-ref name="lyy-interceptor"/>
-		<action name="ra_*" class="roleAction" method="{1}"/>
-		<action name="ma_*" class="menuAction" method="{1}"/>
-		<action name="sla_*" class="syslogAction" method="{1}"/>
-		<action name="match_*" class="matchAction" method="{1}"/>
-		<action name="matchProject_*" class="matchProjectAction" method="{1}"/>
-	    <action name="matchNews_*" class="matchNewsAction" method="{1}"/>
-	    <action name="matchNotice_*" class="matchNoticeAction" method="{1}"/>
-	    <action name="oa_*" class="operatorAction" method="{1}"></action>
-	    <action name="member_*" class="memberAction" method="{1}"></action>
-	     <action name="trainItem_*" class="trainItemAction" method="{1}"></action>
-		
+		<default-interceptor-ref name="lyy-interceptor" />
+		<action name="ra_*" class="roleAction" method="{1}" />
+		<action name="ma_*" class="menuAction" method="{1}" />
+		<action name="sla_*" class="syslogAction" method="{1}" />
+		<action name="match_*" class="matchAction" method="{1}" />
+		<action name="matchProject_*" class="matchProjectAction"
+			method="{1}" />
+		<action name="matchNews_*" class="matchNewsAction" method="{1}" />
+		<action name="matchNotice_*" class="matchNoticeAction" method="{1}" />
+		<action name="oa_*" class="operatorAction" method="{1}"></action>
+		<action name="member_*" class="memberAction" method="{1}"></action>
+		<action name="trainItem_*" class="trainItemAction" method="{1}"></action>
+		<action name="group_*" class="groupAction" method="{1}"></action>
+
 	</package>
 </struts>    

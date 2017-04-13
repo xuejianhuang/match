@@ -1,3 +1,87 @@
+function fkLogTime(keyName) {
+    var This = (typeof Fai != "undefined" && Fai.top) || window;
+
+    if (!This._fkTestMode) {
+        return;
+    }
+    var time = new Date().getTime();
+    typeof console != "undefined" && console.log && console.log(keyName + " : " + ((time - This._startTime) / 1000) + "秒");
+}
+var _cid = 12329909;
+(function (FUN, undefined) {
+    var list = [];
+    FUN.run = function () {
+        if (arguments.length < 1) {
+            throw new Error("jzUtils.run 参数错误");
+            return
+        }
+        var name = arguments[0].name, callMethod = arguments[0].callMethod || false, prompt = arguments[0].prompt || false, promptMsg = arguments[0].promptMsg || "功能还在加载中，请稍候", base = arguments[0].base || (window.Fai && Fai.top.Site) || top.Site || window, args = Array.prototype.slice.call(arguments), funcArgs = args.slice(1), callbackFunc = {}, result;
+        result = checkMethod(name, base);
+        if (result.success) {
+            callMethod = false;
+            try {
+                result.func.apply(result.func, funcArgs)
+            } catch (e) {
+                console && console.log && console.log("错误:name=" + e.name + "; message=" + e.message)
+            }
+        } else {
+            if (prompt) {
+                window.Fai && Fai.ing(promptMsg, true)
+            }
+        }
+        if (callMethod) {
+            callbackFunc.name = name;
+            callbackFunc.base = base;
+            callbackFunc.args = funcArgs;
+            list.push(callbackFunc)
+        }
+    };
+    FUN.trigger = function (option) {
+        if (typeof option !== "object") {
+            throw new Error("jzUtils.trigger 参数错误");
+            return
+        }
+        var funcName = option.name || "", base = option.base || (window.Fai && Fai.top.Site) || top.Site || window, newList = [], result, func, i, param;
+        if (funcName.length < 1) {
+            return
+        }
+        for (i = 0; i < list.length; i++) {
+            param = list[i];
+            if (param.name == funcName) {
+                result = checkMethod(funcName, base);
+                if (result.success) {
+                    try {
+                        result.func.apply(result.func, param.args)
+                    } catch (e) {
+                        console && console.log && console.log("错误:name=" + e.name + "; message=" + e.message)
+                    }
+                }
+            } else {
+                newList.push(param)
+            }
+        }
+        list = newList
+    };
+    function checkMethod(funcName, base) {
+        var methodList = funcName.split("."), readyFunc = base, result = {
+            "success": true, "func": function () {
+            }
+        }, methodName, i;
+        for (i = 0; i < methodList.length; i++) {
+            methodName = methodList[i];
+            if (methodName in readyFunc) {
+                readyFunc = readyFunc[methodName]
+            } else {
+                result.success = false;
+                return result
+            }
+        }
+        result.func = readyFunc;
+        return result
+    }
+})(window.jzUtils || (window.jzUtils = {}))
+
+
 //js model_1
 function showYuanDanWindow(){
     var hasShowYuanDanLuckyGuy = $.cookie("hasShowYuanDanLuckyGuy",{path:"/"});
@@ -168,9 +252,26 @@ var _devMode = false;
 var _colOtherStyleData = {"independentList":[],"y":0,"h":0,"layout4Width":0,"layout5Width":0};						// 当前页面的数据
 var _templateOtherStyleData = {"independentList":[],"h":682,"y":0,"layout4Width":0,"layout5Width":0};						// 全局的数据
 
+function showMemberBarArea(member)
+{
+    $("#memberBarArea").show();
+    $("#memberBarArea").append(" <div id='arrow' class='g_arrow g_arrow_up'></div> " +
+        "<div id='memberBar' class='memberBar'>" +
+        " <div class='m_left'> " +
+        "<a class='memberHeadPicOuter' href='mCenter.jsp'>" +
+        "<img id='topBarMemberPic' class='msgBoard_member_headpic' src='../image/member.png' style='height:30px'>" +
+        "</a> " +
+        "<a href='mCenter.html'><span class='userLabel' title='等级：普通会员' id='memberName'>" + member.name + "</span></a> " +
+        "<a href='javascript:onLogout();' class='exit'>[退出]</a> </div> <div class='right'> " +
+        "</div> <div id='topBarMsg' style='display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:#eee; text-align:center; z-index: 9010;'></div> </div>");
+
+    $(".J_memberLoginPanel").hide();
+    $("#memberLoginPanel").append("<div class='memberWelcome'> " + member.name + "，欢迎登录。</div>")
+}
+
 $(function() {
 
-
+    $('#webFooterTable').load('footer.html');
 
     $.ajax({
         url: "/matchPlatform/getSession_getMemberInfo.action",
@@ -180,19 +281,7 @@ $(function() {
         success: function (result) {
             var member = jQuery.parseJSON(result);
             if (member != null) {
-                $("#memberBarArea").show();
-                $("#memberBarArea").append(" <div id='arrow' class='g_arrow g_arrow_up'></div> " +
-                    "<div id='memberBar' class='memberBar'>" +
-                    " <div class='m_left'> " +
-                    "<a class='memberHeadPicOuter' href='mCenter.jsp'>" +
-                    "<img id='topBarMemberPic' class='msgBoard_member_headpic' src='../image/member.png' style='height:30px'>" +
-                    "</a> " +
-                    "<a href='mCenter.html'><span class='userLabel' title='等级：普通会员' id='memberName'>" + member.name + "</span></a> " +
-                    "<a href='javascript:onLogout();' class='exit'>[退出]</a> </div> <div class='right'> " +
-                    "</div> <div id='topBarMsg' style='display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:#eee; text-align:center; z-index: 9010;'></div> </div>");
-
-                $(".J_memberLoginPanel").hide();
-                $("#memberLoginPanel").append("<div class='memberWelcome'> " + member.name + "，欢迎登录。</div>")
+                showMemberBarArea(member);
             }
             else {
                if($("#memberBarArea").hasClass('loginAuthorizationPage'))

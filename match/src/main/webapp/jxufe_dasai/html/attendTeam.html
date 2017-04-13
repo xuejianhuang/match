@@ -15,66 +15,126 @@
     <script type="text/javascript" charset="utf-8" src="../js/jquery.leanModal.js"></script>
     <script type="text/javascript" src="../js/login_up.js"></script>
     <script type="text/javascript">
-
-        function matchProjectIntroduction(matchProjectId)
+        var searchStr = location.search;
+        // alert(searchStr);
+        // 由于searchStr属性值包括“?”，所以除去该字符
+        searchStr = searchStr.substr(1);//将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
+        // alert(searchStr);
+        var searchs = searchStr.split("&");//获得第一个参数和值
+        // alert(searchStr);
+        var matchProjectId = searchs[0].split("=")[1];
+        function submitCreateTeamInfo(captioninput)
         {
+            para ={};
+            para.matchProjectId=matchProjectId;
+            para.caption=$(captioninput).val();
             $.ajax({
-                url : "/matchPlatform/matchProject_getMatchProjectById.action?id="+matchProjectId,
-                type : "GET",
-                // data : para,
+                url : "/matchPlatform/member_buildTeamMatchProjectGroup.action",
+                type : "POST",
+                data : para,
                 dataType : "text",
                 success : function(result) {
-                    $('#matchProjectIntroductionmodal').html("");
-                    var matchProject = jQuery.parseJSON(result).content;
-                    $('#matchProjectIntroductionmodal').append(" <a id='matchProjectIntroductionmodal_modaltrigger' class='regAcct' hidefocus='true'href='#matchProjectIntroductionmodal'></a> "+matchProject.introduction);
-                    $('#matchProjectIntroductionmodal_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
-                    $('#matchProjectIntroductionmodal_modaltrigger').click();
+                    dealAjaxResult(result, function(r) {
+                        //  window.location.href = "index.html";
+                        searchGroup(1);
+                        $(".hidemodal").click();
+                        alert("报名成功");
+                    });
+
                 }
             });
-
-            return false;
-
         }
-        $(function(){
+        function attendGroup(groupId)
+        {
             $.ajax({
-                url : "/matchPlatform/matchProject_getEnableMatchProject.action",
-                type : "GET",
-                // data : para,
+                url : "member_attendGroup.action?groupId="+groupId,
+                type : "post",
+                success : function(result) {
+                    dealAjaxResult(result, function(r) {
+                        searchGroup(1);
+                        alert("加入成功，请尽快与队长联系");
+                    });
+
+                }
+            });
+        }
+
+        function searchGroup(page)
+        {
+            para ={};
+            para.rows=20;
+            para.page=page;
+            para.matchProjectId=matchProjectId;
+            para.buildMemberName=$("#buildMemberName").val();
+            para.caption=$("#teamCaption").val();
+            $.ajax({
+                url : "/matchPlatform/group_getGroupByConditions.action",
+                type : "POST",
+                data : para,
                 dataType : "text",
                 success : function(result) {
                     var rows = jQuery.parseJSON(result).rows;
+                    $("#trainItem").html("");
                     $.each(rows,function(index,row)
                     {
-                        var content= " <li>" +
-                            " <span> " +
-                            "<a  href='javascript:void(0);' onclick=\"matchProjectIntroduction('"+row.id+"');return false;\" title='"+row.caption+"' target='_blank'  data-element='1' data-click='onClick'>" +
-                            " <div class='normal'>" +
-                            " <img class='scrollLoading' data-url='"+row.logo+"' src='"+row.logo+"' alt='"+row.caption+"' title='"+row.caption+"'>" +
-                            " </div> " +
-                            "<h3>"+row.caption+"</h3>" +
-                            " </a> " +
-                            "<div class='rec_courses_ref cf'> " +
-                            "<span class='rec_courses_time fl'>"+row.startDate.substring(5,10)+"--"+row.endDate.substring(5,10)+"</span>";
-                        if(row.isTeamMatch==0)
+                        var content= "  <li> <span style='height:210px;position:relative;' > <h4 style='text-align: center'>"+ row.caption+"</h4> <table  cellpadding='6px' cellspacing='6px' style='color: #00a0e9'> ";
+                        var buildMember="";
+                        var teamMember="";
+                        $.each(row.members,function(index,member)
                         {
-                            content+=  " <span class='rec_courses_num fr'>个人赛&nbsp;<button type='button' style='margin-bottom: 2px;color: #00a0e9' onclick=attendIndividualMatchProject('"+row.id+"')>点击报名</button></span>"
+                            if(row.buildMemberId==member.id)
+                            {
+                                buildMember+=" <tr> <td>队长:</td> <td style='cursor: pointer' onclick=memberIntroduction('"+member.id+"')> "+member.name+"</td> <td>"+member.school+"</td> </tr>  <tr> <td>组员:</td> </tr>";
+                            }
+                            else
+                            {
+                                teamMember+="  <tr> <td></td> <td style='cursor: pointer' onclick=memberIntroduction('"+member.id+"')> "+member.name+"</td> <td>"+member.school+"</td> </tr>";
+                            }
+                        });
+                        content+=buildMember+teamMember+" </table>";
+                        if(row.full)
+                        {
+                            content+=  "  <div class='rec_courses_ref cf' style='position: absolute;bottom: 0px;right: 0px'> <span class='rec_courses_num fr'>已满</span> </div>";
                         }
                         else
                         {
-                            content+=  " <span class='rec_courses_num fr'>团体赛("+row.groupMemberCount+"人)&nbsp;<button type='button' style='margin-bottom: 2px;color: #00a0e9' onclick=buildTeam('"+row.id+"')>进入组队</button></span>"
+                            content+=  " <div class='rec_courses_ref cf' style='position: absolute;bottom: 0px;right: 0px'> <span class='rec_courses_num fr'><button type='button' style='margin-bottom: 2px;color: #00a0e9' onclick=attendGroup('"+row.id+"')>点击加入</button></span> </div> "
                         }
-                        content+= " </div> " +
-                            "</span> " +
-                            "</li>";
-
+                        content+= "</span> </li>";
                         $("#trainItem").append(content);
                     });
-
-
-
                 }
             });
+        }
+        function memberIntroduction(memberId)
+        {
+            $.ajax({
+                url : "/matchPlatform/member_getMemberById.action?id="+memberId,
+                type : "GET",
+                // data : para,
+                dataType : "text",
+                success : function(result) {
+                    $('#memberIntroductionmodal').html("");
+                    var member = jQuery.parseJSON(result).content;
+                    $('#memberIntroductionmodal').append(" <a id='memberIntroductionmodal_modaltrigger' class='regAcct' hidefocus='true'href='#memberIntroductionmodal'></a>" +
+                        " <div> " +
+                        "<table cellpadding='10px'>" +
+                        " <tr> <td>  姓名:</td> <td> "+member.name+"</td> </tr> " +
+                        "<tr> <td>  学校:</td> <td> "+member.school+"</td> </tr> " +
+                        "<tr> <td> 专业:</td> <td> "+member.major+"</td> </tr> " +
+                        "<tr> <td>  账号(邮箱):</td> <td> "+member.account+"</td> </tr>" +
+                        " <tr> <td> 电话:</td> <td> "+member.phone+"</td> </tr> " +
+                        "</table> </div>");
+                    $('#memberIntroductionmodal_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
+                    $('#memberIntroductionmodal_modaltrigger').click();
+                }
+            });
+        }
+        $(function() {
+            searchGroup(1);
         });
+
+        /*   */
     </script>
 
     <meta name="mobile-agent" content="format=html5;url=http://m.mq11837910.icoc.me/"/>
@@ -3904,15 +3964,18 @@
     </style>
 
 
-
 </head>
+
 <body class="g_body g_locale2052 g_cusSiteWidth">
 
 <div id="loginmodal" class="dialogPanle" style="display:none;" align="center"></div>
 
 <div id="signupmodal" class="dialogPanle" style="display:none;" align="center"></div>
 
-<div id="matchProjectIntroductionmodal" class="dialogPanle" style="display:none;" align="center"></div>
+
+<div id="createteammodal" class="dialogPanle" style="display:none;" align="center"></div>
+
+<div id="memberIntroductionmodal" class="dialogPanle" style="display:none;" align="center"></div>
 
 
 <div id="memberBarArea" class="memberBarArea2 g_editPanel" ></div>
@@ -4263,18 +4326,66 @@
                                                                                             <td class="formMiddleLeft formMiddleLeft12"></td>
                                                                                             <td class="formMiddleCenter formMiddleCenter12 "   style="background:#fafafa "  valign="top">
                                                                                                 <div class="formMiddleContent formMiddleContent12 fk-formContentOtherPadding" tabstyle="0">
-                                                                                                    <div class="newsDetail" newsid="80">
+                                                                                                    <div class="searchBox" style="padding-bottom: 10px" >
+                                                                                                        <div class="searchBoxContainer">
+                                                                                                            <button type='button' style='margin-bottom: 2px;color: #00a0e9' onclick="createTeam()">我要建队</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                                            团队名称:  <input id="teamCaption" class="productSearch g_itext ui-autocomplete-input" placeholder="" size="10" value="" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" type="text">&nbsp;&nbsp;
+                                                                                                            组建人:  <input id="buildMemberName" class="productSearch g_itext ui-autocomplete-input" placeholder="" size="10" value="" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" type="text">&nbsp;&nbsp;
+                                                                                                            <a class="g_btn searchBoxBtn" href="javascript:void(0);" onclick="searchGroup(1);return false;"><span>搜索</span></a>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="separatorLine g_separator"></div>
+                                                                                                    <div class="titleText titleText313"><span class="bannerNormalTitle fk_mainTitle mainTitle mainTitle313" >已建队伍</span></div>
+                                                                                                    <div class="newsDetail" newsid="80" style="padding: 1px">
+
                                                                                                         <ul id="trainItem" class="cf">
+                                                                                                            <!--  <li>
+                                                                                                                    <span style="height:210px;position:relative;" >
+                                                                                                                        <h4 style="text-align: center"> 证券投资</h4>
+                                                                                                                        <table  cellpadding="3px" cellspacing="3px" style="color: #00a0e9">
+                                                                                                                            <tr>
+                                                                                                                                <td>组建人:</td>
+                                                                                                                                 <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
+                                                                                                                                 <td>南昌大学</td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td>组员:</td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td></td>
+                                                                                                                                 <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
+                                                                                                                                 <td>南昌大学</td>
+                                                                                                                            </tr>
+                                                                                                                             <tr>
+                                                                                                                                <td></td>
+                                                                                                                                <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
+                                                                                                                                 <td>南昌大学</td>
+                                                                                                                            </tr>
+                                                                                                                             <tr>
+                                                                                                                                <td></td>
+                                                                                                                                 <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
+                                                                                                                                 <td>南昌大学</td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td></td>
+                                                                                                                                  <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
+                                                                                                                                 <td>南昌大学</td>
+                                                                                                                            </tr>
+
+                                                                                                                        </table>
+                                                                                                                        <div class="rec_courses_ref cf" style="position: absolute;bottom: 0px;right: 0px">
+                                                                                                                            <span class="rec_courses_num fr"><button type="button" style="margin-bottom: 2px;color: #00a0e9" onclick="attendIndividualMatchProject('a9f751f2-10da-404e-976d-7357df5f4e51')">点击报名</button></span>
+                                                                                                                        </div>
+                                                                                                                    </span>
+                                                                                                                </li>-->
 
                                                                                                         </ul>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <!--  <div id="prevAndNextDiv">
-                                                                                                      <table style="width:100%;height:100%;"><tbody><tr><td colspan="2" valign="middle" align="center"><div id="singleNewspagenation12" style="margin:0px;" class="pagenation">
-                                                                                                          <div class="pagePrev"><span>上一篇</span></div>
-                                                                                                          <div class="pageNext"><a hidefocus="true" class="g_border" href="nd.jsp?id=73&amp;_np=2_625#module12"><span>下一篇</span></a></div>
-                                                                                                      </div></td></tr></tbody></table>
-                                                                                                  </div>-->
+                                                                                                <div id="pagenation31" class="pagenation">
+
+                                                                                                </div>
                                                                                                 <div id="newsCommentDiv"><table class="pdCommentSwitchTable fk-pdcomment-switch-table" style="width:100%" cellspacing="0" cellpadding="0"><tbody><tr>
                                                                                                 </tr></tbody>
                                                                                                 </table>
@@ -4436,13 +4547,11 @@
 <script type="text/javascript" src="../js/site.js"></script>
 <script type="text/javascript" src="../js/locale/2052.min.js"></script>
 <script type="text/javascript" src="../js/ZeroClipboard.min.js"></script>
-
-
 <script type="text/javascript" src="../js/index.js"></script>
+
 
 <link type='text/css' href=../css/login.min.css rel='stylesheet'/>
 <link type='text/css' href=../css/fontsIco.min.css rel='stylesheet'/>
-
 </body>
 </html>
 

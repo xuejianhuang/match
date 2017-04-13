@@ -2944,11 +2944,9 @@ span.g_control_next:before {
     *zoom:1
 }
 .searchBox .g_itext {
-    float:left;
     width:120px
 }
 .searchBox .g_btn {
-    float:left;
     margin-left:7px;
     clear:right
 }

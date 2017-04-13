@@ -107,11 +107,45 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 		return getHibernateTemplate().find(queryString);
 	}
 
-	public List<T> find(String queryString, Object[] objs)
+	public List<T> findSQL(final String sql) throws DataAccessException {
+		List<T> list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			public List doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query = session.createSQLQuery(sql).addEntity(clazz);
+				return query.list();
+			}
+
+		});
+		return list;
+	}
+
+	public List<T> find(final String hql, final List values)
 			throws DataAccessException {
-		if (null != objs && objs.length > 0)
-			return getHibernateTemplate().find(queryString, objs);
-		return getHibernateTemplate().find(queryString);
+		
+		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			public List doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query = session.createQuery(hql);
+				setParameter(query, values);
+				return query.list();
+			}
+
+		});
+		return list;
+	}
+
+	public List<T> findSQL(final String sql, final List values)
+			throws DataAccessException {
+	  	List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			public List doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query = session.createSQLQuery(sql).addEntity(clazz);
+				setParameter(query, values);
+				return query.list();
+			}
+
+		});
+		return list;
 	}
 
 	public List<T> find(T example) throws DataAccessException {
@@ -119,7 +153,11 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 	}
 
 	public T findById(Serializable id) throws DataAccessException {
+		if(id!=null)
+		{
 		return getHibernateTemplate().get(clazz, id);
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -127,7 +165,7 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 		return getHibernateTemplate().find(hql, obj);
 	}
 
-	public List<T> findByPage(final String hql, final Object[] values,
+	public List<T> findByPage(final String hql, final List values,
 			final int offset, final int pageSize) throws DataAccessException {
 		if (pageSize == -1)
 			return this.find(hql, values);
@@ -135,11 +173,24 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				Query query = session.createQuery(hql);
-				if (null != values && values.length > 0)
-					for (int i = 0; i < values.length; i++) {
-						query.setParameter(i, values[i]);
-					}
-				String sql = query.getQueryString();
+				setParameter(query, values);
+				List result = query.setFirstResult(offset)
+						.setMaxResults(pageSize).list();
+				return result;
+			}
+		});
+		return list;
+	}
+
+	public List<T> findByPageSQL(final String sql,  final List values,
+			final int offset, final int pageSize) throws DataAccessException {
+		if (pageSize == -1)
+			return this.findSQL(sql, values);
+		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query = session.createSQLQuery(sql).addEntity(clazz);
+			    setParameter(query, values);
 				List result = query.setFirstResult(offset)
 						.setMaxResults(pageSize).list();
 				return result;
@@ -154,10 +205,10 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 		return getHibernateTemplate().find(sql, value);
 	}
 
-	public void executeQuery(final String hql) throws DataAccessException {
+	public void executeQuery(final String sql) throws DataAccessException {
 		getSession().doWork(new Work() {
 			public void execute(Connection conn) throws SQLException {
-				conn.createStatement().execute(hql);
+				conn.createStatement().execute(sql);
 			}
 		});
 	}
@@ -168,6 +219,19 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				Query query = session.createQuery(hql);
+				Object result = query.uniqueResult();
+				return result;
+			}
+		});
+		return obj;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Object uniqueResultSQL(final String sql) throws DataAccessException {
+		Object obj = getHibernateTemplate().execute(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query = session.createSQLQuery(sql);
 				Object result = query.uniqueResult();
 				return result;
 			}
@@ -188,6 +252,10 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 		return (Long) uniqueResult(hql);
 	}
 
+	public Long getCountSQL(String sql) throws DataAccessException {
+		return (Long) uniqueResultSQL(sql);
+	}
+
 	public List<T> findByProperties(String[] fields, Object[] values)
 			throws DataAccessException {
 		String hql = "from " + className + " where ";
@@ -200,19 +268,6 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 
 	public List<T> listAll() throws DataAccessException {
 		return getHibernateTemplate().loadAll(clazz);
-	}
-
-	public List findBySQL(final String sql) throws DataAccessException {
-		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
-			public List doInHibernate(Session session)
-					throws HibernateException, SQLException {
-				Query query = session.createSQLQuery(sql).addEntity(clazz);
-						//.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-				return query.list();
-			}
-
-		});
-		return list;
 	}
 
 	protected Serializable saveLog(Syslog log) throws DataAccessException {
@@ -246,8 +301,8 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 
 	}
 
-	public void fillPagetoMap(Map map, final String hql, final Object[] values,
-			final int page, final int pageSize) {
+	public List<T> fillPagetoMap(Map map, final String hql,
+			final List values, final int page, final int pageSize) {
 		Long count = getCount(hql, values);
 		List<T> exampleList = findByPage(hql, values, (page - 1) * pageSize,
 				pageSize);
@@ -257,11 +312,26 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 		int totalPage = (int) Math.ceil((double) count / pageSize);
 		map.put("totalPage", totalPage);
 
-		return;
+		return exampleList;
 
 	}
 
-	public Long getCount(String hql, final Object[] values)
+	public List<T> fillPagetoMapSQL(Map map, final String sql,
+			 final List values, final int page, final int pageSize) {
+		int count = getCountSQL(sql, values);
+		List<T> exampleList = findByPageSQL(sql, values, (page - 1) * pageSize,
+				pageSize);
+
+		map.put("total", count);
+		map.put("rows", exampleList);
+		int totalPage = (int) Math.ceil((double) count / pageSize);
+		map.put("totalPage", totalPage);
+
+		return exampleList;
+
+	}
+
+	public Long getCount(String hql,  final List values)
 			throws DataAccessException {
 		int index = hql.indexOf("order");
 		String countHql = null;
@@ -279,19 +349,48 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 		}
 	}
 
-	public Object uniqueResult(final String hql, final Object[] values)
+	public int getCountSQL(String sql, final List values)
+			throws DataAccessException {
+		int index = sql.indexOf("order");
+		String countSQL = null;
+		if (index < 0) {
+			countSQL = "select count(*) " + sql.substring(sql.indexOf("from"));
+		} else {
+			countSQL = "select count(*) "
+					+ sql.substring(sql.indexOf("from"), index);
+		}
+		Object obj = uniqueResultSQL(countSQL, values);
+		if (obj == null) {
+			return 0;
+		} else {
+			return (Integer) obj;
+		}
+	}
+
+	public Object uniqueResult(final String hql, final List values)
 			throws DataAccessException {
 		Object obj = getHibernateTemplate().execute(new HibernateCallback() {
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				Query query = session.createQuery(hql);
-				if (null != values && values.length > 0) {
-					for (int i = 0; i < values.length; i++) {
-						query.setParameter(i, values[i]);
-					}
-				}
+				  setParameter(query, values);
 				Object result = query.uniqueResult();
 				String sql = query.getQueryString();
+				return result;
+			}
+		});
+		return obj;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Object uniqueResultSQL(final String sql, final List values)
+			throws DataAccessException {
+		Object obj = getHibernateTemplate().execute(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query = session.createSQLQuery(sql);
+                 setParameter(query, values);
+				Object result = query.uniqueResult();
 				return result;
 			}
 		});
@@ -314,5 +413,15 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 		}
 		return getHibernateTemplate().findByCriteria(criteria);
 
+	}
+
+	public void setParameter(Query query, List values) {
+		if (query != null) {
+			if (null != values && values.size() > 0) {
+				for (int i = 0; i < values.size(); i++) {
+					query.setParameter(i, values.get(i));
+				}
+			}
+		}
 	}
 }

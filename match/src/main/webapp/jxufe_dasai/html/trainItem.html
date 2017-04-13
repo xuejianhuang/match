@@ -64,19 +64,6 @@
                 }
             });
         });
-
-        function fkLogTime(keyName) {
-            var This = (typeof Fai != "undefined" && Fai.top) || window;
-
-            if (!This._fkTestMode) {
-                return;
-            }
-            var time = new Date().getTime();
-            typeof console != "undefined" && console.log && console.log(keyName + " : " + ((time - This._startTime) / 1000) + "秒");
-        }
-
-
-        var _cid = 12329909;
     </script>
 
     <meta name="mobile-agent" content="format=html5;url=http://m.mq11837910.icoc.me/"/>
@@ -3905,158 +3892,10 @@
     <style id='styleTitle' type='text/css'>
     </style>
 
-
-    <script type="text/javascript">
-
-        (function (FUN, undefined) {
-            var list = [];
-            FUN.run = function () {
-                if (arguments.length < 1) {
-                    throw new Error("jzUtils.run 参数错误");
-                    return
-                }
-                var name = arguments[0].name, callMethod = arguments[0].callMethod || false, prompt = arguments[0].prompt || false, promptMsg = arguments[0].promptMsg || "功能还在加载中，请稍候", base = arguments[0].base || (window.Fai && Fai.top.Site) || top.Site || window, args = Array.prototype.slice.call(arguments), funcArgs = args.slice(1), callbackFunc = {}, result;
-                result = checkMethod(name, base);
-                if (result.success) {
-                    callMethod = false;
-                    try {
-                        result.func.apply(result.func, funcArgs)
-                    } catch (e) {
-                        console && console.log && console.log("错误:name=" + e.name + "; message=" + e.message)
-                    }
-                } else {
-                    if (prompt) {
-                        window.Fai && Fai.ing(promptMsg, true)
-                    }
-                }
-                if (callMethod) {
-                    callbackFunc.name = name;
-                    callbackFunc.base = base;
-                    callbackFunc.args = funcArgs;
-                    list.push(callbackFunc)
-                }
-            };
-            FUN.trigger = function (option) {
-                if (typeof option !== "object") {
-                    throw new Error("jzUtils.trigger 参数错误");
-                    return
-                }
-                var funcName = option.name || "", base = option.base || (window.Fai && Fai.top.Site) || top.Site || window, newList = [], result, func, i, param;
-                if (funcName.length < 1) {
-                    return
-                }
-                for (i = 0; i < list.length; i++) {
-                    param = list[i];
-                    if (param.name == funcName) {
-                        result = checkMethod(funcName, base);
-                        if (result.success) {
-                            try {
-                                result.func.apply(result.func, param.args)
-                            } catch (e) {
-                                console && console.log && console.log("错误:name=" + e.name + "; message=" + e.message)
-                            }
-                        }
-                    } else {
-                        newList.push(param)
-                    }
-                }
-                list = newList
-            };
-            function checkMethod(funcName, base) {
-                var methodList = funcName.split("."), readyFunc = base, result = {
-                    "success": true, "func": function () {
-                    }
-                }, methodName, i;
-                for (i = 0; i < methodList.length; i++) {
-                    methodName = methodList[i];
-                    if (methodName in readyFunc) {
-                        readyFunc = readyFunc[methodName]
-                    } else {
-                        result.success = false;
-                        return result
-                    }
-                }
-                result.func = readyFunc;
-                return result
-            }
-        })(window.jzUtils || (window.jzUtils = {}))
-
-    </script>
-
-
 </head>
 <body class="g_body g_locale2052 g_cusSiteWidth">
 
-<div id="loginmodal" class="dialogPanle" style="display:none;" align="center">
-    <a id="login_modaltrigger" class='regAcct'
-       hidefocus='true'
-       href="#loginmodal"></a>
-
-    <h2 align="center" style="margin-bottom: 10px">登录</h2 >
-    <form
-            id="memberSigninForm"
-            method="post"
-    >
-        <input type="button" class="hidemodal" hidden="hidden">
-
-        <table class="memberSignup jz-memberSignup"
-               cellspacing="5"
-               cellpadding="5" >
-            <tbody>
-            <tr>
-                <td class="itemName">
-                    <div class="itemSpace">
-                        <span>帐号(邮箱)：</span>
-                    </div>
-                </td>
-                <td class="itemCtrl">
-                    <div class="itemSpace">
-                        <input class="g_itext itemEdit"
-                               id="memberSigninAccount"
-                               name="member.account"
-                               maxlength="50"
-                               type="text">&nbsp;<font
-                            class="g_stress">*</font>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="itemName">
-                    <div class="itemSpace">
-                        <span>密码：</span>
-                    </div>
-                </td>
-                <td class="itemCtrl">
-                    <div class="itemSpace">
-                        <input class="g_itext itemEdit"
-                               id="memberSigninPassword"
-                               name="member.password"
-                               maxlength="20"
-                               minlength="6"
-                               type="password">&nbsp;<font
-                            class="g_stress">*</font>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="itemName"></td>
-                <td class="itemCtrl">
-                    <a id="signup_modaltrigger" class='regAcct'
-                       hidefocus='true'
-                       href="#signupmodal">注&#12288;册</a>
-                    &nbsp;&nbsp;
-                    <input class="memberSignupBtn g_ibutton"
-                           extclass="g_ibutton"
-                           value="登&#12288;录"
-                           onclick="login('member_login.action','#memberSigninAccount','#memberSigninPassword','trainItem.html')"
-                           type="button">
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </form>
-
-</div>
+<div id="loginmodal" class="dialogPanle" style="display:none;" align="center"></div>
 
 <div id="signupmodal"  class="dialogPanle"style="display:none;" align="center"></div>
 
@@ -4588,46 +4427,8 @@
 
 <script type="text/javascript" src="../js/index.js"></script>
 
-<script type="text/javascript">
-
-
-
-</script>
-
-
-<script>
-
-</script>
-
-<script type='text/javascript'>
-
-
-
-    if ($.cookie('faiscoAd') == 'true') {
-        $('.siteAdvertisement_box').show();
-    }
-    $('#sitePopVister').show();
-
-
-
-
-
-</script>
-
 <link type='text/css' href=../css/login.min.css rel='stylesheet'/>
 <link type='text/css' href=../css/fontsIco.min.css rel='stylesheet'/>
-
-
-<script type="text/javascript">
-
-
-</script>
-
-
-<script type="text/javascript">
-
-
-</script>
 </body>
 </html>
 

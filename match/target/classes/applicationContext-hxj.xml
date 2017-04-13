@@ -34,18 +34,20 @@
 	<bean id="syslogService" class="cn.jxufe.emlab.match.service.SyslogService"
 		autowire="byName" />
 	<bean id="matchService" class="cn.jxufe.emlab.match.service.MatchService"
-		autowire="byName"  />
+		autowire="byName" />
 	<bean id="matchProjectService" class="cn.jxufe.emlab.match.service.MatchProjectService"
-		autowire="byName"  />
-  <bean id="matchNewsService" class="cn.jxufe.emlab.match.service.MatchNewsService"
-		autowire="byName"  />
-<bean id="matchNoticeService" class="cn.jxufe.emlab.match.service.MatchNoticeService"
-		autowire="byName"  />
- <bean id="memberService" class="cn.jxufe.emlab.match.service.MemberService"
-		autowire="byName"  />
-		<bean id="trainItemService" class="cn.jxufe.emlab.match.service.TrainItemService"
-		autowire="byName"  />
-		
+		autowire="byName" />
+	<bean id="matchNewsService" class="cn.jxufe.emlab.match.service.MatchNewsService"
+		autowire="byName" />
+	<bean id="matchNoticeService" class="cn.jxufe.emlab.match.service.MatchNoticeService"
+		autowire="byName" />
+	<bean id="memberService" class="cn.jxufe.emlab.match.service.MemberService"
+		autowire="byName" />
+	<bean id="trainItemService" class="cn.jxufe.emlab.match.service.TrainItemService"
+		autowire="byName" />
+	<bean id="groupService" class="cn.jxufe.emlab.match.service.GroupService"
+		autowire="byName" />
+
 
 	<bean id="operatorAction" class="cn.jxufe.emlab.match.controller.OperatorAction"
 		autowire="byName" scope="prototype"></bean>
@@ -63,15 +65,17 @@
 		autowire="byName" scope="prototype"></bean>
 	<bean id="matchProjectAction" class="cn.jxufe.emlab.match.controller.MatchProjectAction"
 		autowire="byName" scope="prototype"></bean>
-			<bean id="matchNewsAction" class="cn.jxufe.emlab.match.controller.MatchNewsAction"
+	<bean id="matchNewsAction" class="cn.jxufe.emlab.match.controller.MatchNewsAction"
 		autowire="byName" scope="prototype"></bean>
-					<bean id="matchNoticeAction" class="cn.jxufe.emlab.match.controller.MatchNoticeAction"
+	<bean id="matchNoticeAction" class="cn.jxufe.emlab.match.controller.MatchNoticeAction"
 		autowire="byName" scope="prototype"></bean>
-			<bean id="memberAction" class="cn.jxufe.emlab.match.controller.MemberAction"
+	<bean id="memberAction" class="cn.jxufe.emlab.match.controller.MemberAction"
 		autowire="byName" scope="prototype"></bean>
-			<bean id="trainItemAction" class="cn.jxufe.emlab.match.controller.TrainItemAction"
+	<bean id="trainItemAction" class="cn.jxufe.emlab.match.controller.TrainItemAction"
 		autowire="byName" scope="prototype"></bean>
-	
+	<bean id="groupAction" class="cn.jxufe.emlab.match.controller.GroupAction"
+		autowire="byName" scope="prototype"></bean>
+
 
 
 </beans>

@@ -2,13 +2,13 @@
  * Created by Administrator on 2017/3/31.
  */
 $(function() {
-    //  $('.webHeaderTable').load('header.html');
-    $('#webFooterTable').load('footer.html');
-   $('#signupmodal').load('signup_modal.html');
-  // $('#loginmodal').load('login_modal.html');
-    //  $('#webHeaderTable').load('header.html');
-    $('#signup_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal",anther:"#loginmodal"});
-    $('#login_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal",anther:"#signupmodal"});
+
+     $('#signupmodal').load('signup_modal.html',function () {
+         $('#loginmodal').load('login_modal.html',function () {
+             $('#login_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal",anther:"#signupmodal"});
+             $('#signup_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal",anther:"#loginmodal"});
+         });
+     });
 });
 function checkSignUpInfo() {
 
@@ -98,7 +98,7 @@ function validateEmail(val) {
     }
     return true;
 }
-function login(action,account,password,sendredirectURL)
+function login(action,account,password)
 {
     if(validateEmail($(account).val()))
     {
@@ -110,7 +110,9 @@ function login(action,account,password,sendredirectURL)
                     password:$(password).val(),
                 }, function(result) {
                     dealAjaxResult(result, function(r) {
-                        window.location.href = sendredirectURL;
+                    //    window.location.href = sendredirectURL;
+                        $(".hidemodal").click();
+                        showMemberBarArea(r.MEMBER);
                     });
                 }
             );
@@ -147,10 +149,11 @@ function attendTrain(trainItemId)
         }
     });
 }
-function attendMatchProject(matchProjectId)
+
+function attendIndividualMatchProject(matchProjectId)
 {
     $.ajax({
-        url : "member_attendTrain.action?trainItemId="+matchProjectId,
+        url : "member_attendIndividualMatchProject.action?matchProjectId="+matchProjectId,
         type : "post",
         success : function(result) {
             dealAjaxResult(result, function(r) {
@@ -161,6 +164,40 @@ function attendMatchProject(matchProjectId)
         }
     });
 }
+/*
+点击进入组队
+ */
+function buildTeam(matchProjectId)
+{
+    window.location.href = "attendTeam.html?matchProjectId="+matchProjectId;
+}
+/*
+个人创建队伍
+ */
+function createTeam(matchProjectId)
+{
+    $.ajax({
+        url: "/matchPlatform/getSession_getMemberInfo.action",
+        type: "GET",
+        // data : para,
+        dataType: "text",
+        success: function (result) {
+            var member = jQuery.parseJSON(result);
+            if (member != null) {
+                $('#createteammodal').load('createTeam_modal.html',function () {
+                    $('#createteam_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
+                    $('#createteam_modaltrigger').click();
+                });
+            }
+            else {
+                $('#login_modaltrigger').click();
+            }
+
+        }
+    });
+}
+
+
 function singup_isJxufeSelectItemChange(isJxufe,school)
 {
     if(isJxufe==1)
@@ -183,7 +220,7 @@ function dealAjaxResult(data, okFun) {
         $('#login_modaltrigger').click();
     }
    else if (result == "success") {
-        okFun(result);
+        okFun(data);
     } else if (result == "failed") {
         var reason = data.REASON;
         alert(reason);

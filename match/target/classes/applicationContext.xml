@@ -10,34 +10,29 @@
            http://www.springframework.org/schema/aop  
            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-<!--  
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close">
-		<property name="driverClass" value="com.mysql.jdbc.Driver">
-		</property>
-		<property name="jdbcUrl"
-			value="jdbc:mysql://218.65.113.14/nctourmgr?useUnicode=true&amp;characterEncoding=utf-8">
-		</property>
-		<property name="user" value="touradmin"></property>
-		<property name="password" value="tour666666"></property>
+	<!-- <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+		destroy-method="close"> <property name="driverClass" value="com.mysql.jdbc.Driver"> 
+		</property> <property name="jdbcUrl" value="jdbc:mysql://218.65.113.14/nctourmgr?useUnicode=true&amp;characterEncoding=utf-8"> 
+		</property> <property name="user" value="touradmin"></property> <property 
+		name="password" value="tour666666"></property> </bean> -->
+
+	<bean id="dataSource-mysql" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url"
+			value="jdbc:sqlserver://localhost:1433;databaseName=match" />
+		<property name="username" value="match" />
+		<property name="password" value="123456" />
+		<property name="dbType" value="sqlserver" />
+		<property name="initialSize" value="1" />
+		<property name="maxActive" value="2" />
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="filters" value="stat,wall" /> <!-- 开启sql监视和sql防注入 -->
 	</bean>
--->
 
-<bean id="dataSource-mysql" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-    <property name="url" value="jdbc:sqlserver://localhost:1433;databaseName=match" />
-    <property name="username" value="match" />
-    <property name="password" value="123456" />
-    <property name="dbType" value = "sqlserver" />
-    <property name="initialSize" value="10" />
-    <property name="maxActive" value="150" />
-    <property name="validationQuery" value="SELECT 'x'" />
-    <property name="testWhileIdle" value="true" />
-    <property name="testOnBorrow" value="false" />
-    <property name="testOnReturn" value="false" />
-     <property name="filters" value="stat,wall" /> <!-- 开启sql监视和sql防注入 -->
-</bean>
 
-	
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource">
@@ -51,37 +46,39 @@
 				<prop key="hibernate.show_sql">
 					true
 				</prop>
-			<!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
 			</props>
 		</property>
-	
+
 		<property name="mappingResources">
 			<list>
-			    <value>cn/jxufe/emlab/match/pojo/Menu.hbm.xml</value>
+				<value>cn/jxufe/emlab/match/pojo/Menu.hbm.xml</value>
 				<value>cn/jxufe/emlab/match/pojo/Operator.hbm.xml</value>
 				<value>cn/jxufe/emlab/match/pojo/Role.hbm.xml</value>
 				<value>cn/jxufe/emlab/match/pojo/RoleMenu.hbm.xml</value>
 				<value>cn/jxufe/emlab/match/pojo/Syslog.hbm.xml</value>
-			   <value>cn/jxufe/emlab/match/pojo/Match.hbm.xml</value>
-			    <value>cn/jxufe/emlab/match/pojo/MatchProject.hbm.xml</value>
-			       <value>cn/jxufe/emlab/match/pojo/MatchNews.hbm.xml</value>
-			        <value>cn/jxufe/emlab/match/pojo/MatchNotice.hbm.xml</value>
-			          <value>cn/jxufe/emlab/match/pojo/Member.hbm.xml</value>
-			           <value>cn/jxufe/emlab/match/pojo/TrainItem.hbm.xml</value>
+				<value>cn/jxufe/emlab/match/pojo/Match.hbm.xml</value>
+				<value>cn/jxufe/emlab/match/pojo/MatchProject.hbm.xml</value>
+				<value>cn/jxufe/emlab/match/pojo/MatchNews.hbm.xml</value>
+				<value>cn/jxufe/emlab/match/pojo/MatchNotice.hbm.xml</value>
+				<value>cn/jxufe/emlab/match/pojo/Member.hbm.xml</value>
+				<value>cn/jxufe/emlab/match/pojo/TrainItem.hbm.xml</value>
+				<value>cn/jxufe/emlab/match/pojo/Group.hbm.xml</value>
 			</list>
-		</property></bean>
-		<bean id="druid-stat-interceptor"
-          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
-    </bean>
-     <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
-          scope="prototype">
-        <property name="patterns">
-            <list>
-                <value>cn.jxufe.emlab.match.service.*</value>
-            </list>
-        </property>
-    </bean>
-		
+		</property>
+	</bean>
+	<bean id="druid-stat-interceptor"
+		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	</bean>
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+		scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>cn.jxufe.emlab.match.service.*</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -95,7 +92,8 @@
 		<aop:pointcut id="smMethod"
 			expression="execution(* cn.jxufe.emlab.match.service.*.*(..))" />
 		<aop:advisor pointcut-ref="smMethod" advice-ref="smAdvice" />
-	</aop:config>	
-<bean id="SpringFactory" class="cn.jxufe.emlab.match.core.SpringFactory" abstract="false"></bean>
- <import resource="applicationContext-hxj.xml"/>
+	</aop:config>
+	<bean id="SpringFactory" class="cn.jxufe.emlab.match.core.SpringFactory"
+		abstract="false"></bean>
+	<import resource="applicationContext-hxj.xml" />
 </beans>

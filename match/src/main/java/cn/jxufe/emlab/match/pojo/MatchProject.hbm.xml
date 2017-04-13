@@ -52,5 +52,9 @@
         <property name="logo" type="java.lang.String">
             <column name="logo" length="50" />
         </property>
+        <set name="groups" cascade="all" inverse="true" >
+        <key column="matchProjectId"></key>
+        <one-to-many class="cn.jxufe.emlab.match.pojo.Group"/>
+        </set>
     </class>
 </hibernate-mapping>

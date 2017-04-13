@@ -22,6 +22,12 @@ public interface IMemberService extends IBaseDao<Member>{
 	
 	public boolean txAttendTrain(String memeberId,String trainItemId);
 	
+	public boolean txAttendIndividualMatchProject(String memeberId,String matchProjectId);
+	
+	public boolean txBuildTeamMatchProjectGroup(String memeberId,String matchProjectId,String caption);
+	
+	public int txAttendGroup(String memeberId,String groupId );
+	
 	public boolean txCancelTrain(String memeberId,String trainItemId);
 	
 	

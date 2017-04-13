@@ -1,5 +1,6 @@
 package cn.jxufe.emlab.match.service;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import cn.jxufe.emlab.match.core.BaseDao;
@@ -41,14 +42,16 @@ public class MatchNoticeService extends BaseDao<MatchNotice> implements
 	@Override
 	public void getMatchNoticeByPage(Map map, int page, int pageSize, String matchId,
 			Operator oper) {
-		String hql="from MatchNotice ";
+		ArrayList<Object> values = new ArrayList<Object>();
+		String hql="from MatchNotice  where  status!="
+				+ StatusEnum.disable.ordinal() ;
 		if(null!=matchId&&matchId.length()!=0){
 		
-			hql+=" where matchId = '"+matchId+"' ";
+			hql+=" and matchId =? ";
+			values.add(matchId);
 		}
-		
 		hql = hql + " order by createtime desc";
-		fillPagetoMap(map, hql, null, page, pageSize);
+		fillPagetoMap(map, hql, values, page, pageSize);
 	}
 	public MatchNotice getMatchNoticeById(String id)
 	{

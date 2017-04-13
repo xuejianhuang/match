@@ -58,15 +58,16 @@ public class MatchService extends BaseDao<Match> implements IMatchService
 	@Override
 	public void getMatchByPage(Map map, int page, int pageSize, int year,
 			Operator oper) {
-		String hql="from Match ";
+		ArrayList<Object> values = new ArrayList<Object>();
+		String hql="from Match  where  status!="
+				+ StatusEnum.disable.ordinal() ;
 		if(year>0){
 		
-			hql+=" where year = '"+year+"' ";
+			hql+=" and year =?";
+			values.add(year);
 		}
-		
 		hql = hql + " order by createtime desc";
-//		List<Syslog> syslogList=findByPage(sql,null,(pageNum-1)*pageSize,pageSize);
-		fillPagetoMap(map, hql, null, page, pageSize);
+		fillPagetoMap(map, hql, values, page, pageSize);
 	}
 	public List<Integer> getMatchYear(Operator oper)
 	{

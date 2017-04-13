@@ -1,5 +1,6 @@
 package cn.jxufe.emlab.match.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.jxufe.emlab.match.core.BaseDao;
@@ -37,7 +38,7 @@ public class MenuService extends BaseDao<Menu> implements IMenuService
 		menu.setId(null);
 		 int order=0;
 		 Object object=null;
-		 Object[] obj=new Object[1];
+		 List<Object> obj=new ArrayList<Object>();
 		if(menu.getPorder()==0)
 		{
 	       object=uniqueResult("select Max(m.order) from Menu m where  porder='0'");
@@ -53,7 +54,7 @@ public class MenuService extends BaseDao<Menu> implements IMenuService
 		}
 		else
 		{
-			obj[0]=menu.getPorder();
+			obj.add(menu.getPorder());
 			object=uniqueResult("select Max(m.order) from Menu m where porder=?",obj);
 			if(object!=null)
 			{

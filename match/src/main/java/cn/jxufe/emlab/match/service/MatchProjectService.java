@@ -1,5 +1,6 @@
 package cn.jxufe.emlab.match.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.jxufe.emlab.match.core.BaseDao;
@@ -66,14 +67,20 @@ public class MatchProjectService extends BaseDao<MatchProject> implements
 	@Override
 	public List<MatchProject> getMatchProjectByMatchId(String matchId,
 			Operator oper) {
-		String hql = "from MatchProject ";
+		int paramNums = 0;
+		ArrayList<Object> al = new ArrayList<Object>();
+		String hql = "from MatchProject  where  status!="
+				+ StatusEnum.disable.ordinal() ;
 		if (matchId != null && matchId.length() != 0) {
 
-			hql += " where matchId = '" + matchId + "' ";
+			hql += " and matchId = ? ";
+			al.add(matchId);
+			paramNums++;
 		}
 
 		hql = hql + " order by createtime desc";
-		return find(hql);
+		Object[] values = (Object[]) al.toArray(new Object[paramNums]);
+		return find(hql,values);
 	}
 	
 	public List<MatchProject> getEnableMatchProject() {

@@ -24,9 +24,9 @@ public class OperatorService extends BaseDao<Operator> implements
 		password = Encrypt.encryptPassword(password);
 		String hql=null;
 		List<String> list=null;
-		Object[] obj=new Object[2];
-		obj[0]=account;
-		obj[1]=password;
+		List<Object> obj=new ArrayList<Object>();
+		obj.add(account);
+		obj.add(password);
 		Operator operator = (Operator) uniqueResult("from Operator where account=? and password=?",obj);
 		
 
@@ -54,7 +54,6 @@ public class OperatorService extends BaseDao<Operator> implements
 	public void getOperatorByPage(Map map, int page, int pageSize,
 			String account, String roleId, Operator oper)
 	{
-		int paramNums = 0;
 			ArrayList<Object> al = new ArrayList<Object>();
 			List<NameAndId> roleList=roleService.getAllRoleNameAndId(oper);
 			String hql = "from Operator where  status!="
@@ -63,23 +62,16 @@ public class OperatorService extends BaseDao<Operator> implements
 			{
 				hql+=" and roleId=?";
 				al.add(roleId);
-				paramNums ++;
 				
 			}
 			if (null != account&&account.length()!=0){
 				hql += " and account like ?";
 				al.add("%"+account+"%");
-				paramNums ++;
 			}
 			
-			Object[] values = (Object[]) al.toArray(new Object[paramNums]);
-			Long count=getCount(hql,values);
-			List<Operator> operatorList= findByPage(hql, values, (page - 1)
-					* pageSize, pageSize);
-			//fillPagetoMap(map, hql, values, page, pageSize);
+			List<Operator> operatorList =fillPagetoMap(map, hql, al, page, pageSize);
 			for(Operator temp:operatorList)
 			{
-				//String roleid=temp.getRoleId().toString();
 				if(null!=temp.getRoleId() && temp.getRoleId().length()!=0)
 				{
 					String roleid=temp.getRoleId().toString();
@@ -94,8 +86,8 @@ public class OperatorService extends BaseDao<Operator> implements
 					}
 				}
 			}
-			map.put("total", count);
-			map.put("rows", operatorList);
+		//	map.put("total", count);
+			//map.put("rows", operatorList);
 
 		
 	}

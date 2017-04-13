@@ -21,23 +21,22 @@ public interface IBaseDao<T> {
 	public void saveOrUpdate(Collection<T> entities) throws DataAccessException;
 	public void delete(T entity) throws DataAccessException; 
 	public void delete(Serializable id) throws DataAccessException;
-	public void delete(Collection<T> entities) throws DataAccessException;
 	public T load(Serializable id) throws DataAccessException; 
 	public List<T> find(String queryString) throws DataAccessException;
-	public List<T> find(String queryString,Object[] objs) throws DataAccessException;
+	public List<T> find(String queryString,List objs) throws DataAccessException;
 	public List<T> find(T example) throws DataAccessException;
 	public T findById(Serializable id) throws DataAccessException;
 	public List<T> find(String hql,Object obj) throws DataAccessException;
-	public List<T> findByPage(final String hql, final Object[] values, final int offset, final int pageSize) throws DataAccessException;
+	public List<T> findByPage(final String hql, final List values, final int offset, final int pageSize) throws DataAccessException;
 	public List<T> findByProperty(String fieldName,Object value) throws DataAccessException;
 	public void executeQuery(final String hql) throws DataAccessException;
 	public Object uniqueResult(final String hql) throws DataAccessException;
 	public List<T> findByProperties(String[] fields,Object[] values) throws DataAccessException;
 	public List<T> listAll() throws DataAccessException;
-	public List<Object[]> findBySQL(final String sql) throws DataAccessException;
+	public List<T> findSQL(final String sql) throws DataAccessException;
 	public Long getCount() throws DataAccessException;
 	public Long getCount(String hql) throws DataAccessException;
-	public void fillPagetoMap(Map map, final String hql, final Object[] values,
+	public List<T> fillPagetoMap(Map map, final String hql, final List values,
 			final int page, final int pageSize);
 	public void writeLog(Operator operator, String operation,
 			String objectType, T example);

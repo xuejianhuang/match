@@ -1,5 +1,6 @@
 package cn.jxufe.emlab.match.service;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Set;
 
 import cn.jxufe.emlab.match.core.BaseDao;
 import cn.jxufe.emlab.match.pojo.Member;
+import cn.jxufe.emlab.match.pojo.NameAndId;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.pojo.TrainItem;
 import cn.jxufe.emlab.match.util.DateUtil;
@@ -67,35 +69,39 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 	@Override
 	public void getTrainItemByPage(Map map, int page, int pageSize,
 			String matchId, Operator oper) {
-		String hql = "from TrainItem ";
+		ArrayList<Object> al = new ArrayList<Object>();
+		String hql = "from TrainItem where  status!="
+				+ StatusEnum.disable.ordinal() ;
+		
 		if (null != matchId && matchId.length() != 0) {
 
-			hql += " where matchId = '" + matchId + "' ";
+			hql += " and matchId = ?";
+			al.add(matchId);
 		}
 
 		hql = hql + " order by createtime desc";
-		fillPagetoMap(map, hql, null, page, pageSize);
+		fillPagetoMap(map, hql,  al, page, pageSize);
 	}
 
 	public void getTrainStatisticsByPage(Map map, int page, int pageSize,
 			String matchId, Operator oper) {
-		String hql = "from TrainItem ";
-		if (null != matchId && matchId.length() != 0) {
-
-			hql += " where matchId = '" + matchId + "' ";
+		
+		ArrayList<Object> al = new ArrayList<Object>();
+		String hql = "from TrainItem where  status!="
+				+ StatusEnum.disable.ordinal() ;
+		if (null != matchId && matchId.length() != 0)
+		{
+			hql+=" and matchId=?";
+			al.add(matchId);
+			
 		}
-
 		hql = hql + " order by createtime desc";
-		List<TrainItem> trainList = findByPage(hql, null,
-				(page - 1) * pageSize, pageSize);
+		List<TrainItem> trainList = fillPagetoMap(map, hql, al, page, pageSize);
 		for(TrainItem item:trainList)
 		{
 			item.setMemberSum(item.getMembers().size());
 		
 		}
-		Long count = getCount(hql,null);
-		map.put("total", count);
-		map.put("rows", trainList);
 	}
 
 	public List<TrainItem> getEnableTrainItem() {
@@ -109,7 +115,7 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 	if (null != memberId && memberId.length() != 0) {
 		sql += " and id in( select trainItemId from T_trainMember where memberId='"+memberId+"')";
 	}
-	return findBySQL(sql);
+	return findSQL(sql);
 	}
 
 }
