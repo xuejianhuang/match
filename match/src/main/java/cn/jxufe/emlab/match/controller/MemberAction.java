@@ -50,6 +50,8 @@ public class MemberAction extends BaseAction {
 	private String school;
 	private String caption;
 	private String groupId;
+	private String memberId;
+	
 
 	@SuppressWarnings("rawtypes")
 	public String logout() throws IOException {
@@ -234,8 +236,9 @@ public class MemberAction extends BaseAction {
 			status = StatusEnum.failed;
 			reason = "原密码输入不正确";
 		} else {
+			Member m=memberService.txMemberUpdate(member, id);
 			session.put(KeyEnum.MEMBER,
-					memberService.txMemberUpdate(member, id));
+					m);
 		}
 		jsondata.put(KeyEnum.STATUS, status);
 		jsondata.put(KeyEnum.REASON, reason);
@@ -252,9 +255,20 @@ public class MemberAction extends BaseAction {
 		if (member == null) {
 			status = StatusEnum.timeout;
 		} else {
-			if (!memberService.txAttendTrain(member.getId(), trainItemId)) {
+			int result=memberService.txAttendTrain(member.getId(), trainItemId);//0:成功 1:失败,已经报名 2:失败，报名已结束 3：失败，参数有误
+			if (result==1) {
 				status = StatusEnum.failed;
 				reason = "你已报名该培训,不要重复报名!";
+			}
+			else if(2==result)
+			{
+				status = StatusEnum.failed;
+				reason = "报名失败,该培训报名已结束!";
+			}
+			else if(3==result)
+			{
+				status = StatusEnum.failed;
+				reason = "创建失败,参数有误!";
 			}
 		}
 
@@ -273,9 +287,20 @@ public class MemberAction extends BaseAction {
 		if (member == null) {
 			status = StatusEnum.timeout;
 		} else {
-			if (!memberService.txAttendIndividualMatchProject(member.getId(), matchProjectId)) {
+			int result=memberService.txAttendIndividualMatchProject(member.getId(), matchProjectId);//0:成功 1:失败,已经报名 2:失败，该比赛报名已结束 3：失败，参数有误
+			if (result==1) { 
 				status = StatusEnum.failed;
 				reason = "你已报名该比赛,不要重复报名!";
+			}
+			else if(2==result)
+			{
+				status = StatusEnum.failed;
+				reason = "报名失败,该比赛报名已结束!";
+			}
+			else if(3==result)
+			{
+				status = StatusEnum.failed;
+				reason = "创建失败,参数有误!";
 			}
 		}
 
@@ -293,9 +318,20 @@ public class MemberAction extends BaseAction {
 		if (member == null) {
 			status = StatusEnum.timeout;
 		} else {
-			if (!memberService.txBuildTeamMatchProjectGroup(member.getId(), matchProjectId,caption)) {
+			int result=memberService.txBuildTeamMatchProjectGroup(member.getId(), matchProjectId,caption); //1:失败，已加入其他小组 2:失败，该比赛报名已结束 3：失败，参数有误
+			if (1==result) {
 				status = StatusEnum.failed;
 				reason = "你已加入其他小组,不能建队!";
+			}
+			else if(2==result)
+			{
+				status = StatusEnum.failed;
+				reason = "创建失败,该比赛报名已结束!";
+			}
+			else if(3==result)
+			{
+				status = StatusEnum.failed;
+				reason = "创建失败,参数有误!";
 			}
 		}
 		jsondata.put(KeyEnum.STATUS, status);
@@ -312,7 +348,7 @@ public class MemberAction extends BaseAction {
 		if (member == null) {
 			status = StatusEnum.timeout;
 		} else {
-			int result=memberService.txAttendGroup(member.getId(), groupId); // 0:加入小组成功    1:加入失败，小组已达最大人数   2:加入失败，已加入其他小组
+			int result=memberService.txAttendGroup(member.getId(), groupId); // 0:加入小组成功    1:失败，小组已达最大人数   2:失败，已加入其他小组  3:失败，该比赛报名已结束
 			if (1==result) {
 				status = StatusEnum.failed;
 				reason = "加入失败,小组已达最大人数!";
@@ -321,6 +357,16 @@ public class MemberAction extends BaseAction {
 			{
 				status = StatusEnum.failed;
 				reason = "加入失败,你已加入其他小组，不能同时加入多个组!";
+			}
+			else if(3==result)
+			{
+				status = StatusEnum.failed;
+				reason = "加入失败,该比赛报名已结束!";
+			}
+			else if(4==result)
+			{
+				status = StatusEnum.failed;
+				reason = "创建失败,参数有误!";
 			}
 				
 		}
@@ -352,6 +398,45 @@ public class MemberAction extends BaseAction {
 		return null;
 	}
 	
+	public String cancelMatchProject() throws IOException {
+		Map session = getSession();
+		Map jsondata = new HashMap();
+		Member member = (Member) session.get(KeyEnum.MEMBER);
+		StatusEnum status = StatusEnum.success;
+		String reason = null;
+		if (member == null) {
+			status = StatusEnum.timeout;
+		} else {
+			if (!memberService.txCancelMatchProject(member.getId(), matchProjectId)) {
+				status = StatusEnum.failed;
+				reason = "取消失败!";
+			}
+		}
+		jsondata.put(KeyEnum.STATUS, status);
+		jsondata.put(KeyEnum.REASON, reason);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	public String deleteGroupMember() throws IOException {
+		Map session = getSession();
+		Map jsondata = new HashMap();
+		Member member = (Member) session.get(KeyEnum.MEMBER);
+		StatusEnum status = StatusEnum.success;
+		String reason = null;
+		if (member == null) {
+			status = StatusEnum.timeout;
+		} else {
+			if (!memberService.txDeleteTeamMember(member,memberId, groupId)) {
+				status = StatusEnum.failed;
+				reason = "无权操作!";
+			}
+		}
+		jsondata.put(KeyEnum.STATUS, status);
+		jsondata.put(KeyEnum.REASON, reason);
+		jsonViewIE(jsondata);
+		return null;
+	}
+
 	public String getMemberById() throws IOException {
 
 		Map jsondata = new HashMap();
@@ -529,6 +614,15 @@ public class MemberAction extends BaseAction {
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
 	}
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+	
 	
 	
 

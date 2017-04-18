@@ -23,18 +23,17 @@
         var searchs = searchStr.split("&");//获得第一个参数和值
         // alert(searchStr);
         var matchProjectId = searchs[0].split("=")[1];
-        function submitCreateTeamInfo(captioninput)
-        {
-            para ={};
-            para.matchProjectId=matchProjectId;
-            para.caption=$(captioninput).val();
+        function submitCreateTeamInfo(captioninput) {
+            para = {};
+            para.matchProjectId = matchProjectId;
+            para.caption = $(captioninput).val();
             $.ajax({
-                url : "/matchPlatform/member_buildTeamMatchProjectGroup.action",
-                type : "POST",
-                data : para,
-                dataType : "text",
-                success : function(result) {
-                    dealAjaxResult(result, function(r) {
+                url: "/matchPlatform/member_buildTeamMatchProjectGroup.action",
+                type: "POST",
+                data: para,
+                dataType: "text",
+                success: function (result) {
+                    dealAjaxResult(result, function (r) {
                         //  window.location.href = "index.html";
                         searchGroup(1);
                         $(".hidemodal").click();
@@ -44,13 +43,12 @@
                 }
             });
         }
-        function attendGroup(groupId)
-        {
+        function attendGroup(groupId) {
             $.ajax({
-                url : "member_attendGroup.action?groupId="+groupId,
-                type : "post",
-                success : function(result) {
-                    dealAjaxResult(result, function(r) {
+                url: "member_attendGroup.action?groupId=" + groupId,
+                type: "post",
+                success: function (result) {
+                    dealAjaxResult(result, function (r) {
                         searchGroup(1);
                         alert("加入成功，请尽快与队长联系");
                     });
@@ -59,78 +57,73 @@
             });
         }
 
-        function searchGroup(page)
-        {
-            para ={};
-            para.rows=20;
-            para.page=page;
-            para.matchProjectId=matchProjectId;
-            para.buildMemberName=$("#buildMemberName").val();
-            para.caption=$("#teamCaption").val();
+        function searchGroup(page) {
+            para = {};
+            para.rows = 20;
+            para.page = page;
+            para.matchProjectId = matchProjectId;
+            para.buildMemberName = $("#buildMemberName").val();
+            para.caption = $("#teamCaption").val();
             $.ajax({
-                url : "/matchPlatform/group_getGroupByConditions.action",
-                type : "POST",
-                data : para,
-                dataType : "text",
-                success : function(result) {
-                    var rows = jQuery.parseJSON(result).rows;
+                url: "/matchPlatform/group_getGroupByConditions.action",
+                type: "POST",
+                data: para,
+                dataType: "text",
+                success: function (result) {
+                    var result = jQuery.parseJSON(result);
+                    var rows = result.rows;
                     $("#trainItem").html("");
-                    $.each(rows,function(index,row)
-                    {
-                        var content= "  <li> <span style='height:210px;position:relative;' > <h4 style='text-align: center'>"+ row.caption+"</h4> <table  cellpadding='6px' cellspacing='6px' style='color: #00a0e9'> ";
-                        var buildMember="";
-                        var teamMember="";
-                        $.each(row.members,function(index,member)
-                        {
-                            if(row.buildMemberId==member.id)
-                            {
-                                buildMember+=" <tr> <td>队长:</td> <td style='cursor: pointer' onclick=memberIntroduction('"+member.id+"')> "+member.name+"</td> <td>"+member.school+"</td> </tr>  <tr> <td>组员:</td> </tr>";
+                    $.each(rows, function (index, row) {
+                        var content = "  <li> <span style='height:210px;position:relative;' > <h4 style='text-align: center'>" + row.caption + "</h4> <table  cellpadding='6px' cellspacing='6px' style='color: #00a0e9'> ";
+                        var buildMember = "";
+                        var teamMember = "";
+                        $.each(row.members, function (index, member) {
+                            if (row.buildMemberId == member.id) {
+                                buildMember += " <tr> <td>队长:</td> <td style='cursor: pointer' onclick=memberIntroduction('" + member.id + "')> " + member.name + "</td> <td>" + member.school + "</td> </tr>  <tr> <td>组员:</td> </tr>";
                             }
-                            else
-                            {
-                                teamMember+="  <tr> <td></td> <td style='cursor: pointer' onclick=memberIntroduction('"+member.id+"')> "+member.name+"</td> <td>"+member.school+"</td> </tr>";
+                            else {
+                                teamMember += "  <tr> <td></td> <td style='cursor: pointer' onclick=memberIntroduction('" + member.id + "')> " + member.name + "</td> <td>" + member.school + "</td> </tr>";
                             }
                         });
-                        content+=buildMember+teamMember+" </table>";
-                        if(row.full)
-                        {
-                            content+=  "  <div class='rec_courses_ref cf' style='position: absolute;bottom: 0px;right: 0px'> <span class='rec_courses_num fr'>已满</span> </div>";
+                        content += buildMember + teamMember + " </table>";
+                        if (row.full) {
+                            content += "  <div class='rec_courses_ref cf' style='position: absolute;bottom: 0px;right: 0px'> <span class='rec_courses_num fr'>已满</span> </div>";
                         }
-                        else
-                        {
-                            content+=  " <div class='rec_courses_ref cf' style='position: absolute;bottom: 0px;right: 0px'> <span class='rec_courses_num fr'><button type='button' style='margin-bottom: 2px;color: #00a0e9' onclick=attendGroup('"+row.id+"')>点击加入</button></span> </div> "
+                        else {
+                            content += " <div class='rec_courses_ref cf' style='position: absolute;bottom: 0px;right: 0px'> <span class='rec_courses_num fr'><button type='button' style='margin-bottom: 2px;color: #00a0e9' onclick=attendGroup('" + row.id + "')>点击加入</button></span> </div> "
                         }
-                        content+= "</span> </li>";
+                        content += "</span> </li>";
                         $("#trainItem").append(content);
                     });
+                    var totalPages = result.totalPage;
+                    var total=result.total;
+                    $("#pagenation31").html("");
+                    if (totalPages > 1) {
+                        var str = "";
+                        if (page == 1) {
+                            str += "  <div class='pagePrev'><span>上一页</span></div>";
+                        }
+                        else {
+                            var prevPage = parseInt(page) - 1;
+                            str += "<div class='pagePrev'> <a  href='javascript:void(0);' onclick=\"searchGroup("+prevPage+");return false;\" class='g_border' hidefocus='true' > <span>上一页</span> </a> </div>";
+                        }
+
+                        if (page == totalPages) {
+                            str += "<div class='pageNext'> <span>下一页</span> </div>";
+                        }
+                        else {
+                            var nextPage = parseInt(page) + 1;
+                            str += "<div class='pageNext'> <a href='javascript:void(0);' onclick=\"searchGroup("+nextPage+");return false;\" class='g_border' hidefocus='true' > <span>下一页</span> </a> </div>";
+                        }
+
+                        $("#pagenation31").append(str);
+                    }
+                    $("#pagenation31").append("<div class='pagePrev'><span>总共：" + totalPages + "页 "+total+"条</span></div>");
                 }
             });
         }
-        function memberIntroduction(memberId)
-        {
-            $.ajax({
-                url : "/matchPlatform/member_getMemberById.action?id="+memberId,
-                type : "GET",
-                // data : para,
-                dataType : "text",
-                success : function(result) {
-                    $('#memberIntroductionmodal').html("");
-                    var member = jQuery.parseJSON(result).content;
-                    $('#memberIntroductionmodal').append(" <a id='memberIntroductionmodal_modaltrigger' class='regAcct' hidefocus='true'href='#memberIntroductionmodal'></a>" +
-                        " <div> " +
-                        "<table cellpadding='10px'>" +
-                        " <tr> <td>  姓名:</td> <td> "+member.name+"</td> </tr> " +
-                        "<tr> <td>  学校:</td> <td> "+member.school+"</td> </tr> " +
-                        "<tr> <td> 专业:</td> <td> "+member.major+"</td> </tr> " +
-                        "<tr> <td>  账号(邮箱):</td> <td> "+member.account+"</td> </tr>" +
-                        " <tr> <td> 电话:</td> <td> "+member.phone+"</td> </tr> " +
-                        "</table> </div>");
-                    $('#memberIntroductionmodal_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
-                    $('#memberIntroductionmodal_modaltrigger').click();
-                }
-            });
-        }
-        $(function() {
+
+        $(function () {
             searchGroup(1);
         });
 
@@ -3975,12 +3968,12 @@
 
 <div id="createteammodal" class="dialogPanle" style="display:none;" align="center"></div>
 
-<div id="memberIntroductionmodal" class="dialogPanle" style="display:none;" align="center"></div>
+<!--<div id="memberIntroductionmodal" class="dialogPanle" style="display:none;" align="center"></div>-->
 
 
-<div id="memberBarArea" class="memberBarArea2 g_editPanel" ></div>
+<div id="memberBarArea" class="memberBarArea2 g_editPanel"></div>
 
-<div id="g_main" class='g_main g_col2 ' >
+<div id="g_main" class='g_main g_col2 '>
     <div id="web" class="g_web ">
         <table class="webTopTable" cellpadding="0" cellspacing="0">
             <tr>
@@ -4014,7 +4007,7 @@
                                    cellspacing='0'>
                                 <tr>
                                     <td class='formMiddleLeft formMiddleLeft433'></td>
-                                    <td class='formMiddleCenter formMiddleCenter433 '  valign='top'>
+                                    <td class='formMiddleCenter formMiddleCenter433 ' valign='top'>
                                         <div class='formMiddleContent formMiddleContent433 fk-formContentOtherPadding'
                                              tabStyle='0'>
                                             <div class='richContent richContent0'><p><span
@@ -4053,7 +4046,7 @@
                                    cellspacing='0'>
                                 <tr>
                                     <td class='formMiddleLeft formMiddleLeft434'></td>
-                                    <td class='formMiddleCenter formMiddleCenter434 '  valign='top'>
+                                    <td class='formMiddleCenter formMiddleCenter434 ' valign='top'>
                                         <div class='formMiddleContent formMiddleContent434 fk-formContentOtherPadding'
                                              tabStyle='0'>
                                             <div class='includeWeather3'></div>
@@ -4114,7 +4107,8 @@
                                                                 <div class='itemContainer'>
                                                                     <table title='' class='item itemCol2 itemIndex1'
                                                                            cellpadding='0' cellspacing='0' colId='2'
-                                                                           id='nav2' onclick='window.open("index.html", "_self")'
+                                                                           id='nav2'
+                                                                           onclick='window.open("index.html", "_self")'
                                                                            _jump='window.open("index.html", "_self")'>
                                                                         <tr>
                                                                             <td class='itemLeft'></td>
@@ -4284,18 +4278,19 @@
                     <div id="webContainer" class="webContainer">
                         <div id="container" class="container">
                             <table class="containerTop" cellspacing="0" cellpadding="0">
-                                <tbody><tr valign="top">
+                                <tbody>
+                                <tr valign="top">
                                     <td class="left"></td>
                                     <td class="center"></td>
                                     <td class="right"></td>
                                 </tr>
-                                </tbody></table>
+                                </tbody>
+                            </table>
 
                             <table class="containerMiddle" cellspacing="0" cellpadding="0">
-                                <tbody><tr valign="top">
+                                <tbody>
+                                <tr valign="top">
                                     <td id="containerMiddleLeft" class="containerMiddleLeft">
-
-
 
 
                                     </td>
@@ -4307,103 +4302,217 @@
 
                                         <div id="containerForms" class="containerForms">
                                             <div id="topForms" class="column forms mainForms topForms">
-                                                <div id="module399" _indexclass="formIndex1" _modulestyle="35" _moduleid="399" class="form form399 formIndex1 formStyle35 layoutModule  formStyle35_2  fk-formCol " title="" style="" _side="0" _intab="0" _inmulmcol="0" _infullmeasure="0" _inpack="0" _autoheight="1" _global="false" _independent="false">
-                                                    <table class="formTop formTop399" cellspacing="0" cellpadding="0"><tbody><tr><td class="left"></td><td class="center"></td><td class="right"></td></tr></tbody></table>
-                                                    <table class=" formMiddle formMiddle399" style="" cellspacing="0" cellpadding="0">
-                                                        <tbody><tr>
+                                                <div id="module399" _indexclass="formIndex1" _modulestyle="35"
+                                                     _moduleid="399"
+                                                     class="form form399 formIndex1 formStyle35 layoutModule  formStyle35_2  fk-formCol "
+                                                     title="" style="" _side="0" _intab="0" _inmulmcol="0"
+                                                     _infullmeasure="0" _inpack="0" _autoheight="1" _global="false"
+                                                     _independent="false">
+                                                    <table class="formTop formTop399" cellspacing="0" cellpadding="0">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td class="left"></td>
+                                                            <td class="center"></td>
+                                                            <td class="right"></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table class=" formMiddle formMiddle399" style="" cellspacing="0"
+                                                           cellpadding="0">
+                                                        <tbody>
+                                                        <tr>
                                                             <td class="formMiddleLeft formMiddleLeft399"></td>
-                                                            <td class="formMiddleCenter formMiddleCenter399  f-colFormMiddleCenter " valign="top">
-                                                                <div class="formMiddleContent formMiddleContent399 multiColFormMiddleContent f-colFormMiddleContent  fk-formContentOtherPadding" tabstyle="0">
+                                                            <td class="formMiddleCenter formMiddleCenter399  f-colFormMiddleCenter "
+                                                                valign="top">
+                                                                <div class="formMiddleContent formMiddleContent399 multiColFormMiddleContent f-colFormMiddleContent  fk-formContentOtherPadding"
+                                                                     tabstyle="0">
                                                                     <div class="mulMColContent" id="mulMColContent399">
-                                                                        <table class="mulMColContentTable" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                                        <table class="mulMColContentTable" width="100%"
+                                                                               cellspacing="0" cellpadding="0"
+                                                                               border="0">
                                                                             <tbody>
                                                                             <tr>
 
                                                                                 <td class="mulColLayout" style="">
-                                                                                    <div id="mulMCol399_cid_2" class="mulMColList"><div id="module12" _modulestyle="46" _moduleid="12" class="form form12 formStyle46 formInMulMCol " title="" style="" _side="0" _intab="0" _inmulmcol="399" _infullmeasure="0" _inpack="0" _autoheight="1" _global="false" _independent="false">
-                                                                                        <table class="formTop formTop12" cellspacing="0" cellpadding="0"><tbody><tr><td class="left"></td><td class="center"></td><td class="right"></td></tr></tbody></table>
-                                                                                        <table class=" formMiddle formMiddle12" style="" cellspacing="0" cellpadding="0"><tbody><tr>
-                                                                                            <td class="formMiddleLeft formMiddleLeft12"></td>
-                                                                                            <td class="formMiddleCenter formMiddleCenter12 "   style="background:#fafafa "  valign="top">
-                                                                                                <div class="formMiddleContent formMiddleContent12 fk-formContentOtherPadding" tabstyle="0">
-                                                                                                    <div class="searchBox" style="padding-bottom: 10px" >
-                                                                                                        <div class="searchBoxContainer">
-                                                                                                            <button type='button' style='margin-bottom: 2px;color: #00a0e9' onclick="createTeam()">我要建队</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                                                            团队名称:  <input id="teamCaption" class="productSearch g_itext ui-autocomplete-input" placeholder="" size="10" value="" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" type="text">&nbsp;&nbsp;
-                                                                                                            组建人:  <input id="buildMemberName" class="productSearch g_itext ui-autocomplete-input" placeholder="" size="10" value="" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" type="text">&nbsp;&nbsp;
-                                                                                                            <a class="g_btn searchBoxBtn" href="javascript:void(0);" onclick="searchGroup(1);return false;"><span>搜索</span></a>
+                                                                                    <div id="mulMCol399_cid_2"
+                                                                                         class="mulMColList">
+                                                                                        <div id="module12"
+                                                                                             _modulestyle="46"
+                                                                                             _moduleid="12"
+                                                                                             class="form form12 formStyle46 formInMulMCol "
+                                                                                             title="" style="" _side="0"
+                                                                                             _intab="0" _inmulmcol="399"
+                                                                                             _infullmeasure="0"
+                                                                                             _inpack="0" _autoheight="1"
+                                                                                             _global="false"
+                                                                                             _independent="false">
+                                                                                            <table class="formTop formTop12"
+                                                                                                   cellspacing="0"
+                                                                                                   cellpadding="0">
+                                                                                                <tbody>
+                                                                                                <tr>
+                                                                                                    <td class="left"></td>
+                                                                                                    <td class="center"></td>
+                                                                                                    <td class="right"></td>
+                                                                                                </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                            <table class=" formMiddle formMiddle12"
+                                                                                                   style=""
+                                                                                                   cellspacing="0"
+                                                                                                   cellpadding="0">
+                                                                                                <tbody>
+                                                                                                <tr>
+                                                                                                    <td class="formMiddleLeft formMiddleLeft12"></td>
+                                                                                                    <td class="formMiddleCenter formMiddleCenter12 "
+                                                                                                        style="background:#fafafa "
+                                                                                                        valign="top">
+                                                                                                        <div class="formMiddleContent formMiddleContent12 fk-formContentOtherPadding"
+                                                                                                             tabstyle="0">
+                                                                                                            <div class="searchBox"
+                                                                                                                 style="padding-bottom: 10px">
+                                                                                                                <div class="searchBoxContainer">
+                                                                                                                    <button type='button'
+                                                                                                                            style='margin-bottom: 2px;color: #00a0e9'
+                                                                                                                            onclick="createTeam()">
+                                                                                                                        我要建队
+                                                                                                                    </button>
+                                                                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                                                    团队名称:
+                                                                                                                    <input id="teamCaption"
+                                                                                                                           class="productSearch g_itext ui-autocomplete-input"
+                                                                                                                           placeholder=""
+                                                                                                                           size="10"
+                                                                                                                           value=""
+                                                                                                                           autocomplete="off"
+                                                                                                                           role="textbox"
+                                                                                                                           aria-autocomplete="list"
+                                                                                                                           aria-haspopup="true"
+                                                                                                                           type="text">&nbsp;&nbsp;
+                                                                                                                    组建人:
+                                                                                                                    <input id="buildMemberName"
+                                                                                                                           class="productSearch g_itext ui-autocomplete-input"
+                                                                                                                           placeholder=""
+                                                                                                                           size="10"
+                                                                                                                           value=""
+                                                                                                                           autocomplete="off"
+                                                                                                                           role="textbox"
+                                                                                                                           aria-autocomplete="list"
+                                                                                                                           aria-haspopup="true"
+                                                                                                                           type="text">&nbsp;&nbsp;
+                                                                                                                    <a class="g_btn searchBoxBtn"
+                                                                                                                       href="javascript:void(0);"
+                                                                                                                       onclick="searchGroup(1);return false;"><span>搜索</span></a>
+
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="separatorLine g_separator"></div>
+                                                                                                            <div class="titleText titleText313">
+                                                                                                                <span class="bannerNormalTitle fk_mainTitle mainTitle mainTitle313">已建队伍</span>
+                                                                                                            </div>
+                                                                                                            <div class="newsDetail"
+                                                                                                                 newsid="80"
+                                                                                                                 style="padding: 1px">
+
+                                                                                                                <ul id="trainItem"
+                                                                                                                    class="cf">
+                                                                                                                    <!--  <li>
+                                                                                                                            <span style="height:210px;position:relative;" >
+                                                                                                                                <h4 style="text-align: center"> 证券投资</h4>
+                                                                                                                                <table  cellpadding="3px" cellspacing="3px" style="color: #00a0e9">
+                                                                                                                                    <tr>
+                                                                                                                                        <td>组建人:</td>
+                                                                                                                                         <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
+                                                                                                                                         <td>南昌大学</td>
+                                                                                                                                    </tr>
+                                                                                                                                    <tr>
+                                                                                                                                        <td>组员:</td>
+                                                                                                                                    </tr>
+                                                                                                                                    <tr>
+                                                                                                                                        <td></td>
+                                                                                                                                         <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
+                                                                                                                                         <td>南昌大学</td>
+                                                                                                                                    </tr>
+                                                                                                                                     <tr>
+                                                                                                                                        <td></td>
+                                                                                                                                        <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
+                                                                                                                                         <td>南昌大学</td>
+                                                                                                                                    </tr>
+                                                                                                                                     <tr>
+                                                                                                                                        <td></td>
+                                                                                                                                         <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
+                                                                                                                                         <td>南昌大学</td>
+                                                                                                                                    </tr>
+                                                                                                                                    <tr>
+                                                                                                                                        <td></td>
+                                                                                                                                          <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
+                                                                                                                                         <td>南昌大学</td>
+                                                                                                                                    </tr>
+
+                                                                                                                                </table>
+                                                                                                                                <div class="rec_courses_ref cf" style="position: absolute;bottom: 0px;right: 0px">
+                                                                                                                                    <span class="rec_courses_num fr"><button type="button" style="margin-bottom: 2px;color: #00a0e9" onclick="attendIndividualMatchProject('a9f751f2-10da-404e-976d-7357df5f4e51')">点击报名</button></span>
+                                                                                                                                </div>
+                                                                                                                            </span>
+                                                                                                                        </li>-->
+
+                                                                                                                </ul>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div id="pagenation31"
+                                                                                                             class="pagenation">
 
                                                                                                         </div>
-                                                                                                    </div>
-                                                                                                    <div class="separatorLine g_separator"></div>
-                                                                                                    <div class="titleText titleText313"><span class="bannerNormalTitle fk_mainTitle mainTitle mainTitle313" >已建队伍</span></div>
-                                                                                                    <div class="newsDetail" newsid="80" style="padding: 1px">
-
-                                                                                                        <ul id="trainItem" class="cf">
-                                                                                                            <!--  <li>
-                                                                                                                    <span style="height:210px;position:relative;" >
-                                                                                                                        <h4 style="text-align: center"> 证券投资</h4>
-                                                                                                                        <table  cellpadding="3px" cellspacing="3px" style="color: #00a0e9">
-                                                                                                                            <tr>
-                                                                                                                                <td>组建人:</td>
-                                                                                                                                 <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
-                                                                                                                                 <td>南昌大学</td>
-                                                                                                                            </tr>
-                                                                                                                            <tr>
-                                                                                                                                <td>组员:</td>
-                                                                                                                            </tr>
-                                                                                                                            <tr>
-                                                                                                                                <td></td>
-                                                                                                                                 <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
-                                                                                                                                 <td>南昌大学</td>
-                                                                                                                            </tr>
-                                                                                                                             <tr>
-                                                                                                                                <td></td>
-                                                                                                                                <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
-                                                                                                                                 <td>南昌大学</td>
-                                                                                                                            </tr>
-                                                                                                                             <tr>
-                                                                                                                                <td></td>
-                                                                                                                                 <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
-                                                                                                                                 <td>南昌大学</td>
-                                                                                                                            </tr>
-                                                                                                                            <tr>
-                                                                                                                                <td></td>
-                                                                                                                                  <td style="cursor: pointer" onclick="alert(1)"> 黄学坚</td>
-                                                                                                                                 <td>南昌大学</td>
-                                                                                                                            </tr>
-
-                                                                                                                        </table>
-                                                                                                                        <div class="rec_courses_ref cf" style="position: absolute;bottom: 0px;right: 0px">
-                                                                                                                            <span class="rec_courses_num fr"><button type="button" style="margin-bottom: 2px;color: #00a0e9" onclick="attendIndividualMatchProject('a9f751f2-10da-404e-976d-7357df5f4e51')">点击报名</button></span>
-                                                                                                                        </div>
-                                                                                                                    </span>
-                                                                                                                </li>-->
-
-                                                                                                        </ul>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div id="pagenation31" class="pagenation">
-
-                                                                                                </div>
-                                                                                                <div id="newsCommentDiv"><table class="pdCommentSwitchTable fk-pdcomment-switch-table" style="width:100%" cellspacing="0" cellpadding="0"><tbody><tr>
-                                                                                                </tr></tbody>
-                                                                                                </table>
-                                                                                                </div>
-                                                                                            <td class="formMiddleRight formMiddleRight12"></td>
-                                                                                        </tr></tbody></table>
-                                                                                        <table class="formBottom formBottom12" cellspacing="0" cellpadding="0"><tbody><tr><td class="left left12"></td><td class="center center12"></td><td class="right right12"></td></tr></tbody></table>
-                                                                                        <div class="clearfloat clearfloat12"></div>
+                                                                                                        <div id="newsCommentDiv">
+                                                                                                            <table class="pdCommentSwitchTable fk-pdcomment-switch-table"
+                                                                                                                   style="width:100%"
+                                                                                                                   cellspacing="0"
+                                                                                                                   cellpadding="0">
+                                                                                                                <tbody>
+                                                                                                                <tr>
+                                                                                                                </tr>
+                                                                                                                </tbody>
+                                                                                                            </table>
+                                                                                                        </div>
+                                                                                                    <td class="formMiddleRight formMiddleRight12"></td>
+                                                                                                </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                            <table class="formBottom formBottom12"
+                                                                                                   cellspacing="0"
+                                                                                                   cellpadding="0">
+                                                                                                <tbody>
+                                                                                                <tr>
+                                                                                                    <td class="left left12"></td>
+                                                                                                    <td class="center center12"></td>
+                                                                                                    <td class="right right12"></td>
+                                                                                                </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                            <div class="clearfloat clearfloat12"></div>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    </div></td>
+                                                                                </td>
                                                                             </tr>
                                                                             </tbody>
                                                                         </table>
-                                                                    </div></div>
+                                                                    </div>
+                                                                </div>
                                                             </td>
                                                             <td class="formMiddleRight formMiddleRight399"></td>
-                                                        </tr></tbody></table>
-                                                    <table class="formBottom formBottom399" cellspacing="0" cellpadding="0"><tbody><tr><td class="left left399"></td><td class="center center399"></td><td class="right right399"></td></tr></tbody></table>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table class="formBottom formBottom399" cellspacing="0"
+                                                           cellpadding="0">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td class="left left399"></td>
+                                                            <td class="center center399"></td>
+                                                            <td class="right right399"></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
                                                     <div class="clearfloat clearfloat399"></div>
                                                 </div>
 
@@ -4411,8 +4520,10 @@
                                             </div>
 
                                             <table class="containerFormsMiddle" cellspacing="0" cellpadding="0">
-                                                <tbody><tr>
-                                                    <td id="containerFormsLeft" class="containerFormsLeft" style="display:none" valign="top">
+                                                <tbody>
+                                                <tr>
+                                                    <td id="containerFormsLeft" class="containerFormsLeft"
+                                                        style="display:none" valign="top">
                                                         <div class="containerFormsLeftTop">
                                                         </div>
                                                         <div id="leftForms" class="column forms sideForms leftForms">
@@ -4422,26 +4533,36 @@
                                                         </div>
                                                     </td>
 
-                                                    <td id="containerFormsCenter" class="containerFormsCenter" valign="top">
+                                                    <td id="containerFormsCenter" class="containerFormsCenter"
+                                                        valign="top">
 
-                                                        <div id="centerTopForms" class="column forms mainForms centerTopForms" style="display:none">
+                                                        <div id="centerTopForms"
+                                                             class="column forms mainForms centerTopForms"
+                                                             style="display:none">
 
                                                         </div>
                                                         <div class="containerFormsCenterMiddle J_containerFormsCenterMiddle">
-                                                            <div id="middleLeftForms" class="column forms mainForms middleLeftForms" style="display:none">
+                                                            <div id="middleLeftForms"
+                                                                 class="column forms mainForms middleLeftForms"
+                                                                 style="display:none">
 
                                                             </div>
-                                                            <div id="middleRightForms" class="column forms mainForms middleRightForms" style="display:none">
+                                                            <div id="middleRightForms"
+                                                                 class="column forms mainForms middleRightForms"
+                                                                 style="display:none">
 
                                                             </div>
                                                             <div class="clearfloat"></div>
                                                         </div>
-                                                        <div id="centerBottomForms" class="column forms mainForms centerBottomForms" style="display:none">
+                                                        <div id="centerBottomForms"
+                                                             class="column forms mainForms centerBottomForms"
+                                                             style="display:none">
 
                                                         </div>
                                                     </td>
 
-                                                    <td id="containerFormsRight" class="containerFormsRight" style="display:none" valign="top">
+                                                    <td id="containerFormsRight" class="containerFormsRight"
+                                                        style="display:none" valign="top">
                                                         <div class="containerFormsRightTop">
                                                         </div>
                                                         <div id="rightForms" class="column forms sideForms rightForms">
@@ -4451,13 +4572,16 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                </tbody></table>
+                                                </tbody>
+                                            </table>
 
-                                            <div id="bottomForms" class="column forms mainForms bottomForms" style="display:none">
+                                            <div id="bottomForms" class="column forms mainForms bottomForms"
+                                                 style="display:none">
 
                                             </div>
 
-                                            <div id="containerPlaceholder" class="containerPlaceholder" style="height: 0px;"></div>
+                                            <div id="containerPlaceholder" class="containerPlaceholder"
+                                                 style="height: 0px;"></div>
 
                                         </div>
 
@@ -4468,15 +4592,18 @@
 
                                     <td id="containerMiddleRight" class="containerMiddleRight"></td>
                                 </tr>
-                                </tbody></table>
+                                </tbody>
+                            </table>
 
                             <table class="containerBottom" cellspacing="0" cellpadding="0">
-                                <tbody><tr valign="top">
+                                <tbody>
+                                <tr valign="top">
                                     <td class="left"></td>
                                     <td class="center"></td>
                                     <td class="right"></td>
                                 </tr>
-                                </tbody></table>
+                                </tbody>
+                            </table>
                         </div>
 
                     </div>
@@ -4538,7 +4665,6 @@
 <div id="bgMusic" class="bgMusic">
 
 </div>
-
 
 
 <script type="text/javascript" src="../js/jquery/jquery-mousewheel.min.js"></script>

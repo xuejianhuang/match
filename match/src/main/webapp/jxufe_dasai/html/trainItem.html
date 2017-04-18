@@ -16,23 +16,7 @@
     <script type="text/javascript" src="../js/login_up.js"></script>
     <script type="text/javascript">
 
-        function trainItemIntroduction(trainItemId)
-        {
 
-            $.ajax({
-                url : "/matchPlatform/trainItem_getTrainItemById.action?id="+trainItemId,
-                type : "GET",
-                // data : para,
-                dataType : "text",
-                success : function(result) {
-                    $('#trainItemIntroductionmodal').html("");
-                    var trainItem = jQuery.parseJSON(result).content;
-                    $('#trainItemIntroductionmodal').append("<a id='trainItemIntroductionmodal_modaltrigger' class='regAcct' hidefocus='true' href='#trainItemIntroductionmodal'></a>"+trainItem.introduction);
-                    $('#trainItemIntroductionmodal_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
-                    $('#trainItemIntroductionmodal_modaltrigger').click();
-                }
-            });
-        }
         $(function(){
             $.ajax({
                 url : "/matchPlatform/trainItem_getEnableTrainItem.action",
@@ -3899,7 +3883,7 @@
 
 <div id="signupmodal"  class="dialogPanle"style="display:none;" align="center"></div>
 
-<div id="trainItemIntroductionmodal"  class="dialogPanle" style="display:none;" align="center"></div>
+<!--<div id="trainItemIntroductionmodal"  class="dialogPanle" style="display:none;" align="center"></div>-->
 
 
 <div id="memberBarArea" class="memberBarArea2 g_editPanel" ></div>

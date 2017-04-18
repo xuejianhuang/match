@@ -21,7 +21,7 @@ import cn.jxufe.emlab.match.util.RandomGenerator;
 public class GetValidateCode extends BaseAction
 {
 	private String email;
-  private  AccountEmailService accountEmailService;
+    private  AccountEmailService accountEmailService;
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public String getImageCode() throws IOException
 	{

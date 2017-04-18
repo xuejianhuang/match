@@ -113,7 +113,7 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 		String sql="select * from T_trainItem where status!="
 				+ StatusEnum.disable.ordinal() ;  //id in( select memberId from T_trainMember where trainItemId='b7574d5a-2a21-45e9-bf80-fc6e1febb2ee')
 	if (null != memberId && memberId.length() != 0) {
-		sql += " and id in( select trainItemId from T_trainMember where memberId='"+memberId+"')";
+		sql += " and id in( select trainItemId from T_trainMember where memberId='"+memberId+"') order by createtime desc";
 	}
 	return findSQL(sql);
 	}

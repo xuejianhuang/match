@@ -712,7 +712,7 @@
     line-height: 12px;
     padding-left: 18px;
 }
-.mallOrderList .order-cancel {
+ .order-cancel {
     background: rgba(0, 0, 0, 0) url("../image/delete.png") no-repeat scroll 0 0;
     cursor: pointer;
     display: inline-block;

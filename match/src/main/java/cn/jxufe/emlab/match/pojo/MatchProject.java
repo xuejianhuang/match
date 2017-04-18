@@ -6,12 +6,13 @@ import java.util.Date;
 import java.util.Set;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 /**
  * MatchProject entity. @author MyEclipse Persistence Tools
  */
-
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"}) 
 public class MatchProject extends cn.jxufe.emlab.match.pojo.BasePojo implements java.io.Serializable {
 
 

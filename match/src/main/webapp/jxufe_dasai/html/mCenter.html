@@ -17,19 +17,45 @@
     <script type="text/javascript">
         function cancelAttendTrain(trainItemId)
         {
-                $.ajax({
-                    url : "member_cancelTrain.action?trainItemId="+trainItemId,
-                    type : "post",
-                    success : function(result) {
-                        dealAjaxResult(result, function(r) {
-                          //  alert("取消报名成功");
-                             memberTrainClick();
-                        });
+            $.ajax({
+                url : "member_cancelTrain.action?trainItemId="+trainItemId,
+                type : "post",
+                success : function(result) {
+                    dealAjaxResult(result, function(r) {
+                        //  alert("取消报名成功");
+                        memberTrainClick();
+                    });
 
-                    }
-                });
+                }
+            });
         }
+        function cancelMatchProject(matchProjectId)
+        {
+            $.ajax({
+                url : "member_cancelMatchProject.action?matchProjectId="+matchProjectId,
+                type : "post",
+                success : function(result) {
+                    dealAjaxResult(result, function(r) {
+                        //  alert("取消报名成功");
+                        memberMatchClick();
+                    });
 
+                }
+            });
+        }
+        function deleteTeamMember(memberId,groupId,matchProjectId)
+        {
+            $.ajax({
+                url : "member_deleteGroupMember.action?memberId="+memberId+"&groupId="+groupId,
+                type : "post",
+                success : function(result) {
+                    dealAjaxResult(result, function(r) {
+                        teamMemberIntroduction(matchProjectId)
+                    });
+
+                }
+            });
+        }
         function memberProfileClick()
         {
             $.ajax({
@@ -81,7 +107,7 @@
                         "<div class='mallOrderList J-mallOrder '><div class='memberCenterMsg ' style='display:none'></div>" +
                         "<div class='itemList g_border'>" +
                         "<div class='line g_title'>" +
-                        "<table class='lineBody' cellspacing='0' cellpadding='0'><tbody>" +
+                        "<table class='lineBody'  cellspacing='6px' cellpadding='6px' align='center' style='text-align: center'><tbody>" +
                         "<tr>" +
                         "<td class='itemCode' style=''>培训项目</td>" +
                         "<td class='itemDate' style=''>培训开始时间</td>" +
@@ -92,22 +118,22 @@
                     var rows = jQuery.parseJSON(result).rows;
                     $.each(rows, function (index, row) {
                         contents+=  "<div class='line itemLine'>" +
-                            "<table class='lineBody' cellspacing='0' cellpadding='0'><tbody>" +
+                            "<table class='lineBody' cellspacing='6px' cellpadding='6px' align='center' style='text-align: center'><tbody>" +
                             "<tr>" +
-                            "<td class='itemCode'>"+row.caption+"</td>" +
+                            "<td class='itemCode'   style='cursor: pointer' onclick=trainItemIntroduction('" + row.id + "')>"+row.caption+"</td>" +
                             "<td class='itemDate'>"+row.startDate.substring(0,10)+"</td>" +
                             "<td class='itemDate'>"+row.endDate.substring(0,10)+"</td>" ;
-                                if(row.isLocked==0)
-                                {
-                                    contents+=  "<td><a href=\"javascript:if(confirm('确实要取消报名?')) cancelAttendTrain('"+row.id+"')\";  hidefocus='true' title='取消报名' class='order-cancel J-order-cancel' _oid='119'></a></td>";
-                                }
-                                else
-                                {
-                                    contents+=  "<td></td>";
-                                }
+                        if(row.isLocked==0)
+                        {
+                            contents+=  "<td><a href=\"javascript:if(confirm('确实要取消报名?')) cancelAttendTrain('"+row.id+"')\";  hidefocus='true' title='取消报名' class='order-cancel J-order-cancel' _oid='119'></a></td>";
+                        }
+                        else
+                        {
+                            contents+=  "<td></td>";
+                        }
                         contents+=   "</tr></tbody></table></div>";
                         if (index != rows.length - 1) {
-                            contents+=    "<div class='separatorLine g_separator'></div>";
+                            // contents+=    "<div class='separatorLine g_separator'></div>";
                         }
                     });
                     contents+="</div></div></div></div>";
@@ -120,13 +146,57 @@
         function memberMatchClick()
         {
             $.ajax({
-                url : "/matchPlatform/getSession_getMemberInfo.action",
+                url : "/matchPlatform/matchProject_getMatchProjectByMemberId.action",
                 type : "GET",
                 // data : para,
                 dataType : "text",
                 success : function(result) {
-                    var member = jQuery.parseJSON(result);
                     $(".mCenterRight").html("");
+                    var contents=  "<div class='mCenterTitle g_border'>我的赛事</div>" +
+                        "<div><div class='memberOrderPanel ' style=''>" +
+                        "<div class='mallOrderList J-mallOrder '><div class='memberCenterMsg ' style='display:none'></div>" +
+                        "<div class='itemList g_border'>" +
+                        "<div class='line g_title'>" +
+                        "<table class='lineBody'cellspacing='6px' cellpadding='6px' align='center' style='text-align: center'><tbody>" +
+                        "<tr>" +
+                        "<td class='itemCode' style=''>赛事名称</td>" +
+                        "<td class='itemDate' style=''>比赛开始时间</td>" +
+                        "<td class='itemDate' style=''>比赛结束时间</td>" +
+                        "<td class='itemCode' style=''>类型</td>" +
+                        "<td class='itemOpt' style=''>操作</td>" +
+                        "</tr></tbody></table></div>";
+
+                    var rows = jQuery.parseJSON(result).rows;
+                    $.each(rows, function (index, row) {
+                        contents+=  "<div class='line itemLine'>" +
+                            "<table class='lineBody' cellspacing='6px' cellpadding='6px' align='center' style='text-align: center'><tbody>" +
+                            "<tr>" +
+                            "<td class='itemCode'   style='cursor: pointer' onclick=matchProjectIntroduction('" + row.id + "')>"+row.caption+"</td>" +
+                            "<td class='itemDate'>"+row.startDate.substring(0,10)+"</td>" +
+                            "<td class='itemDate'>"+row.endDate.substring(0,10)+"</td>" ;
+                        if(row.isTeamMatch==1)
+                        {
+                            contents+="<td class='itemDate' style='cursor: pointer' onclick=teamMemberIntroduction('" + row.id + "','#introductionmodal')>团队</td>"
+                        }
+                        else
+                        {
+                            contents+="<td class='itemDate'>个人</td>"
+                        }
+                        if(row.isLocked==0)
+                        {
+                            contents+=  "<td><a href=\"javascript:if(confirm('确实要取消报名?')) cancelMatchProject('"+row.id+"')\";  hidefocus='true' title='取消报名' class='order-cancel J-order-cancel' _oid='119'></a></td>";
+                        }
+                        else
+                        {
+                            contents+=  "<td></td>";
+                        }
+                        contents+=   "</tr></tbody></table></div>";
+                        if (index != rows.length - 1) {
+                            // contents+=    "<div class='separatorLine g_separator'></div>";
+                        }
+                    });
+                    contents+="</div></div></div></div>";
+                    $(".mCenterRight").append(contents);
                 }
             })
         }
@@ -140,7 +210,7 @@
                 {
                     memberProfileClick();
                 }
-             else  if($(this).attr("id")=="memberTrain")
+                else  if($(this).attr("id")=="memberTrain")
                 {
                     memberTrainClick();
                 }
@@ -152,6 +222,52 @@
             memberProfileClick();
 
         });
+
+
+        function teamMemberIntroduction(matchProjectId) {
+            $.ajax({
+                url: "/matchPlatform/group_getTeamMatchProjectGroup.action?matchProjectId=" + matchProjectId,
+                type: "GET",
+                // data : para,
+                dataType: "text",
+                success: function (result) {
+                    $("#introductionmodal").remove()
+                    $("body").append('<div id="introductionmodal" class="dialogPanle" style="display:none;" align="center"></div>')
+                    $('#introductionmodal').append(" <a id='introductionmodal_modaltrigger' class='regAcct' hidefocus='true'href='#introductionmodal'></a>");
+                    var group = jQuery.parseJSON(result).group;
+                    var isCaption=jQuery.parseJSON(result).isCaption;
+                    var content = "  <span style='height:210px;position:relative;' > <h4 style='text-align: center'>" + group.caption + "</h4> <table  cellpadding='6px' cellspacing='6px' style='color: #00a0e9'> ";
+                    var buildMember = "";
+                    var teamMember = "";
+                    $.each(group.members, function (index, member) {
+                        if (group.buildMemberId == member.id) {
+                            buildMember += " <tr> <td>队长:</td> <td> " + member.name + "</td> <td>" + member.school + "</td> <td>" + member.major + "</td><td>" + member.account + "</td><td>" + member.phone + "</td></tr>  <tr> <td>组员:</td> </tr>";
+                        }
+                        else {
+                                 if(isCaption)
+                                 {
+                                     teamMember += "  <tr> <td></td> <td > " + member.name + "</td> <td>" + member.school + "</td><td>" + member.major + "</td><td>" + member.account + "</td><td>" + member.phone + "</td> <td><a href=\"javascript:if(confirm('确实要删除该队员?')) deleteTeamMember('"+member.id+"','"+group.id+"','"+matchProjectId+"')\";  hidefocus='true' title='删除队员' class='order-cancel J-order-cancel' _oid='119'></a></td> </tr>";
+                                 }
+                                 else {
+                                     teamMember += "  <tr> <td></td> <td > " + member.name + "</td> <td>" + member.school + "</td><td>" + member.major + "</td><td>" + member.account + "</td><td>" + member.phone + "</td> </tr>";
+                                 }
+                        }
+                    });
+                    content += buildMember + teamMember + " </table>";
+                    content += "</span>";
+                    $("#introductionmodal").append(content);
+
+                    $('#introductionmodal_modaltrigger').leanModal({
+                        top: 110,
+                        overlay: 0.45,
+                        closeButton: ".hidemodal"
+                    });
+                    $('#introductionmodal_modaltrigger').click();
+                }
+            });
+        }
+
+
     </script>
 
     <meta name="mobile-agent" content="format=html5;url=http://m.mq11837910.icoc.me/"/>
@@ -177,9 +293,9 @@
 
     <link type="text/css" href="../css/poshytipAndmCustomScrollbar.css" rel="stylesheet"/>
     <link type="text/css" href="../css/mCenter.css" rel="stylesheet">
-   <!-- <link type="text/css" href="../css/trainItem.css" rel="stylesheet"/>
+    <!--   <link type="text/css" href="../css/trainItem.css" rel="stylesheet"/> -->
 
-    <link rel="stylesheet" type="text/css" media="all" href="../css/dialog_style.css">-->
+    <link rel="stylesheet" type="text/css" media="all" href="../css/dialog_style.css">
 
 
     <style id='stylemodule'>
@@ -3983,7 +4099,12 @@
 
 </head>
 <body class="g_body g_locale2052 g_cusSiteWidth">
+
+<!--<div id="introductionmodal"  class="dialogPanle" style="display:none;" align="center"></div>-->
+
 <div id="memberBarArea" class="memberBarArea2 g_editPanel loginAuthorizationPage"></div>
+
+
 
 <div id="g_main" class='g_main g_col2 ' >
     <div id="web" class="g_web ">
@@ -4091,7 +4212,7 @@
                 </td>
             </tr>
         </table>
-       <table class="webHeaderTable" cellpadding="0" cellspacing="0" id="webHeaderTable">
+        <table class="webHeaderTable" cellpadding="0" cellspacing="0" id="webHeaderTable">
             <tr>
                 <td align="center" class="webHeaderTd">
                     <div id="webHeader" class="webHeader">
@@ -4330,61 +4451,61 @@
                                                                             </div>
                                                                         </td>
                                                                         <td class="mCenterRight J-mCenterR g_background ">
-                                                                          <!--  <div class="mCenterTitle g_border">我的资料</div>
-                                                                            <div>
-                                                                                <div class="memberProfilePanel" style="">
-                                                                                    <div class="memberProfileMsg memberCenterMsg " style="display:none;"><span class="msgText"></span></div>
-                                                                                    <div class="memberProfile">
-                                                                                    <div class="memberProfileItem ">
-                                                                                        <div class="itemName">帐号名：</div>
-                                                                                        <div class="itemCtrl">
-                                                                                            <input id="acct" class="g_itext itemEdit userEditItem isCheckUAI" value="18070496344" maxlength="50" disabled="disabled">&nbsp;</div></div>
-                                                                                        <div class="memberProfileItem">
-                                                                                    <div class="itemName">姓名：</div>
-                                                                                    <div class="itemCtrl">
-                                                                                        <input id="name" name="姓名" class="g_itext itemEdit userEditItem isCheckUAI" value="黄学坚" maxlength="50" placeholder="" null="">&nbsp;<font class="g_stress">*</font>
-                                                                                    </div>
-                                                                                </div>
-                                                                                    <div class="memberProfileItem">
-                                                                                        <div class="itemName">邮箱：</div>
-                                                                                        <div class="itemCtrl">
-                                                                                            <input id="email" name="邮箱" class="g_itext itemEdit userEditItem" value="761780598@qq.com" maxlength="50" placeholder="" null=""></div>
-                                                                                    </div>
-                                                                                    <div class="memberProfileItem">
-                                                                                        <div class="itemName">电话：</div>
-                                                                                        <div class="itemCtrl">
-                                                                                            <input id="phone" name="电话" class="g_itext itemEdit userEditItem" value="" maxlength="50" placeholder="" null=""></div>
-                                                                                    </div>
-                                                                                    <div class="memberProfileItem">
-                                                                                        <div class="itemName">登录密码：</div>
-                                                                                        <div class="itemCtrl">
-                                                                                            <a hidefocus="true" class="resetPwd" href="javascript:;" onclick="Site.memberProfileResetPwd(399)">[修改]</a>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="itemPwd memberProfileItem">
-                                                                                        <div class="itemName">旧密码：</div>
-                                                                                        <div class="itemCtrl">
-                                                                                            <input class="g_itext itemEdit" id="memberProfileOldPwd" maxlength="20" type="password">&nbsp;<font class="g_stress">*</font>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="itemPwd memberProfileItem">
-                                                                                        <div class="itemName">新密码：</div>
-                                                                                        <div class="itemCtrl">
-                                                                                            <input class="g_itext itemEdit" id="memberProfilePwd" maxlength="20" type="password">&nbsp;<font class="g_stress">*</font>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="itemPwd memberProfileItem">
-                                                                                        <div class="itemName">确认新密码：</div>
-                                                                                        <div class="itemCtrl">
-                                                                                            <input class="g_itext itemEdit" id="memberProfileRepwd" maxlength="20" type="password">&nbsp;<font class="g_stress">*</font>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="memberProfileButtonItem">
-                                                                                        <div class="memberProfileBtn" onclick="Site.memberProfileSubmit(399, 1, true)">保&#12288;存</div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                </div>
-                                                                            </div>-->
+                                                                            <!--  <div class="mCenterTitle g_border">我的资料</div>
+                                                                              <div>
+                                                                                  <div class="memberProfilePanel" style="">
+                                                                                      <div class="memberProfileMsg memberCenterMsg " style="display:none;"><span class="msgText"></span></div>
+                                                                                      <div class="memberProfile">
+                                                                                      <div class="memberProfileItem ">
+                                                                                          <div class="itemName">帐号名：</div>
+                                                                                          <div class="itemCtrl">
+                                                                                              <input id="acct" class="g_itext itemEdit userEditItem isCheckUAI" value="18070496344" maxlength="50" disabled="disabled">&nbsp;</div></div>
+                                                                                          <div class="memberProfileItem">
+                                                                                      <div class="itemName">姓名：</div>
+                                                                                      <div class="itemCtrl">
+                                                                                          <input id="name" name="姓名" class="g_itext itemEdit userEditItem isCheckUAI" value="黄学坚" maxlength="50" placeholder="" null="">&nbsp;<font class="g_stress">*</font>
+                                                                                      </div>
+                                                                                  </div>
+                                                                                      <div class="memberProfileItem">
+                                                                                          <div class="itemName">邮箱：</div>
+                                                                                          <div class="itemCtrl">
+                                                                                              <input id="email" name="邮箱" class="g_itext itemEdit userEditItem" value="761780598@qq.com" maxlength="50" placeholder="" null=""></div>
+                                                                                      </div>
+                                                                                      <div class="memberProfileItem">
+                                                                                          <div class="itemName">电话：</div>
+                                                                                          <div class="itemCtrl">
+                                                                                              <input id="phone" name="电话" class="g_itext itemEdit userEditItem" value="" maxlength="50" placeholder="" null=""></div>
+                                                                                      </div>
+                                                                                      <div class="memberProfileItem">
+                                                                                          <div class="itemName">登录密码：</div>
+                                                                                          <div class="itemCtrl">
+                                                                                              <a hidefocus="true" class="resetPwd" href="javascript:;" onclick="Site.memberProfileResetPwd(399)">[修改]</a>
+                                                                                          </div>
+                                                                                      </div>
+                                                                                      <div class="itemPwd memberProfileItem">
+                                                                                          <div class="itemName">旧密码：</div>
+                                                                                          <div class="itemCtrl">
+                                                                                              <input class="g_itext itemEdit" id="memberProfileOldPwd" maxlength="20" type="password">&nbsp;<font class="g_stress">*</font>
+                                                                                          </div>
+                                                                                      </div>
+                                                                                      <div class="itemPwd memberProfileItem">
+                                                                                          <div class="itemName">新密码：</div>
+                                                                                          <div class="itemCtrl">
+                                                                                              <input class="g_itext itemEdit" id="memberProfilePwd" maxlength="20" type="password">&nbsp;<font class="g_stress">*</font>
+                                                                                          </div>
+                                                                                      </div>
+                                                                                      <div class="itemPwd memberProfileItem">
+                                                                                          <div class="itemName">确认新密码：</div>
+                                                                                          <div class="itemCtrl">
+                                                                                              <input class="g_itext itemEdit" id="memberProfileRepwd" maxlength="20" type="password">&nbsp;<font class="g_stress">*</font>
+                                                                                          </div>
+                                                                                      </div>
+                                                                                      <div class="memberProfileButtonItem">
+                                                                                          <div class="memberProfileBtn" onclick="Site.memberProfileSubmit(399, 1, true)">保&#12288;存</div>
+                                                                                      </div>
+                                                                                  </div>
+                                                                                  </div>
+                                                                              </div>-->
                                                                         </td>
                                                                     </tr></tbody></table>
                                                                 </div>

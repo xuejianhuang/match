@@ -19,5 +19,6 @@ public interface IMatchProjectService  extends IBaseDao<MatchProject>{
 	public void txDeleteMatchProject(Operator oper,String[] idList);
 	public boolean txUpdateMatchProject(Operator oper,MatchProject matchProject,String id);
 	public void txUpdateMatchProjectIsLockedStatus(Operator oper,String id,int isLocked);
+	public List<MatchProject> getMatchProjectByMemberId(String memberId);
 		
 }

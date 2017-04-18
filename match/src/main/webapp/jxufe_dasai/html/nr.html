@@ -124,7 +124,7 @@
                     if(totalPages>1)
                     {
                         var str="";
-                        if(jsonObject.firstPage)
+                        if(page==1)
                         {
                             str+= "  <div class='pagePrev'><span>上一页</span></div>";
                         }
@@ -134,7 +134,7 @@
                             str+="<div class='pagePrev'> <a class='g_border' hidefocus='true' href='nr.html?type="+type+"&page="+prevPage+"'> <span>上一页</span> </a> </div>" ;
                         }
 
-                        if(jsonObject.lastPage)
+                        if(page==totalPages)
                         {
                             str+="<div class='pageNext'> <span>下一页</span> </div>";
                         }

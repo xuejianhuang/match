@@ -10,6 +10,7 @@ import java.util.Map;
 
 import cn.jxufe.emlab.match.pojo.Match;
 import cn.jxufe.emlab.match.pojo.MatchProject;
+import cn.jxufe.emlab.match.pojo.Member;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.pojo.TrainItem;
 import cn.jxufe.emlab.match.service.IMatchProjectService;
@@ -41,6 +42,24 @@ public class MatchProjectAction extends BaseAction {
 		jsonViewIE(jsondata);
 		return null;
 	}
+	public String getMatchProjectByMemberId() throws IOException
+	{
+		Map jsondata = new HashMap();
+		Member sessionMember=(Member) getSession().get(KeyEnum.MEMBER);
+		if(sessionMember==null)
+		{
+			jsondata.put(KeyEnum.STATUS,  StatusEnum.timeout);
+		}
+		else
+		{
+		List<MatchProject> list= matchProjectService.getMatchProjectByMemberId(sessionMember.getId());
+		jsondata.put("rows",list);
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		}
+		jsonViewIE(jsondata);
+		return null;
+	}
+
 	public String getEnableMatchProject() throws IOException
 	{
 		Map jsondata = new HashMap();

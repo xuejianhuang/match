@@ -196,8 +196,71 @@ function createTeam(matchProjectId)
         }
     });
 }
+function matchProjectIntroduction(matchProjectId)
+{
+    $("#matchProjectIntroductionmodal").remove()
+    $("body").append('<div id="matchProjectIntroductionmodal" class="dialogPanle" style="display:none;" align="center"></div>')
+    $.ajax({
+        url : "/matchPlatform/matchProject_getMatchProjectById.action?id="+matchProjectId,
+        type : "GET",
+        // data : para,
+        dataType : "text",
+        success : function(result) {
+            var matchProject = jQuery.parseJSON(result).content;
+            $("#matchProjectIntroductionmodal").append(" <a id='modaltrigger' class='regAcct' hidefocus='true' href='#matchProjectIntroductionmodal'></a> "+matchProject.introduction);
+            $('#modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
+            $('#modaltrigger').click();
+        }
+    });
 
+    return false;
 
+}
+function trainItemIntroduction(trainItemId)
+{
+    $("#trainItemIntroductionmodal").remove()
+    $("body").append('<div id="trainItemIntroductionmodal"  class="dialogPanle" style="display:none;" align="center"></div>')
+    $.ajax({
+        url : "/matchPlatform/trainItem_getTrainItemById.action?id="+trainItemId,
+        type : "GET",
+        // data : para,
+        dataType : "text",
+        success : function(result) {
+            var trainItem = jQuery.parseJSON(result).content;
+            $("#trainItemIntroductionmodal").append("<a id='modaltrigger' class='regAcct' hidefocus='true' href='#trainItemIntroductionmodal'></a>"+trainItem.introduction);
+            $('#modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
+            $('#modaltrigger').click();
+        }
+    });
+}
+function memberIntroduction(memberId) {
+    $("#memberIntroductionmodal").remove()
+    $("body").append('<div id="memberIntroductionmodal"  class="dialogPanle" style="display:none;" align="center"></div>')
+    $.ajax({
+        url: "/matchPlatform/member_getMemberById.action?id=" + memberId,
+        type: "GET",
+        // data : para,
+        dataType: "text",
+        success: function (result) {
+            var member = jQuery.parseJSON(result).content;
+            $('#memberIntroductionmodal').append(" <a id='memberIntroductionmodal_modaltrigger' class='regAcct' hidefocus='true'href='#memberIntroductionmodal'></a>" +
+                " <div> " +
+                "<table cellpadding='10px'>" +
+                " <tr> <td>  姓名:</td> <td> " + member.name + "</td> </tr> " +
+                "<tr> <td>  学校:</td> <td> " + member.school + "</td> </tr> " +
+                "<tr> <td> 专业:</td> <td> " + member.major + "</td> </tr> " +
+                "<tr> <td>  账号(邮箱):</td> <td> " + member.account + "</td> </tr>" +
+                " <tr> <td> 电话:</td> <td> " + member.phone + "</td> </tr> " +
+                "</table> </div>");
+            $('#memberIntroductionmodal_modaltrigger').leanModal({
+                top: 110,
+                overlay: 0.45,
+                closeButton: ".hidemodal"
+            });
+            $('#memberIntroductionmodal_modaltrigger').click();
+        }
+    });
+}
 function singup_isJxufeSelectItemChange(isJxufe,school)
 {
     if(isJxufe==1)

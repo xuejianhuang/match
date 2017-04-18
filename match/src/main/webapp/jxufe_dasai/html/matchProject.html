@@ -16,25 +16,6 @@
     <script type="text/javascript" src="../js/login_up.js"></script>
     <script type="text/javascript">
 
-        function matchProjectIntroduction(matchProjectId)
-        {
-            $.ajax({
-                url : "/matchPlatform/matchProject_getMatchProjectById.action?id="+matchProjectId,
-                type : "GET",
-                // data : para,
-                dataType : "text",
-                success : function(result) {
-                    $('#matchProjectIntroductionmodal').html("");
-                    var matchProject = jQuery.parseJSON(result).content;
-                    $('#matchProjectIntroductionmodal').append(" <a id='matchProjectIntroductionmodal_modaltrigger' class='regAcct' hidefocus='true'href='#matchProjectIntroductionmodal'></a> "+matchProject.introduction);
-                    $('#matchProjectIntroductionmodal_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
-                    $('#matchProjectIntroductionmodal_modaltrigger').click();
-                }
-            });
-
-            return false;
-
-        }
         $(function(){
             $.ajax({
                 url : "/matchPlatform/matchProject_getEnableMatchProject.action",
@@ -3912,7 +3893,7 @@
 
 <div id="signupmodal" class="dialogPanle" style="display:none;" align="center"></div>
 
-<div id="matchProjectIntroductionmodal" class="dialogPanle" style="display:none;" align="center"></div>
+<!--<div id="matchProjectIntroductionmodal" class="dialogPanle" style="display:none;" align="center"></div>-->
 
 
 <div id="memberBarArea" class="memberBarArea2 g_editPanel" ></div>

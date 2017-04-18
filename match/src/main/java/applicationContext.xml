@@ -85,7 +85,7 @@
 	</bean>
 	<tx:advice id="smAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="tx*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" />
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>

@@ -1,13 +1,11 @@
 package cn.jxufe.emlab.match.service;
 
 
-import java.util.List;
 import java.util.Map;
 
 import cn.jxufe.emlab.match.core.IBaseDao;
 import cn.jxufe.emlab.match.pojo.Group;
-import cn.jxufe.emlab.match.pojo.Operator;
-import cn.jxufe.emlab.match.pojo.TrainItem;
+import cn.jxufe.emlab.match.pojo.Member;
 
 
 
@@ -34,4 +32,12 @@ public interface IGroupService  extends IBaseDao<Group>{
 	 * caption：小组名字
 	 */
 	public void getGroupByConditions(Map map, int page, int pageSize,String matchProjectId,String buildMemberName,String caption);
+	
+	public Group getTeamMatchProjectGroup(String memberId,String matchProjectId);
+	
+	public boolean txDeleteGroupMember(Member operMember,String memberId,String groupId);
+	
+	
+	
+	
 }
