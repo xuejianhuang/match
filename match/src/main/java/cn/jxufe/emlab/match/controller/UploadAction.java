@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -89,11 +90,19 @@ public class UploadAction extends BaseAction {
 			String path = context.getRealPath(UPLOAD_PATH);
 			String newFileName = getRandomFilename(filedataFileName);
 			File target = new File(path, newFileName);
+			
+			HttpServletRequest reqeust =ServletActionContext.getRequest();
+			StringBuffer r=reqeust.getRequestURL();
+			reqeust.getRemoteAddr();
+
+	    	String	propath=r.toString();
+	    	propath=propath.substring(0,propath.lastIndexOf("matchPlatform"));
+	    	
 			try {
 			//	Thumbnails.of(filedata).size(340, 200).toFile(target);
 		    	FileUtils.copyFile(filedata, target);
 				json.put("err", "");
-				json.put("msg", "/matchPlatform/upload/" + newFileName);
+				json.put("msg",propath+"/matchPlatform/upload/" + newFileName);
 			} catch (IOException e) {
 				json.put("err", "文件上传失败！");
 				json.put("msg", "");				

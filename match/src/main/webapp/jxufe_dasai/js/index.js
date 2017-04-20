@@ -364,7 +364,7 @@ $(function() {
     Site.hoverChangeImage();Site.hoverStyle();
     Site.initWeatherOfIP(434, 3);
 
-    Site.initBanner({"_open":true,"data":[{"title":"","desc":"","imgWidth":1100,"imgHeight":308,"ot":0,"href":"http://www.baidu.com","target":"_blank","src":"../img/banner/banner1.jpg","edgeLeft":"","edgeRight":""},{"title":"","desc":"","imgWidth":1084,"imgHeight":310,"ot":1,"src":"../img/banner/banner2.jpg","edgeLeft":"","edgeRight":""}],"width":1100,"height":310,"playTime":4000,"animateTime":1500,"from":"banner","btnType":2,"wideScreen":false}, {"_open":false}, 4);
+   // Site.initBanner({"_open":true,"data":[{"title":"","desc":"","imgWidth":1100,"imgHeight":308,"ot":0,"href":"http://www.baidu.com","target":"_blank","src":"../img/banner/banner1.jpg","edgeLeft":"","edgeRight":""},{"title":"","desc":"","imgWidth":1084,"imgHeight":310,"ot":1,"src":"../img/banner/banner2.jpg","edgeLeft":"","edgeRight":""}],"width":1100,"height":310,"playTime":4000,"animateTime":1500,"from":"banner","btnType":2,"wideScreen":false}, {"_open":false}, 4);
     $('#pagenation624').find('a').hover(function(){$(this).addClass('g_hover')}, function(){$(this).removeClass('g_hover')});
     Site.loadNewsList(624, {"y":0,"s":0,"w":1}, false);
     Site.loadNewsNewStyle(624, false,false,false,true,false,false,false,false,false);

@@ -352,7 +352,7 @@ function dealAjaxResult(data, okFun) {
 	}
 
 	else if (result == "success") {
-		okFun(result);
+		okFun(data);
 	} else if (result == "failed") {
 		// $.show_alert("错误",reason);
 		alert(reason);
@@ -923,7 +923,7 @@ function initFileUpload(button, name, returnValeAssignment) {
 		name : 'fileInfoJSON', // 'filedata',
 		onSubmit : function(file, ext) {
 			// id = $("#id").val();
-			if (!(ext && /^(doc|docx|txt|xls|xlsx|xml)$/.test(ext))) {
+			if (!(ext && /^(doc|docx|txt|xls|xlsx|xml|zip|rar)$/.test(ext))) {
 				alert("您上传文件格式不对，请重新选择！");
 				return false;
 			}
@@ -956,6 +956,7 @@ function initFileUpload(button, name, returnValeAssignment) {
 				var file = response.data.file;
 				var filePath = file.path;
 				returnValeAssignment.val(filePath);
+				name.html("");
 				name
 						.append(file.path
 								.substring(file.path.lastIndexOf("/") + 1));
@@ -993,4 +994,129 @@ function ajaxSend(url, para, callBack) {
 			});
 		}
 	});
+}
+function createPiecharts(title,data)
+{
+	$("<div/>")
+			.dialog(
+					{
+						href :"public/highcharts.html",
+						title:"分析图表",
+						height :450,
+						width : 600,
+						onClose : function() {
+							$(this).dialog('destroy');
+						},
+						onLoad : function() {
+							 var chart;
+							 $(document).ready(function() {
+							        chart = new Highcharts.Chart({
+							            chart: {
+							                renderTo: 'container',
+							                plotBackgroundColor: null,
+						    	            plotBorderWidth: null,
+						    	            plotShadow: false,
+							                type: 'pie'
+							            },
+							            title: {
+						    	            text: title
+						    	        },
+					                tooltip: {
+					    	    	   // pointFormat: '{series.name}: <b>{point.percentage}%</b>'
+					                	  valueSuffix: '%'
+					                },
+					    	        plotOptions: {
+					    	            pie: {
+					    	                allowPointSelect: true,
+					    	                cursor: 'pointer',
+					    	                dataLabels: {
+					    	                    formatter: function() {
+					    	                        // display only if larger than 0.1
+					    	                        //return this.y > 0.1 ? '<b>'+ this.point.name +':</b> '+ this.y +'%'  : null;
+					    	                        return '<b>'+ this.point.name +':</b> '+ this.y +'%';
+
+					    	                    }
+					    	                }
+//					    	                dataLabels: {
+//					    	                    enabled: true,
+//					    	                    color: '#000000',
+//					    	                    connectorColor: '#000000',
+//					    	                    format: '{point.name}: {point.percentage}%'   //不起作用???
+//					    	                }
+					    	            }
+					    	        },
+					    	        credits: {//图表右下角的水印，默认是highcharts.com,将其设为空串可以取消水印
+				                        text: '',
+				                        fontSize: '0'
+				                },
+				               // series:  series 
+				             
+					    	        series: [{
+					    	            type: 'pie',
+					    	            name: '所占比例',
+					    	            data: data
+					    	            	
+
+					    	        }]
+							        });
+							    });
+
+						}
+					});
+}
+function createLinecharts(title,xAxis,yAxis,series)
+{
+	$("<div/>")
+	.dialog(
+			{
+				href :"public/highcharts.html",
+				title:"统计图表",
+				height :500,
+				width : 950,
+				onClose : function() {
+					$(this).dialog('destroy');
+				},
+				onLoad : function() {
+					    $(document).ready(function() {
+					    	new Highcharts.Chart({
+					            chart: {
+					                renderTo: 'container',
+					                type: 'line'
+					            },
+					            title: {
+					                text: title
+					            },
+					            subtitle: {
+					               // text: subtitletext
+					            },
+					            xAxis: {
+					            	categories:xAxis
+					            },
+					            yAxis: {
+					                title: {
+					                    text: yAxis
+					                },
+					                plotLines: [{
+					                    value: 0,
+					                    width: 0.6,
+					                    color: '#808080'
+					                }]
+					            },
+					            credits: {//图表右下角的水印，默认是highcharts.com,将其设为空串可以取消水印
+			                        text: '',
+			                        fontSize: '0'
+			                },
+					            tooltip: {
+//					                formatter: function() {
+//					                        return '<b>'+ this.series.name +'</b><br/>'+
+//					                        this.x +': '+ this.y +'';
+//					                }
+					            },
+					            series:series
+					        });
+					    });
+
+				}
+			});
+	
 }

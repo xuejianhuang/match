@@ -30,6 +30,8 @@ public class MatchProjectAction extends BaseAction {
 	private String id;
 	private String matchId;
 	private int isLocked;
+	private int rows;
+	private int page;
 
 	public String getMatchProjectByMatchId() throws IOException {
 
@@ -69,7 +71,16 @@ public class MatchProjectAction extends BaseAction {
 		jsonViewIE(jsondata);
 		return null;
 	}
-
+	public String getMatchProjectMemberStatisticsByPage() throws IOException {
+		Map session = this.getSession();
+		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
+		Map jsondata = new HashMap();
+		matchProjectService.getMatchProjectMemberStatisticsByPage(jsondata, page, rows, matchId,
+				operator);
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
 	@SuppressWarnings("unchecked")
 	public String saveMatchProject() throws IOException {
 		StatusEnum status;
@@ -181,6 +192,18 @@ public class MatchProjectAction extends BaseAction {
 	public void setId(String id) {
 		this.id = id;
 		idlist = id.replaceAll("'", "").split(",");
+	}
+	public int getRows() {
+		return rows;
+	}
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
 	}
 
 

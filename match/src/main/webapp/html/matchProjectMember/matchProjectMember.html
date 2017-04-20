@@ -1,36 +1,36 @@
 <script type="text/javascript">
-	var memberListClickTrainItemId;
-	trainMember_matchId_change = function() {
-		$('#dg_trainMember').datagrid('reload', {
-			matchId : $("#trainMember_matchId").combobox('getValue'),
+	var memberListClickMatchProjectd;
+	matchProjectMember_matchId_change = function() {
+		$('#dg_matchProjectMember').datagrid('reload', {
+			matchId : $("#matchProjectMember_matchId").combobox('getValue'),
 		//belongId:operator_belongId
 		});
 	};
 
 	$(function() {
-		$("#trainMember_matchId").combobox({
-			onChange : trainMember_matchId_change,
+		$("#matchProjectMember_matchId").combobox({
+			onChange : matchProjectMember_matchId_change,
 			url : "match_getAllMatchNameAndId.action",
 			valueField : 'id',
 			textField : 'name',
 			multiple : false,
 			panelHeight : 'auto',
 			onLoadSuccess : function() {
-				var data = $('#trainMember_matchId').combobox('getData');
+				var data = $('#matchProjectMember_matchId').combobox('getData');
 				if (data.length > 0) {
-					$('#trainMember_matchId').combobox('select', data[0].id);
+					$('#matchProjectMember_matchId').combobox('select', data[0].id);
 				}
 			}
 		});
 
 	});
 	function formatOper(val, row, index) {
-		var innerHtml = '<a href="#" onclick=trainMemberListInfo("'+row.id+'")>报名名单</a>';
+		var innerHtml = '<a href="#" onclick=matchProjectMemberListInfo("'+row.id+'")>报名名单</a>';
 		return innerHtml;
 	}
-	function trainMemberListInfo(id) {
-		memberListClickTrainItemId = id;
-		openDialog("trainMember/trainAttendMemberList.html", "报名名单", 1060, 600);
+	function matchProjectMemberListInfo(id) {
+		memberListClickMatchProjectd = id;
+		openDialog("matchProjectMember/matchProjectAttendMemberList.html", "报名名单", 1250, 600);
 	}
 
 	function changeIsLockedStatus(trainItemId, isLocked) {
@@ -38,7 +38,7 @@
 			id : trainItemId,
 			isLocked : isLocked
 		}, function() {
-			$('#dg_trainMember').datagrid("reload");
+			$('#dg_matchProjectMember').datagrid("reload");
 
 		});
 
@@ -49,13 +49,13 @@
 	<div
 		data-options="region:'north',title:'查询条件',border:false,iconCls:'icon-columns'"
 		style="height: 60px; background: #f4f4f4;padding-top: 5px">
-		&nbsp; <input id="trainMember_matchId"
-			onchange="trainMember_matchId_change()" />
+		&nbsp; <input id="matchProjectMember_matchId"
+			onchange="matchProjectMember_matchId_change()" />
 	</div>
 
 	<div data-options="region:'center',border:false">
-		<table id="dg_trainMember" class="easyui-datagrid" title="培训报名统计"
-			data-options="url:'trainItem_getTrainStatisticsByPage.action',
+		<table id="dg_matchProjectMember" class="easyui-datagrid" title="赛事报名统计"
+			data-options="url:'matchProject_getMatchProjectMemberStatisticsByPage.action',
                                 idField : 'id',
 			                     fit : true,
 			                    striped:true,
@@ -68,10 +68,16 @@
                                ">
 			<thead>
 				<tr>
-					<th data-options="field:'caption',align:'center',width:50">标题
+					<th data-options="field:'caption',align:'center',width:50">赛项名称
 					</th>
+					<th data-options="field:'isTeamMatch',align:'center',width:10" 
+					formatter="formatterisTeamMatch">赛项类型</th>
+					<th data-options="field:'groupMemberCount',align:'center',width:10">
+						每组最大人数</th>
+					<th data-options="field:'groupSum',align:'center',width:10">
+						报名团队数</th>
 					<th data-options="field:'memberSum',align:'center',width:10">
-						报名人数</th>
+						已报名人数</th>
 					<th data-options="field:'startDate',align:'center',width:10"
 						formatter="formatterstringdate">开始时间</th>
 					<th data-options="field:'endDate',align:'center',width:10"

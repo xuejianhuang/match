@@ -102,6 +102,18 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 	public List publicFind(String queryString) throws DataAccessException {
 		return getHibernateTemplate().find(queryString);
 	}
+	
+	public List publicFindSQL(final String sql) throws DataAccessException {
+		List<T> list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			public List doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query = session.createSQLQuery(sql);
+				return query.list();
+			}
+		});
+		return list;
+	}
+	
 
 	public List<T> find(String queryString) throws DataAccessException {
 		return getHibernateTemplate().find(queryString);
@@ -147,7 +159,7 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 		});
 		return list;
 	}
-
+	
 	public List<T> find(T example) throws DataAccessException {
 		return getHibernateTemplate().findByExample(example);
 	}

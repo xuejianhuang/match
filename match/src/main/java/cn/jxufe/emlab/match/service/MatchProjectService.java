@@ -5,7 +5,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+
 
 
 
@@ -17,6 +20,7 @@ import cn.jxufe.emlab.match.pojo.Group;
 import cn.jxufe.emlab.match.pojo.MatchProject;
 import cn.jxufe.emlab.match.pojo.Member;
 import cn.jxufe.emlab.match.pojo.Operator;
+import cn.jxufe.emlab.match.pojo.TrainItem;
 import cn.jxufe.emlab.match.util.DateUtil;
 import cn.jxufe.emlab.match.util.StatusEnum;
 
@@ -124,6 +128,33 @@ public class MatchProjectService extends BaseDao<MatchProject> implements
 			});
 		}
 		return list;
+	}
+	
+	public void getMatchProjectMemberStatisticsByPage(Map map, int page, int pageSize,String matchId, Operator oper)
+	{
+		ArrayList<Object> al = new ArrayList<Object>();
+		String hql = "from MatchProject where  status!="
+				+ StatusEnum.disable.ordinal() ;
+		if (null != matchId && matchId.length() != 0)
+		{
+			hql+=" and matchId=?";
+			al.add(matchId);
+			
+		}
+		hql = hql + " order by createtime desc";
+		List<MatchProject> list = fillPagetoMap(map, hql, al, page, pageSize);
+		for(MatchProject item:list)
+		{
+             Set<Group> set=item.getGroups();
+             int memberSum=0;
+			item.setGroupSum(set.size());
+			for(Group g:set)
+			{
+				memberSum+=g.getMembers().size();
+			}
+			 item.setMemberSum(memberSum);
+		
+		}
 	}
 
 	public IMemberService getMemberService() {

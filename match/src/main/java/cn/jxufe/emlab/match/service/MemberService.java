@@ -1,9 +1,13 @@
 package cn.jxufe.emlab.match.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.collections.map.HashedMap;
 
 import cn.jxufe.emlab.match.core.BaseDao;
 import cn.jxufe.emlab.match.email.AccountEmailException;
@@ -11,6 +15,7 @@ import cn.jxufe.emlab.match.email.AccountEmailService;
 import cn.jxufe.emlab.match.pojo.Group;
 import cn.jxufe.emlab.match.pojo.MatchProject;
 import cn.jxufe.emlab.match.pojo.Member;
+import cn.jxufe.emlab.match.pojo.MemberVO;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.pojo.TrainItem;
 import cn.jxufe.emlab.match.util.Encrypt;
@@ -63,6 +68,63 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 
 	}
 
+	public void sendEmailTOMember(String account, String name, String school,
+			String major, final String title, final String content,
+			final String resource, String trainItemId, String matchProjectId,
+			String groupName, Operator oper) {
+
+		String sql = "select * from T_member where status!="
+				+ StatusEnum.disable.ordinal();
+		ArrayList<Object> values = new ArrayList<Object>();
+		if (null != name && name.length() != 0) {
+			sql += " and name like ?";
+			values.add("%" + name + "%");
+		}
+
+		if (null != account && account.length() != 0) {
+			sql += " and account = ?";
+			values.add(account);
+		}
+		if (null != school && school.length() != 0) {
+			sql += " and school like ?";
+			values.add("%" + school + "%");
+		}
+		if (null != major && major.length() != 0) {
+			sql += " and major like ?";
+			values.add("%" + major + "%");
+		}
+		if (null != trainItemId && trainItemId.length() != 0) {
+			sql += " and id in( select memberId from T_trainMember where trainItemId=?)";
+			values.add(trainItemId);
+		}
+		if (null != matchProjectId && matchProjectId.length() != 0) {
+			sql += " and id in( select memberId from T_memberGroup where groupId in(select id from T_group where matchProjectId=?))";
+			values.add(matchProjectId);
+		}
+		if (null != groupName && groupName.length() != 0) {
+			sql += " and id in( select memberId from T_memberGroup where groupId in(select id from T_group where caption like ?))";
+			values.add("%" + groupName + "%");
+		}
+		List<Member> list = findSQL(sql, values);
+		final List<String> to = new ArrayList<String>();
+		for (Member m : list) {
+			to.add(m.getAccount());
+		}
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					accountEmailService.sendMailMany(to, title, content,
+							resource);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} // 发送邮件通知队长，有新组员加入
+			}
+		}).start();
+	}
+
 	public List<Member> getTrainMemberList(String account, String name,
 			String school, String major, String trainItemId, Operator oper) {
 		ArrayList<Object> values = new ArrayList<Object>();
@@ -96,6 +158,65 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return findSQL(sql, values);
 	}
+
+	public List<MemberVO> getMatchProjectMemberList(String account,
+			String name, String matchProjectId, String school, String major,
+			String groupName, Operator oper) {
+		List<MemberVO> list = new ArrayList<MemberVO>();
+		ArrayList<Object> values = new ArrayList<Object>();
+		String hql = "from Group where status!=" + StatusEnum.disable.ordinal();
+		if (null != matchProjectId && matchProjectId.length() != 0) {
+			hql += " and matchProjectId=?";
+			values.add(matchProjectId);
+		}
+
+		if (null != groupName && groupName.length() != 0) {
+			hql += " and caption like ?";
+			values.add("%" + groupName + "%");
+		}
+		List<Group> groupList = groupService.find(hql, values);
+
+		for (Group g : groupList) {
+			Set<Member> memberSet = g.getMembers();
+			for (Member m : memberSet) {
+				if (null != account && account.length() != 0) {
+					if (!m.getAccount().equals(account)) {
+						continue;
+					}
+				}
+				if (null != name && name.length() != 0) {
+					if (m.getName().indexOf(name) < 0) {
+						continue;
+					}
+				}
+				if (null != school && school.length() != 0) {
+					if (m.getSchool().indexOf(school) < 0) {
+						continue;
+					}
+				}
+				if (null != major && major.length() != 0) {
+					if (m.getMajor().indexOf(major) < 0) {
+						continue;
+					}
+				}
+				MemberVO memberVO;
+				if (g.getBuildMemberId().equals(m.getId())) {
+					memberVO = new MemberVO(g.getCaption(), m.getAccount(),
+							m.getName(), m.getPhone(), m.getSchool(),
+							m.getMajor(), "队长");
+				} else {
+					memberVO = new MemberVO(g.getCaption(), m.getAccount(),
+							m.getName(), m.getPhone(), m.getSchool(),
+							m.getMajor(), "队员");
+				}
+				list.add(memberVO);
+
+			}
+		}
+		return list;
+
+	}
+
 	@Override
 	public int txSave(Member member) {
 		int value = 0; // 标示保存操作是否成功。1为成功，0为失败
@@ -152,7 +273,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 					&& member.getPassword().length() != 0) {
 				nativeMember.setPassword(member.getPassword());
 			}
-			
+
 			return nativeMember;
 		} else {
 			return member;
@@ -285,11 +406,11 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 	 */
 	public int txAttendGroup(String memeberId, String groupId) {
 		if (memeberId != null && null != groupId) {
-			final Member member = findById(memeberId);
-			final Group group = groupService.findById(groupId);
+			Member member = findById(memeberId);
+			Group group = groupService.findById(groupId);
 			if (member != null && null != group) {
-				final int maxCount = group.getMatchProject().getGroupMemberCount();
-				final int hasCount = group.getMembers().size();
+				int maxCount = group.getMatchProject().getGroupMemberCount();
+				int hasCount = group.getMembers().size();
 				if (hasCount >= maxCount) {
 					return 1;
 				}
@@ -305,33 +426,29 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 					}
 				}
 				member.getGroups().add(group);
-				final Member groupBuildMember = findById(group.getBuildMemberId());
-				groupBuildMember.getAccount();//立刻加载
+				Member groupBuildMember = findById(group.getBuildMemberId());
+				final String to = groupBuildMember.getAccount();
+				final String inhtml = groupBuildMember.getName()
+						+ ": 你好! "
+						+ member.getSchool()
+						+ member.getName()
+						+ "已报名加入你的&quot;"
+						+ group.getMatchProject().getCaption()
+						+ "&quot;竞赛&quot;"
+						+ group.getCaption()
+						+ "&quot;小组,目前小组人数总共有:"
+						+ (hasCount + 1)
+						+ "人,还差"
+						+ (maxCount - hasCount - 1)
+						+ "人,请登入<a href='http://localhost:8080/matchPlatform/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>查看";
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-					
-						if (null != groupBuildMember) {
+						if (null != to) {
 							try {
-								accountEmailService
-										.sendMail(
-												groupBuildMember.getAccount(),
-												"组员加入通知-江西财经大学大赛网",
-												groupBuildMember.getName()
-														+ ": 你好! "
-														+ member.getSchool()
-														+ member.getName()
-														+ "已报名加入你的&quot;"
-														+ group.getMatchProject()
-																.getCaption()
-														+ "&quot;竞赛&quot;"
-														+ group.getCaption()
-														+ "&quot;小组,目前小组人数总共有:"
-														+ (hasCount + 1)
-														+ "人,还差"
-														+ (maxCount - hasCount - 1)
-														+ "人,请登入<a href='http://localhost:8080/matchPlatform/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>查看");
+								accountEmailService.sendMail(to,
+										"组员加入通知-江西财经大学大赛网", inhtml, null);
 							} catch (AccountEmailException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -339,7 +456,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 						}
 					}
 				}).start();
-				
+
 				return 0;
 			}
 		}
@@ -357,107 +474,138 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return false;
 	}
+
 	public boolean txCancelMatchProject(String memberId, String matchProjectId) {
 		if (memberId != null && null != matchProjectId) {
 			Member member = findById(memberId);
 			Set<Group> groups = member.getGroups();
 			for (Group group : groups) {
 				if (group.getMatchProject().getId().equals(matchProjectId)) {
-					String emaliContent=null;
-					if (group.getBuildMemberId().equals(memberId)) { //为比赛小组创建人员 
+					String emaliContent = null;
+					if (group.getBuildMemberId().equals(memberId)) { // 为比赛小组创建人员
 						groups.remove(group);
 						groupService.delete(group);
-						emaliContent=
-								 ": 你好! "
+						emaliContent = "你好! "
 								+ "你的&quot;"
-								+ group.getMatchProject()
-										.getCaption()
+								+ group.getMatchProject().getCaption()
 								+ "&quot;竞赛&quot;"
 								+ group.getCaption()
-								+ "&quot;小组组长:"+member.getName()+"解散了该小组,如果你还想参加该比赛"
+								+ "&quot;小组组长:"
+								+ member.getName()
+								+ "解散了该小组,如果你还想参加该比赛"
 								+ ",请登入<a href='http://localhost:8080/matchPlatform/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>重新报名";
-					
+
 					} else {
 						groups.remove(group);
-						emaliContent=
-								": 你好! "
+						emaliContent = "你好! "
 								+ member.getSchool()
 								+ member.getName()
 								+ "退出了你的&quot;"
-								+ group.getMatchProject()
-										.getCaption()
+								+ group.getMatchProject().getCaption()
 								+ "&quot;竞赛&quot;"
 								+ group.getCaption()
 								+ "&quot;小组"
 								+ ",请登入<a href='http://localhost:8080/matchPlatform/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>查看";
 					}
-					
-					final Set<Member> members = group.getMembers();
-					 members.size();//立刻加载
-					final String finalContent=emaliContent;
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							for (Member m : members) {
+
+					Set<Member> members = group.getMembers();
+					members.size();// 立刻加载
+					final String finalContent = emaliContent;
+					final List<String> to=new ArrayList<String>();
+					for (Member m : members) {
+						to.add(m.getAccount());
+					}
+						new Thread(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
 								try {
-									accountEmailService
-											.sendMail(
-													m.getAccount(),
-													"团队退出通知-江西财经大学大赛网",
-													m.getName()+finalContent);
+									accountEmailService.sendMailMany(to,
+											"团队退出通知-江西财经大学大赛网", finalContent, null);
 								} catch (Exception e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
-						}
-						}
-					}).start();
-					
+
+							}
+						}).start();
+
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-	public boolean txDeleteTeamMember(Member operMember,String memberId,String groupId)
-	{
-		boolean result= groupService.txDeleteGroupMember(operMember, memberId, groupId);
-		if(result)
-		{
-			 Member deleteMember=findById(memberId);
-			final String account=deleteMember.getAccount();
-			final String name=deleteMember.getName();
-			 Group group=groupService.findById(groupId);
-			final String groupName=group.getCaption();
-			final String matchProjectName=group.getMatchProject().getCaption();
+
+	public boolean txDeleteTeamMember(Member operMember, String memberId,
+			String groupId) {
+		boolean result = groupService.txDeleteGroupMember(operMember, memberId,
+				groupId);
+		if (result) {
+			Member deleteMember = findById(memberId);
+			final String to = deleteMember.getAccount();
+			Group group = groupService.findById(groupId);
+			final String inhtml = deleteMember.getName()
+					+ ": 你好! "
+					+ "你的队长把你移除了&quot;"
+					+ group.getMatchProject().getCaption()
+					+ "&quot;竞赛&quot;"
+					+ group.getCaption()
+					+ "&quot;小组"
+					+ ",请登入<a href='http://localhost:8080/matchPlatform/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>查看";
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-						try {
-							accountEmailService
-									.sendMail(
-											account,
-											"团队移除通知-江西财经大学大赛网",
-											
-											name+": 你好! "
-													+ "你的队长把你移除了&quot;"
-													+ matchProjectName
-													+ "&quot;竞赛&quot;"
-													+ groupName
-													+ "&quot;小组"
-													+ ",请登入<a href='http://localhost:8080/matchPlatform/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>查看");
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+					try {
+						accountEmailService.sendMail(to, "团队移除通知-江西财经大学大赛网",
+								inhtml, null);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}).start();
 		}
 		return result;
 	}
-
+	
+	public Map<String,Double> getPropertyRatio(String property)
+	{
+		Map<String,Double> result=new HashMap<String, Double>();
+		DecimalFormat df = new DecimalFormat("#.00");
+		if(property!=null&&property.length()!=0)
+		{
+		   String hql="select "+property+", count(*) from Member group by "+property;
+	    	List<Object[]> list=  publicFind(hql);
+	    	double all=0;
+	    	for(Object[] obj:list)
+	    	{
+	    		double count=Double.valueOf(obj[1].toString());
+	    		all+=count;
+	    		result.put(obj[0].toString(),count);
+	    	}
+	    	Set<String> keySet=result.keySet();
+	    	for(String key:keySet)
+	    	{
+	    		result.put(key,Double.parseDouble(df.format((result.get(key)/all)*100)));
+	    	}
+		}
+		return result;
+	}
+	public Map<String,Integer> getMemberSignupYearLine()
+	{
+		Map<String,Integer> result=new HashMap<String, Integer>();
+		   String sql="select DATEPART(year,signupTime) as Times ,COUNT(*) from T_member group by DATEPART(year,signupTime)";
+	    	List<Object[]> list=  publicFindSQL(sql);
+	    	for(Object[] obj:list)
+	    	{
+	    		int count=Integer.valueOf(obj[1].toString());
+	    		result.put(obj[0].toString(),count);
+	    	}
+		return result;
+	}
+	
 	public ITrainItemService getTrainItemService() {
 		return trainItemService;
 	}

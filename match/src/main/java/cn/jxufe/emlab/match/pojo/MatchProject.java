@@ -35,6 +35,12 @@ public class MatchProject extends cn.jxufe.emlab.match.pojo.BasePojo implements 
      private String logo;
      
      private Set<Group> groups;
+     
+     
+     
+     private int groupSum;
+     
+     private int memberSum;
 
 
     // Constructors
@@ -199,6 +205,22 @@ public class MatchProject extends cn.jxufe.emlab.match.pojo.BasePojo implements 
 
 	@JsonIgnore public void setGroups(Set<Group> groups) {
 		this.groups = groups;
+	}
+
+	public int getGroupSum() {
+		return groupSum;
+	}
+
+	public void setGroupSum(int groupSum) {
+		this.groupSum = groupSum;
+	}
+
+	public int getMemberSum() {
+		return memberSum;
+	}
+
+	public void setMemberSum(int memberSum) {
+		this.memberSum = memberSum;
 	}
    
 

@@ -4,12 +4,17 @@
 package cn.jxufe.emlab.match.controller;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -18,9 +23,11 @@ import org.codehaus.jackson.map.util.JSONPObject;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.google.gson.Gson;
+import com.opensymphony.xwork2.ActionContext;
 
 import cn.jxufe.emlab.match.poi.ExcelUtil;
 import cn.jxufe.emlab.match.pojo.Member;
+import cn.jxufe.emlab.match.pojo.MemberVO;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.service.IMemberService;
 import cn.jxufe.emlab.match.service.IOperatorService;
@@ -51,6 +58,10 @@ public class MemberAction extends BaseAction {
 	private String caption;
 	private String groupId;
 	private String memberId;
+	private String groupName;
+	private String title;
+	private String content;
+	private String resource;
 	
 
 	@SuppressWarnings("rawtypes")
@@ -133,6 +144,33 @@ public class MemberAction extends BaseAction {
 		jsonViewIE(jsondata);
 		return null;
 	}
+	
+	public String getPropertyRatio() throws IOException {
+		Map jsondata = new HashMap();
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsondata.put(KeyEnum.RESULT,memberService.getPropertyRatio(name));
+		//memberService.getMemberSignupYearLine();
+		jsonViewIE(jsondata);
+		return null;
+	}
+	
+	public String sendEmailToMemberByConditions() throws IOException {
+		Map session = this.getSession();
+		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
+		Map jsondata = new HashMap();
+		ServletContext context = 	(ServletContext) (ActionContext
+				.getContext().get(ServletActionContext.SERVLET_CONTEXT));
+		if(resource!=null&&resource.length()!=0)
+		{
+    	String	propath=context.getRealPath("/");
+    	propath=propath.substring(0,propath.lastIndexOf("matchPlatform"));
+    	resource=propath+"/ufinder/files/"+resource;
+		}
+		memberService.sendEmailTOMember(account, name, school, major, title, content,resource ,trainItemId,matchProjectId,groupName, operator);
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
 
 	public String getTrainMemberList() throws IOException {
 		Map session = this.getSession();
@@ -146,13 +184,32 @@ public class MemberAction extends BaseAction {
 		return null;
 	}
 
-	public String exportExcel() throws IOException {
+	public String exportTrainMemberExcel() throws IOException {
 		Map session = this.getSession();
 		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
 		List<Member> list = memberService.getTrainMemberList(account, name,school,major,
 				trainItemId, operator);
 		ExcelUtil<Member> util = new ExcelUtil<Member>(Member.class);
 		exportExcel(util, list, "培训报名名单");
+		return null;
+	}
+	public String getMatchProjectMemberList() throws IOException {
+		Map session = this.getSession();
+		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
+		Map jsondata = new HashMap();
+		List<MemberVO> list = memberService.getMatchProjectMemberList(account, name, matchProjectId, school, major, groupName, operator);
+		jsondata.put("rows", list);
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	
+	public String exportMatchProjectMemberExcel() throws IOException {
+		Map session = this.getSession();
+		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
+		List<MemberVO> list = memberService.getMatchProjectMemberList(account, name, matchProjectId, school, major, groupName, operator);
+		ExcelUtil<MemberVO> util = new ExcelUtil<MemberVO>(MemberVO.class);
+		exportExcel(util, list, "竞赛报名名单");
 		return null;
 	}
 
@@ -621,6 +678,38 @@ public class MemberAction extends BaseAction {
 
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getResource() {
+		return resource;
+	}
+
+	public void setResource(String resource) {
+		this.resource = resource;
 	}
 	
 	

@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import cn.jxufe.emlab.match.core.IBaseDao;
-import cn.jxufe.emlab.match.pojo.Match;
 import cn.jxufe.emlab.match.pojo.MatchProject;
 import cn.jxufe.emlab.match.pojo.Operator;
-import cn.jxufe.emlab.match.pojo.TrainItem;
 
 
 
@@ -20,5 +18,7 @@ public interface IMatchProjectService  extends IBaseDao<MatchProject>{
 	public boolean txUpdateMatchProject(Operator oper,MatchProject matchProject,String id);
 	public void txUpdateMatchProjectIsLockedStatus(Operator oper,String id,int isLocked);
 	public List<MatchProject> getMatchProjectByMemberId(String memberId);
+	
+	public void getMatchProjectMemberStatisticsByPage(Map map, int page, int pageSize,String matchId, Operator oper);
 		
 }

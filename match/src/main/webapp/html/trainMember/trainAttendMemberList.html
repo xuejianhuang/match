@@ -2,21 +2,21 @@
 member_search = function()
 {
 	
-	$('#dg_attendMemberList').datagrid('reload', {
-		name: $("#attendMemberList_name").val(),
-		account : $('#attendMemberList_account').val(),
-		school : $('#attendMemberList_school').val(),
-		major : $('#attendMemberList_major').val()
+	$('#dg_trainAttendMemberList').datagrid('reload', {
+		name: $("#trainAttendMemberList_name").val(),
+		account : $('#trainAttendMemberList_account').val(),
+		school : $('#trainAttendMemberList_school').val(),
+		major : $('#trainAttendMemberList_major').val()
 	});
 };
 
 exportExcel=function()
 {
-	window.open("member_exportExcel.action?trainItemId="+memberListClickTrainItemId+"&_"+new Date().getTime());
+	window.open("member_exportTrainMemberExcel.action?trainItemId="+memberListClickTrainItemId+"&_"+new Date().getTime());
 }
 
 $(function() {
-	$('#dg_attendMemberList').datagrid({
+	$('#dg_trainAttendMemberList').datagrid({
 		   url:'member_getTrainMemberList.action?trainItemId='+memberListClickTrainItemId
 	});
 });
@@ -29,19 +29,20 @@ $(function() {
 		style="height: 80px; background: #f4f4f4;">
 		 &nbsp;
 		<div style="padding: 3px">
-		学  校：<input id="attendMemberList_school" name="school">	&nbsp;&nbsp;
-	    	专  业：<input id="attendMemberList_major" name="major">	&nbsp;&nbsp;
-			账  号：<input id="attendMemberList_account" name="account">	&nbsp;&nbsp;
+		学  校：<input id="trainAttendMemberList_school" name="school">	&nbsp;
+	    	专  业：<input id="trainAttendMemberList_major" name="major">	&nbsp;
+			账  号：<input id="trainAttendMemberList_account" name="account">	&nbsp;
 		
-		          姓 名： <input id="attendMemberList_name"  name="name" /> &nbsp;&nbsp;
+		          姓 名： <input id="trainAttendMemberList_name"  name="name" /> &nbsp;
 		         
-			<input type="button" value="查询" onclick="member_search()">&nbsp;&nbsp;
+			<input type="button" value="查询" onclick="member_search()">&nbsp;
+			<input type="button" value="发送邮件通知" onclick="openDialog('trainMember/sendEmail.html', '邮件发送', 1000, 600)">&nbsp;&nbsp;
 			<a href="javascript:exportExcel()">培训报名名单下载</a>
 		</div>
 	</div>
 
 	<div data-options="region:'center',border:false">
-		<table id="dg_attendMemberList" title="报名名单"
+		<table id="dg_trainAttendMemberList" title="报名名单"
 			data-options="
                                idField : 'id',
 			                     fit : true,

@@ -1,0 +1,62 @@
+<script type="text/javascript">
+$(function() {
+	$('#content').xheditor({
+		html5Upload : false,
+		upImgUrl : 'upload.action?type=img',
+		upImgExt : 'jpg,jpeg,gif,png'
+	});
+	initFileUpload($('#sendEmail_btnUploadFile'), $('#sendEmail_uploadFileName'),
+			$('#resource'));
+
+});
+
+function sendEmailToMember()
+{
+	$("#sendEmail_btn").attr("disabled","true");
+	ajaxSend('member_sendEmailToMemberByConditions.action',  {
+		title: $("#title").val(),
+		content:$("#content").val(),
+		resource:$("#resource").val(),
+		groupName: $("#matchProjectAttendMemberList_groupName").val(),
+		name: $("#matchProjectAttendMemberList_name").val(),
+		account : $('#matchProjectAttendMemberList_account').val(),
+		school : $('#matchProjectAttendMemberList_school').val(),
+		major : $('#matchProjectAttendMemberList_major').val(),
+		matchProjectId:memberListClickMatchProjectd
+	}, function() {
+		$.show_warning("提示", "邮件正在后台发送中");
+		$("#sendEmail_btn").removeAttr("disabled");
+	});
+
+}
+</script>
+<div >
+
+	<form id="sendEmail" method="post">
+		<table class="tableForm" style="width: 100%">
+		  <tr>
+         <td  style="width: 10%" >主题：</td>
+          <td><input name="title"  id="title" type="text" class="easyui-validatebox" data-options="required:true" style="width: 90%" > </td>
+         </tr>
+          <tr>
+        
+         </tr>
+          <tr>
+            <td colspan="2">内容：<textarea id="content" name="content"  rows="24" cols="100"
+			style="width: 100%"></textarea> </td>
+         </tr>
+         <tr>
+         	<td>	
+				<input type="button" class='easyui-linkbutton'
+				id="sendEmail_btnUploadFile" value="添加附件" />
+				</td>
+		     <td><div id="sendEmail_uploadFileName">  </div>  </td>	
+         </tr>
+         <tr style="text-align: right;">
+         <td colspan="2" style="text-align: right;"><input type="button" id="sendEmail_btn" onclick="sendEmailToMember()" value="发  送"></td>
+         </tr>
+		</table>
+		 <input type="hidden" name="resource"  id="resource" /> 
+	</form>
+
+</div>

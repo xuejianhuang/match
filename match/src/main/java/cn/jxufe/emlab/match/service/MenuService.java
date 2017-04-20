@@ -25,10 +25,8 @@ public class MenuService extends BaseDao<Menu> implements IMenuService
 	@Override
 	public List<Menu> getSubMenu(int porder)
 	{
-		Object[] obj=new Object[1];
-		obj[0]=porder;
 		String hql = "from Menu where  porder=? order by order";
-		return find(hql,obj);
+		return find(hql,porder);
 	}
 
 
