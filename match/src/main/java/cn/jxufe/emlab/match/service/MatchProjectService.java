@@ -8,12 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
-
-
-
-
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import cn.jxufe.emlab.match.core.BaseDao;
 import cn.jxufe.emlab.match.pojo.Group;
@@ -96,9 +92,46 @@ public class MatchProjectService extends BaseDao<MatchProject> implements
 		return find(hql, al);
 	}
 
+	public JsonArray getMatchProjectMemberNumAndGroupNum(String matchId,
+			Operator oper) {
+		ArrayList<Object> al = new ArrayList<Object>();
+		String hql = "from MatchProject  where  status!="
+				+ StatusEnum.disable.ordinal();
+		if (matchId != null && matchId.length() != 0) {
+
+			hql += " and matchId = ? ";
+			al.add(matchId);
+		}
+
+		hql = hql + " order by createtime desc";
+		List<MatchProject> list = find(hql, al);
+		JsonArray jsonArray = new JsonArray();
+		for (MatchProject matchProject : list) {
+			int memberSum = 0;
+			Set<Group> set = matchProject.getGroups();
+			for (Group g : set) {
+				memberSum += g.getMembers().size();
+			}
+			JsonObject jsonObject = new JsonObject();
+			jsonObject.addProperty("matchProjectCaption",
+					matchProject.getCaption());
+			jsonObject.addProperty("groupNum", set.size());
+			jsonObject.addProperty("memberNum", memberSum);
+			jsonArray.add(jsonObject);
+		}
+		return jsonArray;
+	}
+
 	public List<MatchProject> getEnableMatchProject() {
 		String hql = "from MatchProject where  isLocked='0' order by createtime desc";
 		return find(hql);
+	}
+	public void getAttendMatchProject(Map map, int page,  int pageSize) {
+		
+		String hql = "from MatchProject where  status!="
+				+ StatusEnum.disable.ordinal() ;
+		hql = hql + " order by isLocked, createtime desc";
+	    fillPagetoMap(map, hql,null, page, pageSize);
 	}
 
 	public List<MatchProject> getMatchProjectByMemberId(String memberId) {
@@ -113,14 +146,11 @@ public class MatchProjectService extends BaseDao<MatchProject> implements
 
 				@Override
 				public int compare(Object o1, Object o2) {
-					MatchProject m1=(MatchProject) o1;
-					MatchProject m2=(MatchProject) o2;
-					if(m1.getCreatetime().after(m2.getCreatetime()))
-					{
+					MatchProject m1 = (MatchProject) o1;
+					MatchProject m2 = (MatchProject) o2;
+					if (m1.getCreatetime().after(m2.getCreatetime())) {
 						return -1;
-					}
-					else
-					{
+					} else {
 						return 1;
 					}
 					// TODO Auto-generated method stub
@@ -129,31 +159,28 @@ public class MatchProjectService extends BaseDao<MatchProject> implements
 		}
 		return list;
 	}
-	
-	public void getMatchProjectMemberStatisticsByPage(Map map, int page, int pageSize,String matchId, Operator oper)
-	{
+
+	public void getMatchProjectMemberStatisticsByPage(Map map, int page,
+			int pageSize, String matchId, Operator oper) {
 		ArrayList<Object> al = new ArrayList<Object>();
 		String hql = "from MatchProject where  status!="
-				+ StatusEnum.disable.ordinal() ;
-		if (null != matchId && matchId.length() != 0)
-		{
-			hql+=" and matchId=?";
+				+ StatusEnum.disable.ordinal();
+		if (null != matchId && matchId.length() != 0) {
+			hql += " and matchId=?";
 			al.add(matchId);
-			
+
 		}
 		hql = hql + " order by createtime desc";
 		List<MatchProject> list = fillPagetoMap(map, hql, al, page, pageSize);
-		for(MatchProject item:list)
-		{
-             Set<Group> set=item.getGroups();
-             int memberSum=0;
+		for (MatchProject item : list) {
+			Set<Group> set = item.getGroups();
+			int memberSum = 0;
 			item.setGroupSum(set.size());
-			for(Group g:set)
-			{
-				memberSum+=g.getMembers().size();
+			for (Group g : set) {
+				memberSum += g.getMembers().size();
 			}
-			 item.setMemberSum(memberSum);
-		
+			item.setMemberSum(memberSum);
+
 		}
 	}
 

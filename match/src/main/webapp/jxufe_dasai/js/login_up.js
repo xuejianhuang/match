@@ -2,8 +2,11 @@
  * Created by Administrator on 2017/3/31.
  */
 $(function() {
-
+    $('#retrievePwdmodal').load('retrievePwd_modal.html',function () {
+        $('#retrievePwd_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal",anther:"#retrievePwdmodal"});
+    })
      $('#signupmodal').load('signup_modal.html',function () {
+         $('#signup_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal",anther:"#loginmodal"});
          $('#loginmodal').load('login_modal.html',function () {
              $('#login_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal",anther:"#signupmodal"});
              $('#signup_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal",anther:"#loginmodal"});
@@ -47,6 +50,33 @@ function checkSignUpInfo() {
     }
     return true;
 }
+function checkRetrievePwdInfo() {
+
+    var email = $("#retrievePwdAccount").val();
+    var captcha = $("#retrievePwdCaptcha").val();
+    var  retrievePwdPassword = $("#retrievePwdPassword").val();
+    var retrievePwdRepwd = $("#retrievePwdRepwd").val();
+    //alert(password != repassword);
+    if (!validateEmail(email)) {
+        return false;
+    }
+
+    if (captcha == null || captcha == "") {
+
+        alert("验证码不能为空");
+        return false;
+
+    }
+    if (retrievePwdPassword == null || retrievePwdPassword == "" || retrievePwdPassword.length < 6) {
+        alert("密码不能少于6位");
+        return false;
+    }
+    if (retrievePwdPassword != retrievePwdRepwd) {
+        alert("两次密码填写不一致");
+        return false;
+    }
+    return true;
+}
 function submitForm() {
     // alert("1");
 
@@ -69,8 +99,28 @@ function submitForm() {
     }
 
 }
-function getCaptcha(a) {
-    var email = $("#memberSignupAccount").val();
+function  retrievePwdSubmitForm() {
+    if (checkRetrievePwdInfo()) {
+
+        var options = {
+            url: '/matchPlatform/member_forgetPassword.action',
+            type: 'post',
+            dataType: 'text',
+            data: $("#retrievePwdForm").serialize(),
+            success: function (data) {
+
+                dealAjaxResult(data, function(r) {
+                    $(".hidemodal").click();
+                    alert("密码重置成功");
+                });
+            }
+        };
+        $.ajax(options);
+    }
+
+}
+function getCaptcha(email,a) {
+    var email = $(email).val();
     if (validateEmail(email)) {
         Site.changeCaptchaImg(a);
         $.ajax({
@@ -107,7 +157,7 @@ function login(action,account,password)
             $.post(action,
                 {
                     account:$(account).val(),
-                    password:$(password).val(),
+                    password:$.md5($(password).val()),
                 }, function(result) {
                     dealAjaxResult(result, function(r) {
                     //    window.location.href = sendredirectURL;
@@ -187,6 +237,7 @@ function createTeam(matchProjectId)
                 $('#createteammodal').load('createTeam_modal.html',function () {
                     $('#createteam_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
                     $('#createteam_modaltrigger').click();
+                    $('#createteamForm #matchProjectId').val(matchProjectId);
                 });
             }
             else {
@@ -195,6 +246,29 @@ function createTeam(matchProjectId)
 
         }
     });
+}
+function submitCreateTeamInfo() {
+    var caption=$("#teamName").val();
+    if(caption!=null&&caption.length!=0) {
+        $.ajax({
+            url: "/matchPlatform/member_buildTeamMatchProjectGroup.action",
+            type: "POST",
+            data: $("#createteamForm").serialize(),
+            dataType: "text",
+            success: function (result) {
+                dealAjaxResult(result, function (r) {
+                    //  window.location.href = "index.html";
+                    $(".hidemodal").click();
+                    alert("报名成功");
+                    searchGroup(1);
+                });
+            }
+        });
+    }
+    else
+    {
+        alert("请填写小组名称");
+    }
 }
 function matchProjectIntroduction(matchProjectId)
 {

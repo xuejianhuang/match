@@ -1,79 +1,47 @@
 <script type="text/javascript">
-function singup_isJxufeSelectItemChange(isJxufe,school)
-{
-    if(isJxufe==1)
-    {
-        $(school).val("江西财经大学");
-    }
-    else
-    {
-        if( $(school).val()=="江西财经大学")
-        $(school).val("");
-    }
-
-}
-member_search = function()
-{
-	
-	$('#dg_member').datagrid('reload', {
-		name: $("#member_name").val(),
-		account : $('#member_account').val(),
-		school : $('#member_school').val(),
-		major : $('#member_major').val()
-	});
-};
-member_btn_piechart=function(name)
-{
-	$.ajax({
-		url : "member_getPropertyRatio.action?name="+name,
-		type : "POST",
-		dataType : "text",
-		success : function(result) {
-			dealAjaxResult(result, function(r) {
-				var data=new Array();
-				for(var i in r.RESULT)
-					{
-					var item_data=new Array();
-					item_data[0]=i;
-					item_data[1]=r.RESULT[i];
-					data.push(item_data);
-					}
-				createPiecharts('会员学校比例',data);	
-			
-			});
-	
+	function singup_isJxufeSelectItemChange(isJxufe, school) {
+		if (isJxufe == 1) {
+			$(school).val("江西财经大学");
+		} else {
+			if ($(school).val() == "江西财经大学")
+				$(school).val("");
 		}
-	});
-	
-};
 
+	}
+	member_search = function() {
+
+		$('#dg_member').datagrid('reload', {
+			name : $("#member_name").val(),
+			account : $('#member_account').val(),
+			school : $('#member_school').val(),
+			major : $('#member_major').val()
+		});
+	};
+	
 </script>
 <div class="easyui-layout" data-options="fit : true,border : false">
 
 	<div
 		data-options="region:'north',title:'查询条件',border:false,iconCls:'icon-columns'"
 		style="height: 80px; background: #f4f4f4;">
-		 &nbsp;
+		&nbsp;
 		<div style="padding: 3px">
-	    	学  校：<input id="member_school" name="school">	&nbsp;&nbsp;
-	    	专  业：<input id="member_major" name="major">	&nbsp;&nbsp;
-			账  号：<input id="member_account" name="account">	&nbsp;&nbsp;
-		
-		          姓 名： <input id="member_name"  name="name" /> &nbsp;&nbsp;
-		         
-		
-			<input type="button" value="查询" onclick="member_search()">
-			&nbsp;&nbsp;
-			<input type="button" value="发送邮件通知" onclick="openDialog('member/sendEmail.html', '邮件发送', 1000, 600)">
-			
-			
-			&nbsp;&nbsp;
-				<input  type="button" onclick="member_btn_piechart('school')" value="学校比例">
-				
-				&nbsp;&nbsp;
-				<input  type="button" onclick="member_btn_piechart('major')" value="专业比例">
-			
-			
+			学 校：<input id="member_school" name="school"> &nbsp;&nbsp; 专
+			业：<input id="member_major" name="major"> &nbsp;&nbsp; 账 号：<input
+				id="member_account" name="account"> &nbsp;&nbsp; 姓 名： <input
+				id="member_name" name="name" /> &nbsp;&nbsp; <input type="button"
+				value="查询" onclick="member_search()"> &nbsp;&nbsp; <input
+				type="button" value="发送邮件通知"
+				onclick="openDialog('member/sendEmail.html', '邮件发送', 1000, 600)">
+
+
+			&nbsp;&nbsp; <input type="button"
+				onclick="member_btn_piechart('school')" value="学校比例">
+
+			&nbsp;&nbsp; <input type="button"
+				onclick="member_btn_piechart('major')" value="专业比例">
+
+
 		</div>
 	</div>
 
@@ -111,36 +79,24 @@ member_btn_piechart=function(name)
                                     }}]">
 			<thead>
 				<tr>
-					<th data-options="field:'ck',checkbox:true">
+					<th data-options="field:'ck',checkbox:true"></th>
+					<th data-options="field:'account',align:'center',width:20">账号
 					</th>
-					<th data-options="field:'account',align:'center',width:20">
-						账号
-					</th>
-					
-					<th data-options="field:'name',align:'center',width:20" >
-						姓名
-					</th>
-					<th data-options="field:'phone',align:'center',width:20" >
-						电话
-					</th>
-					<th data-options="field:'school',align:'center',width:20">
-					 学校
-					</th>
-					<th data-options="field:'major',align:'center',width:20">
-					 专业
-					</th>
-					<th data-options="field:'profession',align:'center',width:10" formatter="formatterProfession">
-						身份
-					</th>
-					<th data-options="field:'signupTime',align:'center',width:20" formatter="formatterstringdate">
-						注册时间
-					</th>
+
+					<th data-options="field:'name',align:'center',width:20">姓名</th>
+					<th data-options="field:'phone',align:'center',width:20">电话</th>
+					<th data-options="field:'school',align:'center',width:20">学校</th>
+					<th data-options="field:'major',align:'center',width:20">专业</th>
+					<th data-options="field:'profession',align:'center',width:10"
+						formatter="formatterProfession">身份</th>
+					<th data-options="field:'signupTime',align:'center',width:20"
+						formatter="formatterstringdate">注册时间</th>
 				</tr>
 			</thead>
 		</table>
 	</div>
-	
-	 
-	 
-	
+
+
+
+
 </div>

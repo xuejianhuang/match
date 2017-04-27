@@ -16,7 +16,7 @@ public interface IBaseDao<T> {
 	public List<T> findByName(String name) throws DataAccessException;
 	public List publicFind(String queryString) throws DataAccessException;
 	public Serializable save(T entity) throws DataAccessException; 
- public void save(Collection<T> entities);
+    public void save(Collection<T> entities);
 	public void saveOrUpdate(T entity) throws DataAccessException;
 	public void saveOrUpdate(Collection<T> entities) throws DataAccessException;
 	public void delete(T entity) throws DataAccessException; 

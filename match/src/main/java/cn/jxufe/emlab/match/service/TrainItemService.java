@@ -6,7 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import cn.jxufe.emlab.match.core.BaseDao;
+import cn.jxufe.emlab.match.pojo.Group;
+import cn.jxufe.emlab.match.pojo.MatchProject;
 import cn.jxufe.emlab.match.pojo.Member;
 import cn.jxufe.emlab.match.pojo.NameAndId;
 import cn.jxufe.emlab.match.pojo.Operator;
@@ -103,6 +108,13 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 		
 		}
 	}
+	public void getAttendTrainItem(Map map, int page,  int pageSize) {
+		
+		String hql = "from TrainItem where  status!="
+				+ StatusEnum.disable.ordinal() ;
+		hql = hql + " order by isLocked, createtime desc";
+	    fillPagetoMap(map, hql,null, page, pageSize);
+	}
 
 	public List<TrainItem> getEnableTrainItem() {
 		String hql = "from TrainItem where  isLocked='0' order by createtime desc";
@@ -116,6 +128,28 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 		sql += " and id in( select trainItemId from T_trainMember where memberId='"+memberId+"') order by createtime desc";
 	}
 	return findSQL(sql);
+	}
+	public JsonArray getTrainMemberNum(String matchId,Operator oper)
+	{
+		ArrayList<Object> al = new ArrayList<Object>();
+		String hql = "from TrainItem where  status!="
+				+ StatusEnum.disable.ordinal() ;
+		if (null != matchId && matchId.length() != 0)
+		{
+			hql+=" and matchId=?";
+			al.add(matchId);
+		}
+		hql = hql + " order by createtime desc";
+		List<TrainItem> trainList = find(hql, al);
+		JsonArray jsonArray = new JsonArray();
+		for(TrainItem item:trainList) {
+			JsonObject jsonObject = new JsonObject();
+			jsonObject.addProperty("trainCaption",
+					item.getCaption());
+			jsonObject.addProperty("memberNum", item.getMembers().size());
+			jsonArray.add(jsonObject);
+		}
+		return jsonArray;
 	}
 
 }

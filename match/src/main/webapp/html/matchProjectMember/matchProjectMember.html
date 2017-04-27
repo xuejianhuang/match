@@ -24,15 +24,22 @@
 		});
 
 	});
-	function formatOper(val, row, index) {
+	function matchProjectMember_formatOper(val, row, index) {
 		var innerHtml = '<a href="#" onclick=matchProjectMemberListInfo("'+row.id+'")>报名名单</a>';
+		return innerHtml;
+	}
+	function matchProjectMember_formatOper2(val, row, index) {
+		var innerHtml = '<a href="#" onclick=matchProjectGroupListInfo("'+row.id+'")>报名组单</a>';
 		return innerHtml;
 	}
 	function matchProjectMemberListInfo(id) {
 		memberListClickMatchProjectd = id;
-		openDialog("matchProjectMember/matchProjectAttendMemberList.html", "报名名单", 1250, 600);
+		openDialog("matchProjectMember/matchProjectAttendMemberList.html", "报名名单", 1410, 600);
 	}
-
+	function matchProjectGroupListInfo(id) {
+		memberListClickMatchProjectd = id;
+		openDialog("matchProjectMember/matchProjectAttendGroupList.html", "报名组单", 1000, 600);
+	}
 	function changeIsLockedStatus(trainItemId, isLocked) {
 		ajaxSend('trainItem_changetrainItemIsLockedStatus.action', {
 			id : trainItemId,
@@ -43,6 +50,11 @@
 		});
 
 	}
+	function matchProjectMember_btn()
+	{
+		matchId =$("#matchProjectMember_matchId").combobox('getValue');
+		matchProjectMember_btn_barchart(matchId);
+	}
 </script>
 <div class="easyui-layout" data-options="fit : true,border : false">
 
@@ -51,6 +63,8 @@
 		style="height: 60px; background: #f4f4f4;padding-top: 5px">
 		&nbsp; <input id="matchProjectMember_matchId"
 			onchange="matchProjectMember_matchId_change()" />
+			&nbsp; &nbsp; 
+			<input  type="button" onclick="matchProjectMember_btn()" value="报名图表分析">&nbsp;
 	</div>
 
 	<div data-options="region:'center',border:false">
@@ -83,7 +97,9 @@
 					<th data-options="field:'endDate',align:'center',width:10"
 						formatter="formatterstringdate">结束时间</th>
 					<th data-options="field:'status',align:'center',width:10"
-						formatter="formatOper"></th>
+						formatter="matchProjectMember_formatOper"></th>
+					<th data-options="field:'id',align:'center',width:10"
+						formatter="matchProjectMember_formatOper2"></th>
 				</tr>
 			</thead>
 		</table>

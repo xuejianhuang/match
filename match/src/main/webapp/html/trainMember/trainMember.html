@@ -30,7 +30,7 @@
 	}
 	function trainMemberListInfo(id) {
 		memberListClickTrainItemId = id;
-		openDialog("trainMember/trainAttendMemberList.html", "报名名单", 1060, 600);
+		openDialog("trainMember/trainAttendMemberList.html", "报名名单", 1210, 600);
 	}
 
 	function changeIsLockedStatus(trainItemId, isLocked) {
@@ -43,6 +43,11 @@
 		});
 
 	}
+	function trainMember_btn()
+	{
+		matchId =$("#trainMember_matchId").combobox('getValue');
+		trainMember_btn_barchart(matchId);
+	}
 </script>
 <div class="easyui-layout" data-options="fit : true,border : false">
 
@@ -51,6 +56,8 @@
 		style="height: 60px; background: #f4f4f4;padding-top: 5px">
 		&nbsp; <input id="trainMember_matchId"
 			onchange="trainMember_matchId_change()" />
+				&nbsp; &nbsp; 
+			<input  type="button" onclick="trainMember_btn()" value="报名图表分析">&nbsp;
 	</div>
 
 	<div data-options="region:'center',border:false">

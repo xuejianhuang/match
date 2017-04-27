@@ -10,17 +10,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="Cache-Control" content="no-transform"/>
-    <meta name="renderer" content="webkit">
+    <meta name="renderer" content="webkit" >
     <script type="text/javascript" src="../js/jquery/jquery-core.js"></script>
     <script type="text/javascript">
 
         var searchStr = location.search;
-       // alert(searchStr);
-       // 由于searchStr属性值包括“?”，所以除去该字符
+        // alert(searchStr);
+        // 由于searchStr属性值包括“?”，所以除去该字符
         searchStr = searchStr.substr(1);//将searchStr字符串分割成数组，数组中的每一个元素为一个参数和参数值
-       // alert(searchStr);
+        // alert(searchStr);
         var searchs = searchStr.split("&");//获得第一个参数和值
-       // alert(searchStr);
+        // alert(searchStr);
         var type= searchs[0].split("=")[1]; //0:新闻通知  1:往届赛事
         var page;
         var url;
@@ -28,19 +28,19 @@
         var downloadbaseUrl="/ufinder/";
         if(type==0) //新闻
         {
-          //  var newsTypeCode=searchs[2].split("=")[1];
+            //  var newsTypeCode=searchs[2].split("=")[1];
             page = searchs[1].split("=")[1];
             url= baseUrl+"matchNews_getMatchNewsByPage.action?rows=10&page="+page;
         }
         else if(type==1) //往届赛事
         {
             page = searchs[1].split("=")[1];
-           url= baseUrl+"match_getMatchByPage.action?rows=10&page="+page;
+            url= baseUrl+"match_getMatchByPage.action?rows=10&page="+page;
         }
         else if(type==2) //通知
         {
             page = searchs[1].split("=")[1];
-           url= baseUrl+"matchNotice_getMatchNoticeByPage.action?rows=10&page="+page;
+            url= baseUrl+"matchNotice_getMatchNoticeByPage.action?rows=10&page="+page;
         }
         else if(type==3) //下载
         {
@@ -52,7 +52,7 @@
         //  alert(page);
 
         $(function(){
-          //  $('.webHeaderTable').load('header.html');
+            //  $('.webHeaderTable').load('header.html');
             $('.webFooterTable').load('footer.html');
             $.ajax({
                 url : url,
@@ -62,9 +62,9 @@
                 success : function(result) {
                     var jsonObject,rows,totalPages;
                     if(type<=2) {
-                         jsonObject = jQuery.parseJSON(result);
-                          rows = jsonObject.rows;
-                         totalPages = jsonObject.totalPage;
+                        jsonObject = jQuery.parseJSON(result);
+                        rows = jsonObject.rows;
+                        totalPages = jsonObject.totalPage;
                     }
                     else if(type==3)
                     {
@@ -94,7 +94,7 @@
                                 hrefUrl='javascript:alert("文件不存在")';
                             }
                             caption=row.caption;
-                           // target='_blank';
+                            // target='_blank';
                         }
                         else   if(type==3) //下载
                         {
@@ -115,7 +115,18 @@
                             "<td class='newsCalendar' style='width: 160px;'> <a hidefocus='true' class='word' target='"+target+"'  href='"+hrefUrl+"'  style='display: block; width: 100%;'>"+date.substring(0,10)+"</a> " +
                             "</td>" +
                             " </tr> " +
-                            "</tbody></table> </div>");
+                            "</tbody></table> " +
+                            "</div>"
+                        );
+                        if(type==0) //新闻
+                        {
+                            $("#newsList31").append("<p class='mixNewsStyleSummary fk-newsListSummary pic-mixNewsStyleSummary' style='margin-left: 5px'>"+row.abstractText+"...<a hidefocus='true' class='word' target='"+target+"'  href='"+hrefUrl+"' style='color: red'>[详情]</a></p> " )
+                        }
+                        else if(type==2)//通知
+                        {
+                            $("#newsList31").append("<p class='mixNewsStyleSummary fk-newsListSummary pic-mixNewsStyleSummary' style='margin-left: 5px'>"+row.body.substring(0,100)+"...<a hidefocus='true' class='word' target='"+target+"'  href='"+hrefUrl+"' style='color: red'>[详情]</a></p> " )
+
+                        }
                         if(index!=rows.length-1)
                         {
                             $("#newsList31").append("    <div class='separatorLine g_separator '></div>");
@@ -140,7 +151,7 @@
                         }
                         else
                         {
-                               var nextPage=parseInt(page)+1;
+                            var nextPage=parseInt(page)+1;
                             str+="<div class='pageNext'> <a class='g_border' hidefocus='true'  href='nr.html?type="+type+"&page="+nextPage+"'> <span>下一页</span> </a> </div>";
                         }
 
@@ -149,7 +160,7 @@
                     $("#pagenation31").append("<div class='pagePrev'><span>总共："+totalPages+"页</span></div>");
                 }
             });
-       });
+        });
     </script>
 
     <meta name="mobile-agent" content="format=html5;url=http://m.mq11837910.icoc.me/"/>
@@ -4021,9 +4032,9 @@
                                              tabStyle='0'>
                                             <div class='richContent richContent0'><p><span
                                                     style="color:#C40000;font-family:微软雅黑;"><span
-                                                    style="font-size:32px;line-height:57.6px;"><strong><img
-                                                    src="../img/jxufe_logo.png" width="303" height="66"
-                                                    alt=" "/></strong></span></span></p></div>
+                                                    style="font-size:32px;line-height:57.6px;"><strong> <img style="border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius:5px;border:solid #edf3f9 1px;"
+                                                                                                             src="../img/jxufe_logo.png" width="290" height="60"
+                                                                                                             alt=" "/></strong></span></span></p></div>
                                         </div>
                                     </td>
                                     <td class='formMiddleRight formMiddleRight433'></td>
@@ -4088,8 +4099,8 @@
                 </td>
             </tr>
         </table>
-       <table class="webHeaderTable" cellpadding="0" cellspacing="0" id="webHeaderTable">
-           <tr>
+        <table class="webHeaderTable" cellpadding="0" cellspacing="0" id="webHeaderTable">
+            <tr>
                 <td align="center" class="webHeaderTd">
                     <div id="webHeader" class="webHeader">
                         <table class='headerTable' cellpadding='0' cellspacing='0'>
@@ -4133,13 +4144,13 @@
                                                                     <table title='' class='item itemCol102 itemIndex2'
                                                                            cellpadding='0' cellspacing='0' colId='102'
                                                                            id='nav102'
-                                                                           onclick='window.open("/col.jsp?id=102", "_self")'
-                                                                           _jump='window.open("/col.jsp?id=102", "_self")'>
+                                                                           onclick='window.open("nr.html?type=0&page=1", "_self")'
+                                                                           _jump='window.open("nr.html?type=0&page=1", "_self")'>
                                                                         <tr>
                                                                             <td class='itemLeft'></td>
                                                                             <td class='itemCenter'><a hidefocus='true'
                                                                                                       style='outline:none;'
-                                                                                                      href='/col.jsp?id=102'
+                                                                                                      href='nr.html?type=0&page=1'
                                                                                                       target='_self'
                                                                                                       onclick='return false;'><span
                                                                                     class='itemName0'>大赛动态</span></a>
@@ -4151,13 +4162,13 @@
                                                                     <table title='' class='item itemCol112 itemIndex3'
                                                                            cellpadding='0' cellspacing='0' colId='112'
                                                                            id='nav112'
-                                                                           onclick='window.open("/col.jsp?id=112", "_self")'
-                                                                           _jump='window.open("/col.jsp?id=112", "_self")'>
+                                                                           onclick='window.open("developing.html", "_self")'
+                                                                           _jump='window.open("developing.html", "_self")'>
                                                                         <tr>
                                                                             <td class='itemLeft'></td>
                                                                             <td class='itemCenter'><a hidefocus='true'
                                                                                                       style='outline:none;'
-                                                                                                      href='/col.jsp?id=112'
+                                                                                                      href='developing.html'
                                                                                                       target='_self'
                                                                                                       onclick='return false;'><span
                                                                                     class='itemName0'>大赛培训</span></a>
@@ -4169,13 +4180,13 @@
                                                                     <table title='' class='item itemCol107 itemIndex4'
                                                                            cellpadding='0' cellspacing='0' colId='107'
                                                                            id='nav107'
-                                                                           onclick='window.open("/col.jsp?id=107", "_self")'
-                                                                           _jump='window.open("/col.jsp?id=107", "_self")'>
+                                                                           onclick='window.open("matchProject.html", "_self")'
+                                                                           _jump='window.open("matchProject.html", "_self")'>
                                                                         <tr>
                                                                             <td class='itemLeft'></td>
                                                                             <td class='itemCenter'><a hidefocus='true'
                                                                                                       style='outline:none;'
-                                                                                                      href='/col.jsp?id=107'
+                                                                                                      href='matchProject.html'
                                                                                                       target='_self'
                                                                                                       onclick='return false;'><span
                                                                                     class='itemName0'>报名入口</span></a>
@@ -4187,8 +4198,8 @@
                                                                     <table title='' class='item itemCol6 itemIndex5'
                                                                            cellpadding='0' cellspacing='0' colId='6'
                                                                            id='nav6'
-                                                                           onclick='window.open("/contact.jsp", "_self")'
-                                                                           _jump='window.open("/contact.jsp", "_self")'>
+                                                                           onclick='window.open("contact.html", "_self")'
+                                                                           _jump='window.open("contact.html", "_self")'>
                                                                         <tr>
                                                                             <td class='itemLeft'></td>
                                                                             <td class='itemCenter'><a hidefocus='true'
@@ -4311,7 +4322,7 @@
                                             <div id="topForms" class="column forms mainForms topForms">
                                                 <div id="module399" _indexclass="formIndex1" _modulestyle="35" _moduleid="399" class="form form399 formIndex1 formStyle35 layoutModule  formStyle35_2  fk-formCol " title="" style="" _side="0" _intab="0" _inmulmcol="0" _infullmeasure="0" _inpack="0" _autoheight="1" _global="false" _independent="false">
                                                     <table class="formTop formTop399" cellspacing="0" cellpadding="0"><tbody><tr><td class="left"></td><td class="center"></td><td class="right"></td></tr></tbody></table>
-                                                    <table class=" formMiddle formMiddle399" style="" cellspacing="0" cellpadding="0"><tbody><tr>
+                                                    <table class=" formMiddle formMiddle399" style="" cellspacing="0" cellpadding="15"><tbody><tr>
                                                         <td class="formMiddleLeft formMiddleLeft399"></td>
                                                         <td class="formMiddleCenter formMiddleCenter399  f-colFormMiddleCenter " valign="top">
                                                             <div class="formMiddleContent formMiddleContent399 multiColFormMiddleContent f-colFormMiddleContent  fk-formContentOtherPadding" tabstyle="0">
@@ -4322,27 +4333,27 @@
 
                                                                             <td class="mulColLayout" style="">
                                                                                 <div id="mulMCol399_cid_2" class="mulMColList"><div id="module12" _modulestyle="46" _moduleid="12" class="form form12 formStyle46 formInMulMCol " title="" style="" _side="0" _intab="0" _inmulmcol="399" _infullmeasure="0" _inpack="0" _autoheight="1" _global="false" _independent="false">
-                                                                    <table class="formTop formTop12" cellspacing="0" cellpadding="0"><tbody><tr><td class="left"></td><td class="center"></td><td class="right"></td></tr></tbody></table>
-                                                                    <table class=" formMiddle formMiddle12" style="" cellspacing="0" cellpadding="0"><tbody><tr>
-                                                                        <td class="formMiddleLeft formMiddleLeft12"></td>
-                                                                        <td class="formMiddleCenter formMiddleCenter12 " valign="top">
+                                                                                    <table class="formTop formTop12" cellspacing="0" cellpadding="0"><tbody><tr><td class="left"></td><td class="center"></td><td class="right"></td></tr></tbody></table>
+                                                                                    <table class=" formMiddle formMiddle12" style="" cellspacing="0" cellpadding="0"><tbody><tr>
+                                                                                        <td class="formMiddleLeft formMiddleLeft12"></td>
+                                                                                        <td class="formMiddleCenter formMiddleCenter12 " valign="top">
 
-                                                                            <div>
-                                                                                <div class="newsList " id="newsList31" _showsetting="1" usetitle="true">
-                                                                                    <div class="clearfloat"></div>
+                                                                                            <div>
+                                                                                                <div class="newsList " id="newsList31" _showsetting="1" usetitle="true">
+                                                                                                    <div class="clearfloat"></div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div id="pagenation31" class="pagenation">
+
+                                                                                            </div>
+
+                                                                                        </td>
+                                                                                        <td class="formMiddleRight formMiddleRight12"></td>
+                                                                                    </tr></tbody></table>
+                                                                                    <table class="formBottom formBottom12" cellspacing="0" cellpadding="0"><tbody><tr><td class="left left12"></td><td class="center center12"></td><td class="right right12"></td></tr></tbody></table>
+                                                                                    <div class="clearfloat clearfloat12"></div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div id="pagenation31" class="pagenation">
-                                                                          
-                                                                        </div>
-
-                                                                        </td>
-                                                                        <td class="formMiddleRight formMiddleRight12"></td>
-                                                                    </tr></tbody></table>
-                                                                    <table class="formBottom formBottom12" cellspacing="0" cellpadding="0"><tbody><tr><td class="left left12"></td><td class="center center12"></td><td class="right right12"></td></tr></tbody></table>
-                                                                    <div class="clearfloat clearfloat12"></div>
-                                                                </div>
-                                                                </div></td>
+                                                                                </div></td>
                                                                         </tr>
                                                                         </tbody>
                                                                     </table>

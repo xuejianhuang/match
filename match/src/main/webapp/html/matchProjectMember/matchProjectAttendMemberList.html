@@ -38,7 +38,9 @@ $(function() {
 		          姓 名： <input id="matchProjectAttendMemberList_name"  name="name" /> &nbsp;
 		         
 			<input type="button" value="查询" onclick="member_search()">&nbsp;
-				<input type="button" value="发送邮件通知" onclick="openDialog('matchProjectMember/sendEmail.html', '邮件发送', 1000, 600)">&nbsp;&nbsp;
+				<input  type="button" onclick="member_btn_piechart('school','',memberListClickMatchProjectd)" value="学校比例">&nbsp;
+				<input  type="button" onclick="member_btn_piechart('major','',memberListClickMatchProjectd)" value="专业比例">&nbsp;
+		   <input type="button" value="发送邮件通知" onclick="openDialog('matchProjectMember/sendEmail.html', '邮件发送', 1000, 600)">&nbsp;&nbsp;
 			<a href="javascript:exportExcel()">竞赛报名名单下载</a>
 		</div>
 	</div>

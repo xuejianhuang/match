@@ -21,7 +21,7 @@ public class OperatorService extends BaseDao<Operator> implements
 	@Override
 	public Operator verifyUser(String account, String password)
 	{
-		password = Encrypt.encryptPassword(password);
+		//password = Encrypt.encryptPassword(password);
 		String hql=null;
 		List<String> list=null;
 		List<Object> obj=new ArrayList<Object>();

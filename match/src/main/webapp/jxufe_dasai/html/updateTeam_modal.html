@@ -1,9 +1,9 @@
-<a id="createteam_modaltrigger" class='regAcct' hidefocus='true'
-   href="#createteammodal"></a>
+<a id="updateteam_modaltrigger" class='regAcct' hidefocus='true'
+   href="#updateteammodal"></a>
 
-<form id="createteamForm" method="post">
+<form id="updateTeamForm" method="post">
     <input type="button" class="hidemodal" hidden="hidden">
-    <input type="text" hidden="hidden" name="matchProjectId" id="matchProjectId">
+    <input type="text" hidden="hidden" name="group.id" id="groupId">
     <table class="memberSignup jz-memberSignup" cellspacing="5"
            cellpadding="5">
         <tbody>
@@ -20,7 +20,6 @@
                 </div>
             </td>
         </tr>
-        <tr><td colspan="2" style="font-style: inherit;color: red;">如果指导老师没有确定，以下信息可以先不填</td></tr>
         <tr>
             <td class="itemName">
                 <div class="itemSpace">
@@ -116,7 +115,7 @@
                                                                value="重&#12288;置"> &nbsp;
                 <input
                         class="memberSignupBtn g_ibutton" extclass="g_ibutton" type="button"
-                        value="确&#12288;定" onclick="submitCreateTeamInfo()"
+                        value="确&#12288;定" onclick="submitUpdateTeamInfo()"
                 ></td>
 
         </tr>

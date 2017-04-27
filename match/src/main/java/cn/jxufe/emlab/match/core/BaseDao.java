@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -146,12 +147,16 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 		return list;
 	}
 
-	public List<T> findSQL(final String sql, final List values)
+	public List findSQL(final String sql, final List values,final Class entityType)
 			throws DataAccessException {
 	  	List list = getHibernateTemplate().executeFind(new HibernateCallback() {
 			public List doInHibernate(Session session)
 					throws HibernateException, SQLException {
-				Query query = session.createSQLQuery(sql).addEntity(clazz);
+				SQLQuery  query = session.createSQLQuery(sql);
+				if(entityType!=null)
+				{
+					query.addEntity(entityType);
+				}
 				setParameter(query, values);
 				return query.list();
 			}
@@ -186,6 +191,7 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 					throws HibernateException, SQLException {
 				Query query = session.createQuery(hql);
 				setParameter(query, values);
+				
 				List result = query.setFirstResult(offset)
 						.setMaxResults(pageSize).list();
 				return result;
@@ -197,7 +203,7 @@ public abstract class BaseDao<T extends BasePojo> extends HibernateDaoSupport
 	public List<T> findByPageSQL(final String sql,  final List values,
 			final int offset, final int pageSize) throws DataAccessException {
 		if (pageSize == -1)
-			return this.findSQL(sql, values);
+			return this.findSQL(sql, values,clazz);
 		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {

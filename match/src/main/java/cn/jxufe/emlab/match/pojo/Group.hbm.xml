@@ -29,6 +29,29 @@
 		<property name="status" type="java.lang.Integer">
 			<column name="status" />
 		</property>
+		
+		<property name="tutor1" type="java.lang.String">
+			<column name="tutor1" length="10" />
+		</property>
+		<property name="tutorPhone1" type="java.lang.String">
+			<column name="tutorPhone1"  length="11"/>
+		</property>
+			<property name="tutorTitle1" type="java.lang.Integer">
+			<column name="tutorTitle1" />
+		</property>
+		<property name="tutor2" type="java.lang.String">
+			<column name="tutor2" length="10" />
+		</property>
+		<property name="tutorPhone2" type="java.lang.String">
+			<column name="tutorPhone2"  length="11"/>
+		</property>
+			<property name="tutorTitle2" type="java.lang.Integer">
+			<column name="tutorTitle2" />
+		</property>
+			<property name="prize" type="java.lang.String">
+			<column name="prize"  />
+		</property>
+		
 		<set name="members" table="T_memberGroup"  cascade="save-update">
 			<key column="groupId"></key>
 			<many-to-many class="cn.jxufe.emlab.match.pojo.Member"

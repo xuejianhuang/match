@@ -44,6 +44,17 @@ public class MatchProjectAction extends BaseAction {
 		jsonViewIE(jsondata);
 		return null;
 	}
+	public String getMatchProjectMemberNumAndGroupNum() throws IOException {
+
+		Map session = this.getSession();
+		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
+		Map jsondata = new HashMap();
+		jsondata.put("rows",
+				matchProjectService.getMatchProjectMemberNumAndGroupNum(matchId, operator).toString());
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
 	public String getMatchProjectByMemberId() throws IOException
 	{
 		Map jsondata = new HashMap();
@@ -67,6 +78,14 @@ public class MatchProjectAction extends BaseAction {
 		Map jsondata = new HashMap();
 		List<MatchProject> list= matchProjectService.getEnableMatchProject();
 		jsondata.put("rows",list);
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	public String getAttendMatchProject() throws IOException
+	{
+		Map jsondata = new HashMap();
+		matchProjectService.getAttendMatchProject(jsondata, page, rows);
 		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
 		jsonViewIE(jsondata);
 		return null;

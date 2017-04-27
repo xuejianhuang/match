@@ -42,7 +42,17 @@ public class TrainItemAction extends BaseAction {
 		jsonViewIE(jsondata);
 		return null;
 	}
-	
+	public String getTraimMemberNum() throws IOException {
+
+		Map session = this.getSession();
+		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
+		Map jsondata = new HashMap();
+		jsondata.put("rows",
+				trainItemService.getTrainMemberNum(matchId, operator).toString());
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
 	public String getTrainStatisticsByPage() throws IOException {
 		Map session = this.getSession();
 		Operator operator = (Operator) session.get(KeyEnum.OPERATOR);
@@ -58,6 +68,14 @@ public class TrainItemAction extends BaseAction {
 		Map jsondata = new HashMap();
 		List<TrainItem> list= trainItemService.getEnableTrainItem();
 		jsondata.put("rows",list);
+		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
+		jsonViewIE(jsondata);
+		return null;
+	}
+	public String getAttendTrainItem() throws IOException
+	{
+		Map jsondata = new HashMap();
+		trainItemService.getAttendTrainItem(jsondata, page, rows);
 		jsondata.put(KeyEnum.STATUS, StatusEnum.success);
 		jsonViewIE(jsondata);
 		return null;

@@ -30,17 +30,17 @@ function formatOper(val, row, index) {
 
 	var innerHtml = '';
 	if (val == 1) {
-		innerHtml += '<a href="#" onclick=changeIsLockedStatus("'
+		innerHtml += '<a href="#" onclick=ctrain_hangeIsLockedStatus("'
 			+ row.id + '",0)>开始报名</a>';
 
 	} else {
-		innerHtml += ' &nbsp; &nbsp;&nbsp;<a href="#" style="color: red;"  onclick=changeIsLockedStatus("'
+		innerHtml += ' &nbsp; &nbsp;&nbsp;<a href="#" style="color: red;"  onclick=ctrain_hangeIsLockedStatus("'
 				+ row.id + '",1)>停止报名</a>';
 	}
 	//	alert(row.itid);
 	return innerHtml;
 }
-function changeIsLockedStatus(trainItemId,isLocked) {
+function ctrain_hangeIsLockedStatus(trainItemId,isLocked) {
 	ajaxSend('trainItem_changeTrainItemIsLockedStatus.action', {
 		id : trainItemId,
 		isLocked : isLocked

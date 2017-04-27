@@ -9762,11 +9762,11 @@ Site.memberProfileSubmit = function (j, q) {
                 }
                 Site.checkMemberDataIntegrity(j)
             }
-            else if(t.STAUTS=="timeout")
+            else if(t.STATUS=="timeout")
             {
                 d.html(LS.siteFormSubmitNotLogin)
             }
-            else if(t.STAUTS=="failed") {
+            else if(t.STATUS=="failed") {
                 d.html(t.REASON);
             }
         }

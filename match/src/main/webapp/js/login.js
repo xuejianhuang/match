@@ -10,14 +10,14 @@ $(function() {
 	});
 	$("#btn").click(
 					function() {
-						if (!$(".form-signin").validationEngine("validate")) {
+						if (!$(".form-signin").validationEngine("validate")) {1
 							return false;
 						}
 						time++;
 						$.post("oa_login.action",
 										{
 											account:$("#username").val(),
-											password:$("#password").val(),
+											password:$.md5($("#password").val()),
 											validateCode:$("#validateCode").val()
 											}, function(result) {
 
@@ -34,7 +34,7 @@ $(function() {
 															.getTime();
 													$("#img").attr(
 															"src",
-															"getValidateCode.action?d="
+															"getValidate_getImageCode.action?d="
 																	+ timenow);
 													$(".spandisplay").css(
 															"visibility",
@@ -85,5 +85,5 @@ function mOut2() {
 }
 function changCode() {
 	var timenow = new Date().getTime();
-	$("#img").attr("src", "getValidateCode.action?d=" + timenow);
+	$("#img").attr("src", "getValidate_getImageCode.action?d=" + timenow);
 }

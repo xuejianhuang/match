@@ -10,7 +10,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="Cache-Control" content="no-transform"/>
-    <meta name="renderer" content="webkit">
+    <meta name="renderer" content="webkit" >
     <script type="text/javascript" src="../js/jquery/jquery-core.js"></script>
     <script type="text/javascript" charset="utf-8" src="../js/jquery.leanModal.js"></script>
     <script type="text/javascript" src="../js/login_up.js"></script>
@@ -163,6 +163,7 @@
                         "<td class='itemDate' style=''>比赛开始时间</td>" +
                         "<td class='itemDate' style=''>比赛结束时间</td>" +
                         "<td class='itemCode' style=''>类型</td>" +
+                        "<td class='itemOpt' style=''></td>" +
                         "<td class='itemOpt' style=''>操作</td>" +
                         "</tr></tbody></table></div>";
 
@@ -176,11 +177,13 @@
                             "<td class='itemDate'>"+row.endDate.substring(0,10)+"</td>" ;
                         if(row.isTeamMatch==1)
                         {
-                            contents+="<td class='itemDate' style='cursor: pointer' onclick=teamMemberIntroduction('" + row.id + "','#introductionmodal')>团队</td>"
+                            contents+="<td class='itemDate'>团队</td>"
+                            contents+="<td class='itemDate' style='cursor: pointer' onclick=teamMemberIntroduction('" + row.id + "','#introductionmodal')>我的团队</td>"
                         }
                         else
                         {
                             contents+="<td class='itemDate'>个人</td>"
+                            contents+="<td class='itemDate' style='cursor: pointer' onclick=teamMemberIntroduction('" + row.id + "','#introductionmodal')>我的团队</td>"
                         }
                         if(row.isLocked==0)
                         {
@@ -188,7 +191,7 @@
                         }
                         else
                         {
-                            contents+=  "<td></td>";
+                            contents+=  "<td>报名已结束</td>";
                         }
                         contents+=   "</tr></tbody></table></div>";
                         if (index != rows.length - 1) {
@@ -231,20 +234,22 @@
                 // data : para,
                 dataType: "text",
                 success: function (result) {
-                    $("#introductionmodal").remove()
+                    $("#introductionmodal").remove();
                     $("body").append('<div id="introductionmodal" class="dialogPanle" style="display:none;" align="center"></div>')
                     $('#introductionmodal').append(" <a id='introductionmodal_modaltrigger' class='regAcct' hidefocus='true'href='#introductionmodal'></a>");
                     var group = jQuery.parseJSON(result).group;
                     var isCaption=jQuery.parseJSON(result).isCaption;
+                    var isLocked=jQuery.parseJSON(result).isLocked;
                     var content = "  <span style='height:210px;position:relative;' > <h4 style='text-align: center'>" + group.caption + "</h4> <table  cellpadding='6px' cellspacing='6px' style='color: #00a0e9'> ";
-                    var buildMember = "";
+                    var buildMember = " <tr> <td>指导老师:</td> <td> " + group.tutor1+ "</td> <td>" + group.tutor2 + "</td> </tr> ";
                     var teamMember = "";
+                    var prize="";
                     $.each(group.members, function (index, member) {
                         if (group.buildMemberId == member.id) {
                             buildMember += " <tr> <td>队长:</td> <td> " + member.name + "</td> <td>" + member.school + "</td> <td>" + member.major + "</td><td>" + member.account + "</td><td>" + member.phone + "</td></tr>  <tr> <td>组员:</td> </tr>";
                         }
                         else {
-                                 if(isCaption)
+                                 if(isCaption&&!isLocked)
                                  {
                                      teamMember += "  <tr> <td></td> <td > " + member.name + "</td> <td>" + member.school + "</td><td>" + member.major + "</td><td>" + member.account + "</td><td>" + member.phone + "</td> <td><a href=\"javascript:if(confirm('确实要删除该队员?')) deleteTeamMember('"+member.id+"','"+group.id+"','"+matchProjectId+"')\";  hidefocus='true' title='删除队员' class='order-cancel J-order-cancel' _oid='119'></a></td> </tr>";
                                  }
@@ -253,8 +258,28 @@
                                  }
                         }
                     });
-                    content += buildMember + teamMember + " </table>";
+                    if(group.prize=="G0")
+                    {
+                        prize=" <tr> <td>获得奖项:</td> <td style='color:red;'>特等奖</td> "
+                    }
+                   else if(group.prize=="G1")
+                    {
+                        prize=" <tr> <td>获得奖项:</td> <td style='color:red;'>一等奖</td> "
+                    }
+                  else  if(group.prize=="G2")
+                    {
+                        prize=" <tr> <td>获得奖项:</td> <td style='color:red;'>二等奖</td> "
+                    }
+                  else  if(group.prize=="G3")
+                    {
+                        prize=" <tr> <td>获得奖项:</td> <td style='color:red;'>三等奖</td> "
+                    }
+                    content += buildMember + teamMember +prize+ " </table>";
                     content += "</span>";
+                    if(isCaption&&!isLocked)
+                    {
+                        content+="<input type='button' onclick=updateGroupInfo('"+group.id+"','"+group.caption+"','"+group.tutor1+"','"+group.tutorTitle1+"','"+group.tutorPhone1+"','"+group.tutor2+"','"+group.tutorTitle2+"','"+group.tutorPhone2+"')  value='修改小组信息'>"
+                    }
                     $("#introductionmodal").append(content);
 
                     $('#introductionmodal_modaltrigger').leanModal({
@@ -266,8 +291,46 @@
                 }
             });
         }
+function updateGroupInfo(id,caption,tutor1,tutorTitle1,tutorPhone1,tutor2,tutorTitle2,tutorPhone2)
+{
+    $("#introductionmodal").html("");
+    $('#introductionmodal').load('updateTeam_modal.html',function () {
+        $('#updateteam_modaltrigger').leanModal({top: 110, overlay: 0.45, closeButton: ".hidemodal"});
+        $('#updateteam_modaltrigger').click();
+        $("#updateTeamForm #groupId").val(id);
+        $("#updateTeamForm #teamName").val(caption);
+        $("#updateTeamForm #tutor1").val(tutor1);
+        $("#updateTeamForm #tutorTitle1").val(tutorTitle1);
+        $("#updateTeamForm #tutorPhone1").val(tutorPhone1);
+        $("#updateTeamForm #tutor2").val(tutor2);
+        $("#updateTeamForm #tutorTitle2").val(tutorTitle2);
+        $("#updateTeamForm #tutorPhone2").val(tutorPhone2);
 
-
+    });
+}
+        function submitUpdateTeamInfo() {
+            var caption=$("#teamName").val();
+            if(caption!=null&&caption.length!=0) {
+                $.ajax({
+                    url: "/matchPlatform/member_updateGroup.action",
+                    type: "POST",
+                    data: $("#updateTeamForm").serialize(),
+                    dataType: "text",
+                    success: function (result) {
+                        dealAjaxResult(result, function (r) {
+                            //  window.location.href = "index.html";
+                            $(".hidemodal").click();
+                            $("#introductionmodal").remove();
+                            alert("修改成功");
+                        });
+                    }
+                });
+            }
+            else
+            {
+                alert("请填写小组名称");
+            }
+        }
     </script>
 
     <meta name="mobile-agent" content="format=html5;url=http://m.mq11837910.icoc.me/"/>
@@ -4145,9 +4208,9 @@
                                              tabStyle='0'>
                                             <div class='richContent richContent0'><p><span
                                                     style="color:#C40000;font-family:微软雅黑;"><span
-                                                    style="font-size:32px;line-height:57.6px;"><strong><img
-                                                    src="../img/jxufe_logo.png" width="303" height="66"
-                                                    alt=" "/></strong></span></span></p></div>
+                                                    style="font-size:32px;line-height:57.6px;"><strong> <img style="border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius:5px;border:solid #edf3f9 1px;"
+                                                                                                             src="../img/jxufe_logo.png" width="290" height="60"
+                                                                                                             alt=" "/></strong></span></span></p></div>
                                         </div>
                                     </td>
                                     <td class='formMiddleRight formMiddleRight433'></td>
@@ -4257,13 +4320,13 @@
                                                                     <table title='' class='item itemCol102 itemIndex2'
                                                                            cellpadding='0' cellspacing='0' colId='102'
                                                                            id='nav102'
-                                                                           onclick='window.open("/col.jsp?id=102", "_self")'
-                                                                           _jump='window.open("/col.jsp?id=102", "_self")'>
+                                                                           onclick='window.open("nr.html?type=0&page=1", "_self")'
+                                                                           _jump='window.open("nr.html?type=0&page=1", "_self")'>
                                                                         <tr>
                                                                             <td class='itemLeft'></td>
                                                                             <td class='itemCenter'><a hidefocus='true'
                                                                                                       style='outline:none;'
-                                                                                                      href='/col.jsp?id=102'
+                                                                                                      href='nr.html?type=0&page=1'
                                                                                                       target='_self'
                                                                                                       onclick='return false;'><span
                                                                                     class='itemName0'>大赛动态</span></a>
@@ -4275,13 +4338,13 @@
                                                                     <table title='' class='item itemCol112 itemIndex3'
                                                                            cellpadding='0' cellspacing='0' colId='112'
                                                                            id='nav112'
-                                                                           onclick='window.open("/col.jsp?id=112", "_self")'
-                                                                           _jump='window.open("/col.jsp?id=112", "_self")'>
+                                                                           onclick='window.open("developing.html", "_self")'
+                                                                           _jump='window.open("developing.html", "_self")'>
                                                                         <tr>
                                                                             <td class='itemLeft'></td>
                                                                             <td class='itemCenter'><a hidefocus='true'
                                                                                                       style='outline:none;'
-                                                                                                      href='/col.jsp?id=112'
+                                                                                                      href='developing.html'
                                                                                                       target='_self'
                                                                                                       onclick='return false;'><span
                                                                                     class='itemName0'>大赛培训</span></a>
@@ -4293,13 +4356,13 @@
                                                                     <table title='' class='item itemCol107 itemIndex4'
                                                                            cellpadding='0' cellspacing='0' colId='107'
                                                                            id='nav107'
-                                                                           onclick='window.open("/col.jsp?id=107", "_self")'
-                                                                           _jump='window.open("/col.jsp?id=107", "_self")'>
+                                                                           onclick='window.open("matchProject.html", "_self")'
+                                                                           _jump='window.open("matchProject.html", "_self")'>
                                                                         <tr>
                                                                             <td class='itemLeft'></td>
                                                                             <td class='itemCenter'><a hidefocus='true'
                                                                                                       style='outline:none;'
-                                                                                                      href='/col.jsp?id=107'
+                                                                                                      href='matchProject.html'
                                                                                                       target='_self'
                                                                                                       onclick='return false;'><span
                                                                                     class='itemName0'>报名入口</span></a>
@@ -4311,8 +4374,8 @@
                                                                     <table title='' class='item itemCol6 itemIndex5'
                                                                            cellpadding='0' cellspacing='0' colId='6'
                                                                            id='nav6'
-                                                                           onclick='window.open("/contact.jsp", "_self")'
-                                                                           _jump='window.open("/contact.jsp", "_self")'>
+                                                                           onclick='window.open("contact.html", "_self")'
+                                                                           _jump='window.open("contact.html", "_self")'>
                                                                         <tr>
                                                                             <td class='itemLeft'></td>
                                                                             <td class='itemCenter'><a hidefocus='true'

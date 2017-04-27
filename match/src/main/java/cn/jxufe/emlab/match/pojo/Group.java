@@ -30,6 +30,15 @@ public class Group extends cn.jxufe.emlab.match.pojo.BasePojo implements java.io
      private String buildMemberId;
      private Timestamp buildTime;
      private int status;
+     private String tutor1;
+     private String tutor2;
+     private String tutorPhone1;
+     private String tutorPhone2;
+     private int tutorTitle1;
+     private int tutorTitle2;
+     private String prize;
+     
+     
      
      private Set<Member> members;
      
@@ -179,6 +188,62 @@ public class Group extends cn.jxufe.emlab.match.pojo.BasePojo implements java.io
 
 	public void setFull(boolean isFull) {
 		this.isFull = isFull;
+	}
+
+	public String getTutor1() {
+		return tutor1;
+	}
+
+	public void setTutor1(String tutor1) {
+		this.tutor1 = tutor1;
+	}
+
+	public String getTutor2() {
+		return tutor2;
+	}
+
+	public void setTutor2(String tutor2) {
+		this.tutor2 = tutor2;
+	}
+
+	public String getTutorPhone1() {
+		return tutorPhone1;
+	}
+
+	public void setTutorPhone1(String tutorPhone1) {
+		this.tutorPhone1 = tutorPhone1;
+	}
+
+	public String getTutorPhone2() {
+		return tutorPhone2;
+	}
+
+	public void setTutorPhone2(String tutorPhone2) {
+		this.tutorPhone2 = tutorPhone2;
+	}
+
+	public int getTutorTitle1() {
+		return tutorTitle1;
+	}
+
+	public void setTutorTitle1(int tutorTitle1) {
+		this.tutorTitle1 = tutorTitle1;
+	}
+
+	public int getTutorTitle2() {
+		return tutorTitle2;
+	}
+
+	public void setTutorTitle2(int tutorTitle2) {
+		this.tutorTitle2 = tutorTitle2;
+	}
+
+	public String getPrize() {
+		return prize;
+	}
+
+	public void setPrize(String prize) {
+		this.prize = prize;
 	}
     
     

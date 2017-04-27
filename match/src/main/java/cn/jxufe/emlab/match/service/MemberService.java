@@ -9,6 +9,8 @@ import java.util.Set;
 
 import org.apache.commons.collections.map.HashedMap;
 
+import com.sun.mail.handlers.message_rfc822;
+
 import cn.jxufe.emlab.match.core.BaseDao;
 import cn.jxufe.emlab.match.email.AccountEmailException;
 import cn.jxufe.emlab.match.email.AccountEmailService;
@@ -29,7 +31,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 
 	@Override
 	public Member verifyMember(String account, String password) {
-		password = Encrypt.encryptPassword(password);
+		// password = Encrypt.encryptPassword(password);
 		List<Object> values = new ArrayList<Object>();
 		values.add(account);
 		values.add(password);
@@ -37,6 +39,18 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 				"from Member where account=? and password=?", values);
 
 		return member;
+	}
+
+	public boolean changePwd(String account, String password) {
+		List<Object> values = new ArrayList<Object>();
+		values.add(account);
+		Member member = (Member) uniqueResult("from Member where account=?",
+				values);
+		if (member != null) {
+			member.setPassword(Encrypt.encryptPassword(password));
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -105,7 +119,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 			sql += " and id in( select memberId from T_memberGroup where groupId in(select id from T_group where caption like ?))";
 			values.add("%" + groupName + "%");
 		}
-		List<Member> list = findSQL(sql, values);
+		List<Member> list = findSQL(sql, values, Member.class);
 		final List<String> to = new ArrayList<String>();
 		for (Member m : list) {
 			to.add(m.getAccount());
@@ -156,7 +170,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 			sql += " and id in( select memberId from T_trainMember where trainItemId=?)";
 			values.add(trainItemId);
 		}
-		return findSQL(sql, values);
+		return findSQL(sql, values, Member.class);
 	}
 
 	public List<MemberVO> getMatchProjectMemberList(String account,
@@ -225,7 +239,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		String password = member.getPassword().toString();
 		member.setPassword(Encrypt.encryptPassword(password));
 
-		if (!checkAccountWhetherExist(member.getAccount(), member.getId())) {
+		if (!checkAccountWhetherExist(member.getAccount())) {
 
 			save(member);
 			value = 1;
@@ -245,7 +259,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 	@Override
 	public boolean txUpdate(Member member, String id) {
 		Member nativeMember = findById(id);
-		if (!checkAccountWhetherExist(member.getAccount(), id)) {
+		if (!checkAccountWhetherExist(member.getAccount())) {
 			nativeMember.setPassword(Encrypt.encryptPassword(member
 					.getPassword()));
 			nativeMember.setAccount(member.getAccount());
@@ -280,14 +294,12 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 	}
 
-	private boolean checkAccountWhetherExist(String account, String id) {
+	private boolean checkAccountWhetherExist(String account) {
 
 		List<Object> values = new ArrayList<Object>();
 		values.add(account);
-		values.add(id);
 		long oper_flag = getCount("select count(*) from Member where  status!="
-				+ StatusEnum.disable.ordinal() + " and account=? and id!=?",
-				values);
+				+ StatusEnum.disable.ordinal() + " and account=?", values);
 		if (oper_flag == 0) {
 			return false;
 		} else {
@@ -366,7 +378,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 	 * 1:失败，已加入其他小组 2:失败，该比赛报名已结束 3：失败，参数有误
 	 */
 	public int txBuildTeamMatchProjectGroup(String memeberId,
-			String matchProjectId, String caption) {
+			String matchProjectId, Group group) {
 		if (memeberId != null && null != matchProjectId) {
 			MatchProject matchProject = matchProjectService
 					.findById(matchProjectId);
@@ -374,10 +386,10 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 			{
 				return 2;
 			}
-			Group group = groupService.teamMatchProjectBuildGroup(memeberId,
-					matchProjectId, caption);
+			boolean result= groupService.teamMatchProjectBuildGroup(memeberId,
+					matchProjectId, group);
 			Member member = findById(memeberId);
-			if (member != null && null != group) {
+			if (member != null && result) {
 				Set<Group> groups = member.getGroups();
 				for (Group g : groups) {
 					if (g.getMatchProject().getId()
@@ -394,6 +406,10 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return 3;
 
+	}
+	public boolean txUpdateTeamMatchProjectGroup(Group group)
+	{
+		return groupService.txUpdateGroup(group);
 	}
 
 	/*
@@ -466,17 +482,22 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 	public boolean txCancelTrain(String memeberId, String trainItemId) {
 		if (memeberId != null && null != trainItemId) {
 			TrainItem item = trainItemService.findById(trainItemId);
-			Member memeber = findById(memeberId);
-			if (memeber.getTrainItems().contains(item)) {
-				memeber.getTrainItems().remove(item);
-				return true;
+			if (item.getIsLocked() == 0) {
+				Member memeber = findById(memeberId);
+				if (memeber.getTrainItems().contains(item)) {
+					memeber.getTrainItems().remove(item);
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 
 	public boolean txCancelMatchProject(String memberId, String matchProjectId) {
-		if (memberId != null && null != matchProjectId) {
+		MatchProject matchProject = matchProjectService
+				.findById(matchProjectId);
+		if (memberId != null && null != matchProject
+				&& matchProject.getIsLocked() == 0) {
 			Member member = findById(memberId);
 			Set<Group> groups = member.getGroups();
 			for (Group group : groups) {
@@ -511,24 +532,24 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 					Set<Member> members = group.getMembers();
 					members.size();// 立刻加载
 					final String finalContent = emaliContent;
-					final List<String> to=new ArrayList<String>();
+					final List<String> to = new ArrayList<String>();
 					for (Member m : members) {
 						to.add(m.getAccount());
 					}
-						new Thread(new Runnable() {
-							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								try {
-									accountEmailService.sendMailMany(to,
-											"团队退出通知-江西财经大学大赛网", finalContent, null);
-								} catch (Exception e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							try {
+								accountEmailService.sendMailMany(to,
+										"团队退出通知-江西财经大学大赛网", finalContent, null);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
-						}).start();
+
+						}
+					}).start();
 
 					return true;
 				}
@@ -569,43 +590,54 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return result;
 	}
-	
-	public Map<String,Double> getPropertyRatio(String property)
-	{
-		Map<String,Double> result=new HashMap<String, Double>();
+
+	public Map<String, Double> getPropertyRatio(String property,
+			String trainItemId, String matchProjectId) {
+		Map<String, Double> result = new HashMap<String, Double>();
 		DecimalFormat df = new DecimalFormat("#.00");
-		if(property!=null&&property.length()!=0)
-		{
-		   String hql="select "+property+", count(*) from Member group by "+property;
-	    	List<Object[]> list=  publicFind(hql);
-	    	double all=0;
-	    	for(Object[] obj:list)
-	    	{
-	    		double count=Double.valueOf(obj[1].toString());
-	    		all+=count;
-	    		result.put(obj[0].toString(),count);
-	    	}
-	    	Set<String> keySet=result.keySet();
-	    	for(String key:keySet)
-	    	{
-	    		result.put(key,Double.parseDouble(df.format((result.get(key)/all)*100)));
-	    	}
+
+		if (property != null && property.length() != 0) {
+			String sql = "select " + property
+					+ ", count(*) from T_member where status!="
+					+ StatusEnum.disable.ordinal();
+			ArrayList<Object> values = new ArrayList<Object>();
+			if (null != trainItemId && trainItemId.length() != 0) {
+				sql += " and id in( select memberId from T_trainMember where trainItemId=?)";
+				values.add(trainItemId);
+			}
+			if (null != matchProjectId && matchProjectId.length() != 0) {
+				sql += " and id in( select memberId from T_memberGroup where groupId in(select id from T_group where matchProjectId=?))";
+				values.add(matchProjectId);
+			}
+			sql += " group by " + property;
+			List<Object[]> list = findSQL(sql, values, null);
+			double all = 0;
+			for (Object[] obj : list) {
+				double count = Double.valueOf(obj[1].toString());
+				all += count;
+				result.put(obj[0].toString(), count);
+			}
+			Set<String> keySet = result.keySet();
+			for (String key : keySet) {
+				result.put(
+						key,
+						Double.parseDouble(df.format((result.get(key) / all) * 100)));
+			}
 		}
 		return result;
 	}
-	public Map<String,Integer> getMemberSignupYearLine()
-	{
-		Map<String,Integer> result=new HashMap<String, Integer>();
-		   String sql="select DATEPART(year,signupTime) as Times ,COUNT(*) from T_member group by DATEPART(year,signupTime)";
-	    	List<Object[]> list=  publicFindSQL(sql);
-	    	for(Object[] obj:list)
-	    	{
-	    		int count=Integer.valueOf(obj[1].toString());
-	    		result.put(obj[0].toString(),count);
-	    	}
+
+	public Map<String, Integer> getMemberSignupYearLine() {
+		Map<String, Integer> result = new HashMap<String, Integer>();
+		String sql = "select DATEPART(year,signupTime) as Times ,COUNT(*) from T_member group by DATEPART(year,signupTime)";
+		List<Object[]> list = publicFindSQL(sql);
+		for (Object[] obj : list) {
+			int count = Integer.valueOf(obj[1].toString());
+			result.put(obj[0].toString(), count);
+		}
 		return result;
 	}
-	
+
 	public ITrainItemService getTrainItemService() {
 		return trainItemService;
 	}

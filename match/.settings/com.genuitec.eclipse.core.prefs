@@ -4,3 +4,5 @@ locCnt=5797
 pkgCnt=14
 sTime=2017\u5E743\u670830\u65E5 \u661F\u671F\u56DB \u4E0A\u534809\u65F639\u520658\u79D2 CST
 srcCnt=4
+validator.Checked=src/main/webapp/jxufe_dasai/html/matchProject.html,src/main/java/cn/jxufe/emlab/match/controller/GroupAction.java,src/main/webapp/jxufe_dasai/html/attendTeam.html
+validator.Unchecked=

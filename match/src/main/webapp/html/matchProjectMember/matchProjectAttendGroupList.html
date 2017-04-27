@@ -1,0 +1,126 @@
+<script type="text/javascript">
+	group_search = function() {
+
+		$('#dg_matchProjectAttendGroupList').datagrid('reload', {
+			groupName : $("#matchProjectAttendGroupList_groupName").val(),
+			tutor1 : $("#matchProjectAttendGroupList_tutor1").val(),
+			tutor2 : $('#matchProjectAttendGroupList_tutor2').val(),
+			prize : $('#matchProjectAttendGroupList_prize').val()
+		});
+	};
+
+	$(function() {
+		$('#dg_matchProjectAttendGroupList')
+				.datagrid(
+						{
+							url : 'group_getMatchProjectGroupList.action?matchProjectId='
+									+ memberListClickMatchProjectd
+						});
+	});
+
+	function setGroupPrize(groupId, prize) {
+		ajaxSend('group_setGroupPrize.action', {
+			groupId : groupId,
+			prize : prize
+		}, function() {
+			$('#dg_matchProjectAttendGroupList').datagrid("reload");
+
+		});
+	}
+
+	function matchProjectAttendGroupList_formatOper(val, row, index) {
+
+		var innerHtml = '  <select onchange=setGroupPrize(\"'
+				+ row.id
+				+ '\",this.options[this.options.selectedIndex].value)><option value=""> 设置 </option>  <option value="G0">  特等奖  </option> <option value="G1">  一等奖</option><option value="G2">  二等奖</option><option value="G3">  三等奖</option> <option value="">  未获奖</option></select> ';
+		return innerHtml;
+	}
+	var formatterPrize = function(val) {
+		if ("G0" == val) {
+			return "特等奖 ";
+		} else if ("G1" == val) {
+			return "一等奖 ";
+		}
+		else if ("G2" == val) {
+			return "二等奖 ";
+		}
+		else if ("G3" == val) {
+			return "三等奖 ";
+		}
+		return "";
+	}
+	var formatterTitle = function(val) {
+		if (0== val) {
+			return "讲师 ";
+		} else if (1 == val) {
+			return "副教授 ";
+		}
+		else if (2 == val) {
+			return "教授 ";
+		}
+		return "";
+	}
+</script>
+<div class="easyui-layout" data-options="fit : true,border : false">
+
+	<div
+		data-options="region:'north',title:'查询条件',border:false,iconCls:'icon-columns'"
+		style="height: 80px; background: #f4f4f4;">
+		&nbsp;
+		<div style="padding: 3px">
+			组 名 ：<input id="matchProjectAttendGroupList_groupName"
+				name="groupName"> &nbsp; 指导老师1：<input
+				id="matchProjectAttendGroupList_tutor1" name="school">
+			&nbsp; 指导老师2：<input id="matchProjectAttendGroupList_tutor2"
+				name="major"> &nbsp; 获奖 : <select
+				id="matchProjectAttendGroupList_prize">
+				<option value="">所有</option>
+				<option value="G0">特等奖</option>
+				<option value="G1">一等奖</option>
+				<option value="G2">二等奖</option>
+				<option value="G3">三等奖</option>
+			</select>&nbsp; <input type="button" value="查询" onclick="group_search()">&nbsp;
+		</div>
+	</div>
+
+	<div data-options="region:'center',border:false">
+		<table id="dg_matchProjectAttendGroupList" title="报名组单"
+			data-options="
+                               idField : 'id',
+			                     fit : true,
+			                    striped:true,
+			                  fitColumns : true,
+			                 singleSelect : false
+                            ">
+			<thead>
+				<tr>
+					<th data-options="field:'caption',align:'center',width:20">组名</th>
+					<th data-options="field:'tutor1',align:'center',width:10">
+						指导老师1</th>
+					<th data-options="field:'tutorTitle1',align:'center',width:10"
+					formatter="formatterTitle"
+					>
+						职称</th>
+					<th data-options="field:'tutorPhone1',align:'center',width:20">
+						电话</th>
+					<th data-options="field:'tutor2',align:'center',width:10">
+						指导老师2</th>
+					<th data-options="field:'tutorTitle2',align:'center',width:10" formatter="formatterTitle">
+						职称</th>
+					<th data-options="field:'tutorPhone2',align:'center',width:20">
+						电话</th>
+					<th data-options="field:'prize',align:'center',width:20"
+						formatter="formatterPrize">获奖情况</th>
+					<th data-options="field:'status',align:'center',width:20"
+						formatter="matchProjectAttendGroupList_formatOper">设置奖项</th>
+
+
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+
+
+
+</div>

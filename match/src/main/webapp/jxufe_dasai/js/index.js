@@ -255,18 +255,23 @@ var _templateOtherStyleData = {"independentList":[],"h":682,"y":0,"layout4Width"
 function showMemberBarArea(member)
 {
     $("#memberBarArea").show();
+    $("#memberBarArea").html("");
     $("#memberBarArea").append(" <div id='arrow' class='g_arrow g_arrow_up'></div> " +
         "<div id='memberBar' class='memberBar'>" +
         " <div class='m_left'> " +
-        "<a class='memberHeadPicOuter' href='mCenter.jsp'>" +
+        "<a class='memberHeadPicOuter' href='mCenter.html'>" +
         "<img id='topBarMemberPic' class='msgBoard_member_headpic' src='../image/member.png' style='height:30px'>" +
         "</a> " +
-        "<a href='mCenter.html'><span class='userLabel' title='等级：普通会员' id='memberName'>" + member.name + "</span></a> " +
+        "<a href='mCenter.html'><span class='userLabel' title='进入个人空间' id='memberName'>" + member.name + "</span></a> " +
         "<a href='javascript:onLogout();' class='exit'>[退出]</a> </div> <div class='right'> " +
         "</div> <div id='topBarMsg' style='display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:#eee; text-align:center; z-index: 9010;'></div> </div>");
 
     $(".J_memberLoginPanel").hide();
-    $("#memberLoginPanel").append("<div class='memberWelcome'> " + member.name + "，欢迎登录。</div>")
+    $(".J_memberLoginPanel").html("");
+    $("#memberLoginPanel").append("<div class='memberWelcome'> " +   "<a class='memberHeadPicOuter' href='mCenter.html'>" +
+        "<img id='topBarMemberPic' class='msgBoard_member_headpic' src='../image/member.png' style='height:30px'>" +
+        "</a> " +"<a href='mCenter.html'><span class='userLabel' title='进入个人空间' id='memberName'>" + member.name + "</span></a>,欢迎登录。</div>")
+
 }
 
 $(function() {
@@ -484,11 +489,11 @@ var nav102SubMenu=[{"hidden":false,"colId":101,"href":"nr.html?type=0&page=1","t
                       {"hidden":false,"colId":102,"href":"nr.html?type=2&page=1","target":" target='_self'","colName":"赛事通知","html":"<span class='itemName0'>赛事通知<\/span>","title":""},
                       {"hidden":false,"colId":103,"href":"nr.html?type=1&page=1","target":" target='_self'","colName":"往届赛事","html":"<span class='itemName0'>往届赛事<\/span>","title":""}];
 var nav112SubMenu= [{"hidden":false,"colId":201,"href":"nr.html?type=4","target":" target='_self'","colName":"培训指南","html":"<span class='itemName0'>培训指南<\/span>","title":""},
-                       {"hidden":false,"colId":202,"href":"/col.jsp?id=115","target":" target='_self'","colName":"培训平台","html":"<span class='itemName0'>培训平台<\/span>","title":""},
+                       {"hidden":false,"colId":202,"href":"http://emlab.jxufe.edu.cn/presentation/sim.jsp","target":" target='_blank'","colName":"培训平台","html":"<span class='itemName0'>培训平台<\/span>","title":""},
                        {"hidden":false,"colId":203,"href":"nr.html?type=3","target":" target='_self'","colName":"下载专区","html":"<span class='itemName0'>下载专区<\/span>","title":""}];
 var nav107SubMenu=[{"hidden":false,"colId":110,"href":"matchProject.html","target":" target='_self'","colName":"大赛报名","html":"<span class='itemName0'>大赛报名<\/span>","title":""},
-                      {"hidden":false,"colId":110,"href":"trainItem.html","target":" target='_self'","colName":"培训报名","html":"<span class='itemName0'>培训报名<\/span>","title":""},
-                      {"hidden":false,"colId":111,"href":"/col.jsp?id=111","target":" target='_self'","colName":"成绩查询","html":"<span class='itemName0'>成绩查询<\/span>","title":""}];
+                      {"hidden":false,"colId":110,"href":"trainItem.html","target":" target='_self'","colName":"培训报名","html":"<span class='itemName0'>培训报名<\/span>","title":""}
+                    ];
 var nav6SubMenu=[];
 
 var _customBackgroundData = {"styleDefault":true,"s":true,"h":false,"r":3,"o":"","sw":-1,"e":0,"wbh":-1,"wbw":-1,"clw":-1,"crw":-1,"id":"","p":"","bBg":{"y":0,"r":3,"f":"","p":"","c":"#000"},"cBg":{"y":0,"r":3,"f":"","p":"","c":"#000"},"cmBg":{"y":0,"r":3,"f":"","p":"","c":"#000"},"bm":{},"cm":{},"cp":{"y":0}};          //自定义的数据

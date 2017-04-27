@@ -37,14 +37,14 @@ public class DrawImage
 		g.drawRect(0, 0, width - 1, height - 1);
 
 		g.setColor(Color.BLACK);
-//		for (int i = 0; i < 20; i++)
-//		{
-//			int x = random.nextInt(width);
-//			int y = random.nextInt(height);
-//			int xl = random.nextInt(12);
-//			int yl = random.nextInt(12);
-//			g.drawLine(x, y, x + xl, y + yl);
-//		}
+		for (int i = 0; i < 10; i++)
+		{
+			int x = random.nextInt(width);
+			int y = random.nextInt(height);
+			int xl = random.nextInt(12);
+			int yl = random.nextInt(12);
+			g.drawLine(x, y, x + xl, y + yl);
+		}
 		StringBuffer randomCode = new StringBuffer();
 		int red = 0, green = 0, blue = 0;
 

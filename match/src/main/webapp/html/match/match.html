@@ -11,21 +11,21 @@
 			}
 		});
 	}
-	function formatOper(val, row, index) {
+	function match_formatOper(val, row, index) {
 
 		var innerHtml = '';
 		if (val == 1) {
-			innerHtml += '<a href="#" onclick=changeIsLockedStatus("'
+			innerHtml += '<a href="#" onclick=matchProject_changeIsLockedStatus("'
 				+ row.id + '",0)>开始报名</a>';
 
 		} else {
-			innerHtml += ' &nbsp; &nbsp;&nbsp;<a href="#" style="color: red;"  onclick=changeIsLockedStatus("'
+			innerHtml += ' &nbsp; &nbsp;&nbsp;<a href="#" style="color: red;"  onclick=matchProject_changeIsLockedStatus("'
 					+ row.id + '",1)>停止报名</a>';
 		}
 		//	alert(row.itid);
 		return innerHtml;
 	}
-	function changeIsLockedStatus(matchProjectId,isLocked) {
+	function matchProject_changeIsLockedStatus(matchProjectId,isLocked) {
 		ajaxSend('matchProject_changeMatchProjectIsLockedStatus.action', {
 			id : matchProjectId,
 			isLocked : isLocked
@@ -186,7 +186,7 @@
 																title : '操作',
 																sortable : 'true',
 																align : 'center',
-																formatter : formatOper,
+																formatter : match_formatOper,
 																width : 20
 															} ] ],
 													onResize : function() {

@@ -220,9 +220,9 @@ $
 													para.account = $(
 															"#relogin_account")
 															.val();
-													para.password = $(
+													para.password =$.md5($(
 															"#relogin_pwd")
-															.val();
+															.val());
 													para.timespan = new Date()
 															.getTime();
 													$
@@ -515,8 +515,7 @@ function logout() {
 		}
 	});
 }
-function openDialog(hrefurl,title,width,height)
-{
+function openDialog(hrefurl, title, width, height) {
 	$("<div/>").dialog({
 		href : hrefurl,
 		title : title,
@@ -528,7 +527,7 @@ function openDialog(hrefurl,title,width,height)
 			$(this).dialog('destroy');
 		}
 	});
-	
+
 }
 
 function add(hrefurl, title, height, width, handlerurl, datagridid) {
@@ -995,128 +994,301 @@ function ajaxSend(url, para, callBack) {
 		}
 	});
 }
-function createPiecharts(title,data)
-{
-	$("<div/>")
-			.dialog(
-					{
-						href :"public/highcharts.html",
-						title:"分析图表",
-						height :450,
-						width : 600,
-						onClose : function() {
-							$(this).dialog('destroy');
-						},
-						onLoad : function() {
-							 var chart;
-							 $(document).ready(function() {
-							        chart = new Highcharts.Chart({
-							            chart: {
-							                renderTo: 'container',
-							                plotBackgroundColor: null,
-						    	            plotBorderWidth: null,
-						    	            plotShadow: false,
-							                type: 'pie'
-							            },
-							            title: {
-						    	            text: title
-						    	        },
-					                tooltip: {
-					    	    	   // pointFormat: '{series.name}: <b>{point.percentage}%</b>'
-					                	  valueSuffix: '%'
-					                },
-					    	        plotOptions: {
-					    	            pie: {
-					    	                allowPointSelect: true,
-					    	                cursor: 'pointer',
-					    	                dataLabels: {
-					    	                    formatter: function() {
-					    	                        // display only if larger than 0.1
-					    	                        //return this.y > 0.1 ? '<b>'+ this.point.name +':</b> '+ this.y +'%'  : null;
-					    	                        return '<b>'+ this.point.name +':</b> '+ this.y +'%';
-
-					    	                    }
-					    	                }
-//					    	                dataLabels: {
-//					    	                    enabled: true,
-//					    	                    color: '#000000',
-//					    	                    connectorColor: '#000000',
-//					    	                    format: '{point.name}: {point.percentage}%'   //不起作用???
-//					    	                }
-					    	            }
-					    	        },
-					    	        credits: {//图表右下角的水印，默认是highcharts.com,将其设为空串可以取消水印
-				                        text: '',
-				                        fontSize: '0'
-				                },
-				               // series:  series 
-				             
-					    	        series: [{
-					    	            type: 'pie',
-					    	            name: '所占比例',
-					    	            data: data
-					    	            	
-
-					    	        }]
-							        });
-							    });
-
-						}
-					});
-}
-function createLinecharts(title,xAxis,yAxis,series)
-{
-	$("<div/>")
-	.dialog(
+function createPiecharts(title, data) {
+	$("<div/>").dialog(
 			{
-				href :"public/highcharts.html",
-				title:"统计图表",
-				height :500,
-				width : 950,
+				href : "public/highcharts.html",
+				title : "分析图表",
+				height : 450,
+				width : 600,
+				modal : true,
 				onClose : function() {
 					$(this).dialog('destroy');
 				},
 				onLoad : function() {
-					    $(document).ready(function() {
-					    	new Highcharts.Chart({
-					            chart: {
-					                renderTo: 'container',
-					                type: 'line'
-					            },
-					            title: {
-					                text: title
-					            },
-					            subtitle: {
-					               // text: subtitletext
-					            },
-					            xAxis: {
-					            	categories:xAxis
-					            },
-					            yAxis: {
-					                title: {
-					                    text: yAxis
-					                },
-					                plotLines: [{
-					                    value: 0,
-					                    width: 0.6,
-					                    color: '#808080'
-					                }]
-					            },
-					            credits: {//图表右下角的水印，默认是highcharts.com,将其设为空串可以取消水印
-			                        text: '',
-			                        fontSize: '0'
-			                },
-					            tooltip: {
-//					                formatter: function() {
-//					                        return '<b>'+ this.series.name +'</b><br/>'+
-//					                        this.x +': '+ this.y +'';
-//					                }
-					            },
-					            series:series
-					        });
-					    });
+					var chart;
+					$(document).ready(
+							function() {
+								chart = new Highcharts.Chart({
+									chart : {
+										renderTo : 'container',
+										plotBackgroundColor : null,
+										plotBorderWidth : null,
+										plotShadow : false,
+										type : 'pie'
+									},
+									title : {
+										text : title
+									},
+									tooltip : {
+										// pointFormat: '{series.name}:
+										// <b>{point.percentage}%</b>'
+										valueSuffix : '%'
+									},
+									plotOptions : {
+										pie : {
+											allowPointSelect : true,
+											cursor : 'pointer',
+											dataLabels : {
+												formatter : function() {
+													// display only if larger
+													// than 0.1
+													// return this.y > 0.1 ?
+													// '<b>'+ this.point.name
+													// +':</b> '+ this.y +'%' :
+													// null;
+													return '<b>'
+															+ this.point.name
+															+ ':</b> ' + this.y
+															+ '%';
+
+												}
+											}
+										// dataLabels: {
+										// enabled: true,
+										// color: '#000000',
+										// connectorColor: '#000000',
+										// format: '{point.name}:
+										// {point.percentage}%' //不起作用???
+										// }
+										}
+									},
+									credits : {// 图表右下角的水印，默认是highcharts.com,将其设为空串可以取消水印
+										text : '',
+										fontSize : '0'
+									},
+									// series: series
+
+									series : [ {
+										type : 'pie',
+										name : '所占比例',
+										data : data
+
+									} ]
+								});
+							});
 
 				}
 			});
-	
 }
+function createLinecharts(title, xAxis, yAxis, series) {
+	$("<div/>").dialog({
+		href : "public/highcharts.html",
+		title : "统计图表",
+		height : 500,
+		width : 950,
+		modal : true,
+		onClose : function() {
+			$(this).dialog('destroy');
+		},
+		onLoad : function() {
+			$(document).ready(function() {
+				new Highcharts.Chart({
+					chart : {
+						renderTo : 'container',
+						type : 'line'
+					},
+					title : {
+						text : title
+					},
+					subtitle : {
+					// text: subtitletext
+					},
+					xAxis : {
+						categories : xAxis
+					},
+					yAxis : {
+						title : {
+							text : yAxis
+						},
+						plotLines : [ {
+							value : 0,
+							width : 0.6,
+							color : '#808080'
+						} ]
+					},
+					credits : {// 图表右下角的水印，默认是highcharts.com,将其设为空串可以取消水印
+						text : '',
+						fontSize : '0'
+					},
+					tooltip : {
+					// formatter: function() {
+					// return '<b>'+ this.series.name +'</b><br/>'+
+					// this.x +': '+ this.y +'';
+					// }
+					},
+					series : series
+				});
+			});
+
+		}
+	});
+
+}
+function createBarcharts(title, xAxis, yAxis, series) {
+	$("<div/>")
+			.dialog(
+					{
+						href : "public/highcharts.html",
+						title : "统计图表",
+						height : 500,
+						width : 950,
+						modal : true,
+						onClose : function() {
+							$(this).dialog('destroy');
+						},
+						onLoad : function() {
+							$(document)
+									.ready(
+											function() {
+												new Highcharts.Chart(
+														{
+															chart : {
+																renderTo : 'container',
+																type : 'bar'
+															},
+															title : {
+																text : title
+															},
+															subtitle : {
+															// text: subtitletext
+															},
+															xAxis : {
+																categories : xAxis
+															},
+															yAxis : {
+																title : {
+																	text : yAxis
+																},
+															},
+															tooltip : {
+
+															},
+															plotOptions : {
+																bar : {
+																	dataLabels : {
+																		enabled : true,
+																		allowOverlap : true
+																	}
+																}
+															},
+															legend : {
+																layout : 'vertical',
+																align : 'right',
+																verticalAlign : 'top',
+																x : -40,
+																y : 100,
+																floating : true,
+																borderWidth : 1,
+																backgroundColor : ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+																shadow : true
+															},
+															credits : {// 图表右下角的水印，默认是highcharts.com,将其设为空串可以取消水印
+															enabled:false
+															},
+															series : series
+														});
+											});
+
+						}
+					});
+
+}
+member_btn_piechart = function(name, trainItemId, matchProjectId) {
+	var param = "";
+	if (trainItemId) {
+		param = "&trainItemId=" + trainItemId;
+	}
+	if (matchProjectId) {
+		param += "&matchProjectId=" + matchProjectId;
+	}
+	$.ajax({
+		url : "member_getPropertyRatio.action?name=" + name + param,
+		type : "POST",
+		dataType : "text",
+		success : function(result) {
+			dealAjaxResult(result, function(r) {
+				var data = new Array();
+				for ( var i in r.RESULT) {
+					var item_data = new Array();
+					item_data[0] = i;
+					item_data[1] = r.RESULT[i];
+					data.push(item_data);
+				}
+				createPiecharts('会员学校比例', data);
+
+			});
+
+		}
+	});
+
+};
+
+matchProjectMember_btn_barchart = function(matchId) {
+	var param = "";
+	if (matchId) {
+		param = "?matchId=" + matchId;
+	}
+	$.ajax({
+		url : "matchProject_getMatchProjectMemberNumAndGroupNum.action"+param,
+		type : "POST",
+		dataType : "text",
+		success : function(result) {
+			dealAjaxResult(result, function(r) {
+				var series = new Array();
+				var xAxis=new Array();
+				var g_obj=new Object();
+				 g_obj.name="组数";
+				 var g_obj_data=new Array();
+				 g_obj.data=g_obj_data;
+				 var m_obj=new Object();
+				 m_obj.name="人数";
+				 var m_obj_data=new Array();
+				 m_obj.data=m_obj_data;
+				 json = JSON.parse(r.rows);
+				for ( var i in json) {
+					xAxis.push(json[i].matchProjectCaption);
+					g_obj_data.push(json[i].groupNum);
+					m_obj_data.push(json[i].memberNum);
+				}
+				series.push(g_obj);
+				series.push(m_obj);
+				createBarcharts('各赛项报名情况', xAxis,"报名数",series);
+				
+			});
+
+		}
+	});
+
+};
+trainMember_btn_barchart = function(matchId) {
+	var param = "";
+	if (matchId) {
+		param = "?matchId=" + matchId;
+	}
+	$.ajax({
+		url : "trainItem_getTraimMemberNum.action"+param,
+		type : "POST",
+		dataType : "text",
+		success : function(result) {
+			dealAjaxResult(result, function(r) {
+				var series = new Array();
+				var xAxis=new Array();
+				 var m_obj=new Object();
+				 m_obj.name="人数";
+				 var m_obj_data=new Array();
+				 m_obj.data=m_obj_data;
+				 json = JSON.parse(r.rows);
+				for ( var i in json) {
+					xAxis.push(json[i].trainCaption);
+					m_obj_data.push(json[i].memberNum);
+				}
+				series.push(m_obj);
+				createBarcharts('各培训报名情况', xAxis,"报名数",series);
+				
+			});
+
+		}
+	});
+
+};
