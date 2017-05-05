@@ -8,11 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.jxufe.emlab.match.pojo.MatchNews;
 import cn.jxufe.emlab.match.pojo.Member;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.pojo.TrainItem;
-import cn.jxufe.emlab.match.service.IMatchNewsService;
 import cn.jxufe.emlab.match.service.ITrainItemService;
 import cn.jxufe.emlab.match.util.KeyEnum;
 import cn.jxufe.emlab.match.util.StatusEnum;

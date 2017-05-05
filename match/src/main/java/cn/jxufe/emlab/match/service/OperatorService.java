@@ -3,7 +3,6 @@ package cn.jxufe.emlab.match.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import cn.jxufe.emlab.match.core.BaseDao;
 import cn.jxufe.emlab.match.pojo.Menu;
 import cn.jxufe.emlab.match.pojo.NameAndId;
@@ -12,24 +11,22 @@ import cn.jxufe.emlab.match.util.Encrypt;
 import cn.jxufe.emlab.match.util.StatusEnum;
 
 
-
-
 public class OperatorService extends BaseDao<Operator> implements
 		IOperatorService
 {
 	private IRoleService roleService;
+	/*
+	 * 验证后台用户登入
+	 */
 	@Override
 	public Operator verifyUser(String account, String password)
 	{
-		//password = Encrypt.encryptPassword(password);
 		String hql=null;
 		List<String> list=null;
 		List<Object> obj=new ArrayList<Object>();
 		obj.add(account);
 		obj.add(password);
 		Operator operator = (Operator) uniqueResult("from Operator where account=? and password=?",obj);
-		
-
 		if (null == operator)
 		{
 			return null;
@@ -39,17 +36,17 @@ public class OperatorService extends BaseDao<Operator> implements
 			hql = "select name from Role where id=?";
 			Object[] values=new Object[1];
 			values[0]=operator.getRoleId();
-			list = getHibernateTemplate().find(hql,values);
+			list = getHibernateTemplate().find(hql,values);  //查询用户所属角色
 			if (list != null && list.size() == 1)
 			{
 				operator.setRoleName(list.get(0).toString());
 			}
-			
 		}
-
 		return operator;
 	}
-
+	/*
+	 * 根据条件分页查询用户
+	 */
 	@Override
 	public void getOperatorByPage(Map map, int page, int pageSize,
 			String account, String roleId, Operator oper)
@@ -68,7 +65,6 @@ public class OperatorService extends BaseDao<Operator> implements
 				hql += " and account like ?";
 				al.add("%"+account+"%");
 			}
-			
 			List<Operator> operatorList =fillPagetoMap(map, hql, al, page, pageSize);
 			for(Operator temp:operatorList)
 			{
@@ -86,12 +82,10 @@ public class OperatorService extends BaseDao<Operator> implements
 					}
 				}
 			}
-		//	map.put("total", count);
-			//map.put("rows", operatorList);
-
-		
 	}
-
+	/*
+	 * 保存用户
+	 */
 	@Override
 	public int txSave(Operator operator, Operator OperatorToSave)
 	{
@@ -115,25 +109,25 @@ public class OperatorService extends BaseDao<Operator> implements
 		}
 		return value;
 	}
-
+	/*
+	 * 删除用户
+	 */
 	@Override
 	public void txDel(Operator operator, String[] idlist)
 	{
 		for (String id : idlist)
 		{
 			Operator oper=this.findById(id);
-		//	oper.setStatus(StatusEnum.disable.ordinal());
-			//saveOrUpdate(oper);
 			delete(oper);
 			writeLog(operator, "删除", "操作员", oper);
-			//delete(id);
 		}		
 	}
-
+	/*
+	 * 更新用户信息
+	 */
 	@Override
 	public boolean txUpdate(Operator oper, Operator operator, String id)
 	{
-		//findById(id);
 		operator.setId(id);
 		if(!checkAccountWhetherExist(operator.getAccount(),id))
 		{
@@ -148,7 +142,9 @@ public class OperatorService extends BaseDao<Operator> implements
 			return false;
 		}
 	}
-
+	/*
+	 * 得到用户可以访问的菜单
+	 */
 	@Override
 	public List<Menu> getPrivileges(Operator operator)
 	{

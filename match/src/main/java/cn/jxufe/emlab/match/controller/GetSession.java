@@ -5,10 +5,6 @@ import java.io.IOException;
 import cn.jxufe.emlab.match.pojo.Member;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.util.KeyEnum;
-
-
-
-
 @SuppressWarnings("serial")
 public class GetSession extends BaseAction
 {

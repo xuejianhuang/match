@@ -7,7 +7,7 @@
 
 	</package>
 
-	<package name="lyy" extends="my-default">
+	<package name="hxj" extends="my-default">
 		<interceptors>
 			<interceptor name="authority"
 				class="cn.jxufe.emlab.match.core.AuthorityInterceptor" />
@@ -21,14 +21,15 @@
 		<action name="ma_*" class="menuAction" method="{1}" />
 		<action name="sla_*" class="syslogAction" method="{1}" />
 		<action name="match_*" class="matchAction" method="{1}" />
-		<action name="matchProject_*" class="matchProjectAction"
-			method="{1}" />
+		<action name="matchProject_*" class="matchProjectAction" method="{1}" />
 		<action name="matchNews_*" class="matchNewsAction" method="{1}" />
 		<action name="matchNotice_*" class="matchNoticeAction" method="{1}" />
 		<action name="oa_*" class="operatorAction" method="{1}"></action>
 		<action name="member_*" class="memberAction" method="{1}"></action>
 		<action name="trainItem_*" class="trainItemAction" method="{1}"></action>
 		<action name="group_*" class="groupAction" method="{1}"></action>
+		<action name="upload_*" class="uploadAction" method="{1}"></action>
+        <action name="downloadAction_*" class="downloadAction" method="{1}"></action>
 
 	</package>
 </struts>    

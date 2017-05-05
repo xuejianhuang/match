@@ -11,14 +11,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="Cache-Control" content="no-transform"/>
     <meta name="renderer" content="webkit">
-    <script type="text/javascript" src="../js/jquery/jquery-core.js"></script>
+    <script type="text/javascript" src="../js/jquery/jquery-core.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="../js/jquery.leanModal.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="../js/login_up.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../js/login_up.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            var baseUrl = "/ufinder/";
+           //  var baseUrl = "/ufinder/";
             $.ajax({
-                url: baseUrl + "/ufinderServlet?cmd=ls&target=%2Fdasaipingtai%2Ffengcai%2Fsmall%2F&_" + Math.random(),
+                url: ufinderAddress + "/ufinderServlet?cmd=ls&target=%2Fdasaipingtai%2Ffengcai%2Fsmall%2F&_" + Math.random(),
                 type: "GET",
                 // data : para,
                 dataType: "text",
@@ -34,7 +34,7 @@
                                 "name": "",
                                 "basic": "",
                                 "pic": row.big_name,
-                                "picPath": baseUrl + "/files/" + row.big_path,
+                                "picPath": ufinderAddress + "/files/" + row.big_path,
                                 "picWidth": 666,
                                 "picHeight": 444
                             };
@@ -44,7 +44,7 @@
                                 " <div>" +
                                 "<div id='" + row.name + "' photoName='' photoDisc='' check='2' tmpPic='" + row.name + "' _lide='http://www.baidu.com' class='J_listPhotoImg imgDiv' style='width:210px;height:150px;'> " +
                                 "<table cellpadding='0' cellspacing='0'> <tr> <td> <div class='J_photoImgPanel'> <a hidefocus='true' href='javascript:;' onclick='Site.photoSlide.Func.open(603, " + index + ")'> " +
-                                "<img class='J_photoImg photoImg' picSca='2'  style='width:210px;height:150px;' src='" + baseUrl + "/files/" + row.path + "' iWidth='666' iHeight='444'  alt='' title=''  /> </a>" +
+                                "<img class='J_photoImg photoImg' picSca='2'  style='width:210px;height:150px;' src='" + ufinderAddress + "/files/" + row.path + "' iWidth='666' iHeight='444'  alt='' title=''  /> </a>" +
                                 " </div> </td> </tr> </table> </div> " +
                                 "<div class='J_listDesc propDiv  photoName ' title='' style='text-align:center;'>" +
                                 " </div></div> </div>");
@@ -202,11 +202,11 @@
     <link rel='canonical' href='http://www.mq11837910.icoc.me'>
 
 
-    <link type="text/css" href="../css/base2.css" rel="stylesheet"/>
+    <link type="text/css" href="../css/base2.min.css" rel="stylesheet"/>
     <link type="text/css" href="../css/fkTheme.css" rel="stylesheet" id="jzThemeFrame"/>
 
 
-    <link type='text/css' href='../css/fkModule.css' rel='stylesheet' id='jzModule2_1'>
+    <link type='text/css' href='../css/fkModule.min.css' rel='stylesheet' id='jzModule2_1'>
 
     <link rel="stylesheet" type="text/css" media="all" href="../css/dialog_style.css">
 
@@ -4571,223 +4571,6 @@
                                                                                                                      _showSetting=0
                                                                                                                      newsListType='0'
                                                                                                                      scroll='0'>
-                                                                                                                    <!--  <div topClassName='top2'
-                                                                                                                           topSwitch='off'
-                                                                                                                           newsId='80'
-                                                                                                                           newsName='2016年江西省大学生经管类创新创业大赛'
-                                                                                                                           class='J_newsListLine line g_item   fk-newsLineHeight   '>
-                                                                                                                          <table id='lineBody80'
-                                                                                                                                 class='J_lineBody lineBody'
-                                                                                                                                 cellpadding='0'
-                                                                                                                                 cellspacing='0'>
-                                                                                                                              <tr id='module625tr80'>
-                                                                                                                                  <td class='contentLineIcon'></td>
-                                                                                                                                  <td class='J_newsTitle newsTitle'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <div class='J_newsListTopFlag '></div>
-                                                                                                                                      <a class='fk-newsListTitle'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=80&_np=2_625"
-                                                                                                                                         target=_blank
-                                                                                                                                         title="2016年江西省大学生经管类创新创业大赛">2016年江西省大学生经管类创新创业大赛</a>
-                                                                                                                                  </td>
-                                                                                                                                  <td class='J_newsCalendar newsCalendar'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <a class='fk-newsListDate'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=80&_np=2_625"
-                                                                                                                                         target=_blank>2016-12-19</a>
-                                                                                                                                  </td>
-                                                                                                                              </tr>
-                                                                                                                          </table>
-                                                                                                                      </div>
-                                                                                                                      <div class='J_separatorLine separatorLine g_separator '></div>
-                                                                                                                      <div topClassName='top2'
-                                                                                                                           topSwitch='off'
-                                                                                                                           newsId='73'
-                                                                                                                           newsName='深圳红树林'
-                                                                                                                           class='J_newsListLine line g_item   fk-newsLineHeight   '>
-                                                                                                                          <table id='lineBody73'
-                                                                                                                                 class='J_lineBody lineBody'
-                                                                                                                                 cellpadding='0'
-                                                                                                                                 cellspacing='0'>
-                                                                                                                              <tr id='module625tr73'>
-                                                                                                                                  <td class='contentLineIcon'></td>
-                                                                                                                                  <td class='J_newsTitle newsTitle'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <div class='J_newsListTopFlag '></div>
-                                                                                                                                      <a class='fk-newsListTitle'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=73&_np=2_625"
-                                                                                                                                         target=_blank
-                                                                                                                                         title="深圳红树林">深圳红树林</a>
-                                                                                                                                  </td>
-                                                                                                                                  <td class='J_newsCalendar newsCalendar'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <a class='fk-newsListDate'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=73&_np=2_625"
-                                                                                                                                         target=_blank>2016-12-19</a>
-                                                                                                                                  </td>
-                                                                                                                              </tr>
-                                                                                                                          </table>
-                                                                                                                      </div>
-                                                                                                                      <div class='J_separatorLine separatorLine g_separator '></div>
-                                                                                                                      <div topClassName='top2'
-                                                                                                                           topSwitch='off'
-                                                                                                                           newsId='74'
-                                                                                                                           newsName='汕头天坛花园'
-                                                                                                                           class='J_newsListLine line g_item   fk-newsLineHeight   '>
-                                                                                                                          <table id='lineBody74'
-                                                                                                                                 class='J_lineBody lineBody'
-                                                                                                                                 cellpadding='0'
-                                                                                                                                 cellspacing='0'>
-                                                                                                                              <tr id='module625tr74'>
-                                                                                                                                  <td class='contentLineIcon'></td>
-                                                                                                                                  <td class='J_newsTitle newsTitle'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <div class='J_newsListTopFlag '></div>
-                                                                                                                                      <a class='fk-newsListTitle'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=74&_np=2_625"
-                                                                                                                                         target=_blank
-                                                                                                                                         title="汕头天坛花园">汕头天坛花园</a>
-                                                                                                                                  </td>
-                                                                                                                                  <td class='J_newsCalendar newsCalendar'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <a class='fk-newsListDate'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=74&_np=2_625"
-                                                                                                                                         target=_blank>2016-12-19</a>
-                                                                                                                                  </td>
-                                                                                                                              </tr>
-                                                                                                                          </table>
-                                                                                                                      </div>
-                                                                                                                      <div class='J_separatorLine separatorLine g_separator '></div>
-                                                                                                                      <div topClassName='top2'
-                                                                                                                           topSwitch='off'
-                                                                                                                           newsId='77'
-                                                                                                                           newsName='2013年江西省大学生经管类创新创业大赛'
-                                                                                                                           class='J_newsListLine line g_item   fk-newsLineHeight   '>
-                                                                                                                          <table id='lineBody77'
-                                                                                                                                 class='J_lineBody lineBody'
-                                                                                                                                 cellpadding='0'
-                                                                                                                                 cellspacing='0'>
-                                                                                                                              <tr id='module625tr77'>
-                                                                                                                                  <td class='contentLineIcon'></td>
-                                                                                                                                  <td class='J_newsTitle newsTitle'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <div class='J_newsListTopFlag '></div>
-                                                                                                                                      <a class='fk-newsListTitle'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=77&_np=2_625"
-                                                                                                                                         target=_blank
-                                                                                                                                         title="2013年江西省大学生经管类创新创业大赛">2013年江西省大学生经管类创新创业大赛</a>
-                                                                                                                                  </td>
-                                                                                                                                  <td class='J_newsCalendar newsCalendar'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <a class='fk-newsListDate'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=77&_np=2_625"
-                                                                                                                                         target=_blank>2016-12-19</a>
-                                                                                                                                  </td>
-                                                                                                                              </tr>
-                                                                                                                          </table>
-                                                                                                                      </div>
-                                                                                                                      <div class='J_separatorLine separatorLine g_separator '></div>
-                                                                                                                      <div topClassName='top2'
-                                                                                                                           topSwitch='off'
-                                                                                                                           newsId='78'
-                                                                                                                           newsName='中山紫马岭公园'
-                                                                                                                           class='J_newsListLine line g_item   fk-newsLineHeight   '>
-                                                                                                                          <table id='lineBody78'
-                                                                                                                                 class='J_lineBody lineBody'
-                                                                                                                                 cellpadding='0'
-                                                                                                                                 cellspacing='0'>
-                                                                                                                              <tr id='module625tr78'>
-                                                                                                                                  <td class='contentLineIcon'></td>
-                                                                                                                                  <td class='J_newsTitle newsTitle'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <div class='J_newsListTopFlag '></div>
-                                                                                                                                      <a class='fk-newsListTitle'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=78&_np=2_625"
-                                                                                                                                         target=_blank
-                                                                                                                                         title="中山紫马岭公园">中山紫马岭公园</a>
-                                                                                                                                  </td>
-                                                                                                                                  <td class='J_newsCalendar newsCalendar'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <a class='fk-newsListDate'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=78&_np=2_625"
-                                                                                                                                         target=_blank>2016-12-19</a>
-                                                                                                                                  </td>
-                                                                                                                              </tr>
-                                                                                                                          </table>
-                                                                                                                      </div>
-                                                                                                                      <div class='J_separatorLine separatorLine g_separator '></div>
-                                                                                                                      <div topClassName='top2'
-                                                                                                                           topSwitch='off'
-                                                                                                                           newsId='22'
-                                                                                                                           newsName='广州市将编制环境总体规划 强化河涌污染源排查执法'
-                                                                                                                           class='J_newsListLine line g_item   fk-newsLineHeight   '>
-                                                                                                                          <table id='lineBody22'
-                                                                                                                                 class='J_lineBody lineBody'
-                                                                                                                                 cellpadding='0'
-                                                                                                                                 cellspacing='0'>
-                                                                                                                              <tr id='module625tr22'>
-                                                                                                                                  <td class='contentLineIcon'></td>
-                                                                                                                                  <td class='J_newsTitle newsTitle'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <div class='J_newsListTopFlag '></div>
-                                                                                                                                      <a class='fk-newsListTitle'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=22&_np=2_625"
-                                                                                                                                         target=_blank
-                                                                                                                                         title="广州市将编制环境总体规划 强化河涌污染源排查执法">广州市将编制环境总体规划
-                                                                                                                                          强化河涌污染源排查执法</a>
-                                                                                                                                  </td>
-                                                                                                                                  <td class='J_newsCalendar newsCalendar'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <a class='fk-newsListDate'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=22&_np=2_625"
-                                                                                                                                         target=_blank>2016-12-19</a>
-                                                                                                                                  </td>
-                                                                                                                              </tr>
-                                                                                                                          </table>
-                                                                                                                      </div>
-                                                                                                                      <div class='J_separatorLine separatorLine g_separator '></div>
-                                                                                                                      <div topClassName='top2'
-                                                                                                                           topSwitch='off'
-                                                                                                                           newsId='79'
-                                                                                                                           newsName='2014年江西省大学生经管类创新创业大赛'
-                                                                                                                           class='J_newsListLine line g_item   fk-newsLineHeight   '>
-                                                                                                                          <table id='lineBody79'
-                                                                                                                                 class='J_lineBody lineBody'
-                                                                                                                                 cellpadding='0'
-                                                                                                                                 cellspacing='0'>
-                                                                                                                              <tr id='module625tr79'>
-                                                                                                                                  <td class='contentLineIcon'></td>
-                                                                                                                                  <td class='J_newsTitle newsTitle'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <div class='J_newsListTopFlag '></div>
-                                                                                                                                      <a class='fk-newsListTitle'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=79&_np=2_625"
-                                                                                                                                         target=_blank
-                                                                                                                                         title="2014年江西省大学生经管类创新创业大赛">2014年江西省大学生经管类创新创业大赛</a>
-                                                                                                                                  </td>
-                                                                                                                                  <td class='J_newsCalendar newsCalendar'
-                                                                                                                                      valign='top'>
-                                                                                                                                      <a class='fk-newsListDate'
-                                                                                                                                         hidefocus='true'
-                                                                                                                                         href="nd.jsp?id=79&_np=2_625"
-                                                                                                                                         target=_blank>2016-12-19</a>
-                                                                                                                                  </td>
-                                                                                                                              </tr>
-                                                                                                                          </table>
-                                                                                                                      </div>-->
                                                                                                                     <div class='J_separatorLine separatorLine g_separator '
                                                                                                                          style='visibility:hidden;'></div>
                                                                                                                     <div class='clearfloat'></div>
@@ -5606,15 +5389,16 @@
                                                                 <div class='formMiddleContent formMiddleContent318 fk-formContentOtherPadding'
                                                                      tabStyle='0'>
                                                                     <div class='richModuleSlaveImgContainer textImg3'>
-                                                                        <a
+                                                                       <!-- <a
                                                                                 style='display:block;cursor:pointer;'
                                                                                 hidefocus='true'
                                                                                 href='developing.html'
-                                                                                link='/col.jsp?id=112'><img
-                                                                                class='richModuleSlaveImg' alt='112'
-                                                                                title='112'
+                                                                                link='/col.jsp?id=112'>-->
+                                                                            <img
+                                                                                class='richModuleSlaveImg'
                                                                                 src='../img/trainning_title.png'
-                                                                                style='width:1132px;height:164px;'/></a>
+                                                                                style='width:1132px;height:164px;'/>
+                                                                      <!--  </a>-->
                                                                         <div class='richEditPic' _onMouseIn='0'
                                                                              onclick='Site.changeRichPic(318);return false;'>
                                                                             <a class='edit' id='uploadButton'
@@ -5701,12 +5485,12 @@
                                                                                                             <div class='floatImg floatImg_J'>
                                                                                                                 <a hidefocus='true'
                                                                                                                    class='J_floatImg_jump'
-                                                                                                                   href='http://static.youku.com/v1.0.0680/v/swf/loader.swf?VideoIDS=XNTk1NTM5NTI0&amp;winType=BDskin&amp;embedid=MjEwLjM1LjE5My4yNDkCMTQ4ODg0ODgxAmxvY2FsaG9zdAIvanh1ZmVfZGFzYWkvaHRtbC9pbmRleC5odG1s&amp;wd=&amp;partnerid=0edbfd2e4fc91b72&amp;vext=pid%253D0edbfd2e4fc91b72%2526emb%253D'
+                                                                                                                   href='http://172.31.5.98:88/CuSunPlayerV25Cross/player.swf?JcScpVideoPath=/_mediafile/vwspdb/video/20150325160510244694.flv&player.swf'
                                                                                                                    style='cursor:pointer;text-decoration: none;'>
                                                                                                                     <div class='floatImgWrap'>
                                                                                                                         <img id='float_img_659'
                                                                                                                              class='float_in_img J_defImage'
-                                                                                                                             src=../img/shiping.png
+                                                                                                                             src=../img/shiping2.png
                                                                                                                              style=' height:395px; width:493px;'/>
                                                                                                                     </div>
                                                                                                                 </a>
@@ -5842,7 +5626,7 @@
                                                                                                             <div class='formBannerMore formBannerMore649'
                                                                                                                  style=''>
 <span style='_display:inline-block;_position:relative;'>
-<a hidefocus='true' href='http://www.baidu.com'><span class='bannerMoreInnerSpan'>更多&#x3e;&#x3e;</span></a>
+<a hidefocus='true' href='http://emlab.jxufe.edu.cn/presentation/sim.jsp'><span class='bannerMoreInnerSpan'>更多&#x3e;&#x3e;</span></a>
 </span>
                                                                                                             </div>
                                                                                                             &nbsp;</div>
@@ -5885,7 +5669,7 @@
                                                                                                                                     <div class='J_newsListTopFlag  g_topFlag g_topFlag5'></div>
                                                                                                                                     <a class='fk-newsListTitle'
                                                                                                                                        hidefocus='true'
-                                                                                                                                       href="nd.jsp?id=80&_np=2_649"
+                                                                                                                                       href=""
                                                                                                                                        target=_blank
                                                                                                                                        title="">2016年江西省大学生经管类创新创业大赛</a>
                                                                                                                                 </td>
@@ -5893,7 +5677,7 @@
                                                                                                                                     valign='top'>
                                                                                                                                     <a class='fk-newsListDate'
                                                                                                                                        hidefocus='true'
-                                                                                                                                       href="nd.jsp?id=80&_np=2_649"
+                                                                                                                                       href=""
                                                                                                                                        target=_blank>2016-12-19</a>
                                                                                                                                 </td>
                                                                                                                             </tr>
@@ -5917,7 +5701,7 @@
                                                                                                                                     <div class='J_newsListTopFlag  g_topFlag g_topFlag5'></div>
                                                                                                                                     <a class='fk-newsListTitle'
                                                                                                                                        hidefocus='true'
-                                                                                                                                       href="nd.jsp?id=83&_np=2_649"
+                                                                                                                                       href=""
                                                                                                                                        target=_blank
                                                                                                                                        title="">报名学生踊跃参加赛前培训</a>
                                                                                                                                 </td>
@@ -5925,7 +5709,7 @@
                                                                                                                                     valign='top'>
                                                                                                                                     <a class='fk-newsListDate'
                                                                                                                                        hidefocus='true'
-                                                                                                                                       href="nd.jsp?id=83&_np=2_649"
+                                                                                                                                       href=""
                                                                                                                                        target=_blank>2016-12-19</a>
                                                                                                                                 </td>
                                                                                                                             </tr>
@@ -5948,7 +5732,7 @@
                                                                                                                                     <div class='J_newsListTopFlag '></div>
                                                                                                                                     <a class='fk-newsListTitle'
                                                                                                                                        hidefocus='true'
-                                                                                                                                       href="nd.jsp?id=81&_np=2_649"
+                                                                                                                                       href=""
                                                                                                                                        target=_blank
                                                                                                                                        title="">培训取得良好效果</a>
                                                                                                                                 </td>
@@ -5956,7 +5740,7 @@
                                                                                                                                     valign='top'>
                                                                                                                                     <a class='fk-newsListDate'
                                                                                                                                        hidefocus='true'
-                                                                                                                                       href="nd.jsp?id=81&_np=2_649"
+                                                                                                                                       href=""
                                                                                                                                        target=_blank>2016-12-19</a>
                                                                                                                                 </td>
                                                                                                                             </tr>
@@ -7242,18 +7026,18 @@
 
 <script type="text/javascript" src="../js/jquery/jquery-mousewheel.min.js"></script>
 <script type="text/javascript" src="../js/fai.min.js"></script>
-<script type="text/javascript" src="../js/jquery/jquery-ui-core.js"></script>
-<script type="text/javascript" src="../js/site.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery-ui-core.min.js"></script>
+<script type="text/javascript" src="../js/site.min.js"></script>
 <script type="text/javascript" src="../js/locale/2052.min.js"></script>
 <script type="text/javascript" src="../js/ZeroClipboard.min.js"></script>
 
 
-<script type="text/javascript" src="../js/index.js"></script>
+<script type="text/javascript" src="../js/index.min.js"></script>
 
 <script type="text/javascript">
     function getMatchNoticeByPage(para) {
         $.ajax({
-            url: "/matchPlatform/matchNotice_getMatchNoticeByPage.action?" + para,
+            url: "matchNotice_getMatchNoticeByPage.action?" + para,
             type: "GET",
             // data : para,
             dataType: "text",
@@ -7276,7 +7060,7 @@
     }
     function getMatchNewsByPage(para) {
         $.ajax({
-            url: "/matchPlatform/matchNews_getMatchNewsByPage.action?" + para,
+            url: "matchNews_getMatchNewsByPage.action?" + para,
             type: "GET",
             // data : para,
             dataType: "text",
@@ -7321,7 +7105,7 @@
         getMatchNewsByPage("page=1&rows=3");
         getMatchNoticeByPage("page=1&rows=7");
         $.ajax({
-            url: "/matchPlatform/match_getMatchByPage.action?page=1&rows=3",
+            url: "match_getMatchByPage.action?page=1&rows=3",
             type: "GET",
             // data : para,
             dataType: "text",

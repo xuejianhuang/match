@@ -11,9 +11,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="Cache-Control" content="no-transform"/>
     <meta name="renderer" content="webkit" >
-    <script type="text/javascript" src="../js/jquery/jquery-core.js"></script>
-    <script type="text/javascript" charset="utf-8" src="../js/jquery.leanModal.js"></script>
-    <script type="text/javascript" src="../js/login_up.js"></script>
+    <script type="text/javascript" src="../js/jquery/jquery-core.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../js/jquery.leanModal.min.js"></script>
+    <script type="text/javascript" src="../js/login_up.min.js"></script>
     <script type="text/javascript">
         function cancelAttendTrain(trainItemId)
         {
@@ -59,7 +59,7 @@
         function memberProfileClick()
         {
             $.ajax({
-                url : "/matchPlatform/getSession_getMemberInfo.action",
+                url : "getSession_getMemberInfo.action",
                 type : "GET",
                 // data : para,
                 dataType : "text",
@@ -96,7 +96,7 @@
         function memberTrainClick()
         {
             $.ajax({
-                url : "/matchPlatform/trainItem_getTrainItemByMemberId.action",
+                url : "trainItem_getTrainItemByMemberId.action",
                 type : "GET",
                 // data : para,
                 dataType : "text",
@@ -146,7 +146,7 @@
         function memberMatchClick()
         {
             $.ajax({
-                url : "/matchPlatform/matchProject_getMatchProjectByMemberId.action",
+                url : "matchProject_getMatchProjectByMemberId.action",
                 type : "GET",
                 // data : para,
                 dataType : "text",
@@ -229,7 +229,7 @@
 
         function teamMemberIntroduction(matchProjectId) {
             $.ajax({
-                url: "/matchPlatform/group_getTeamMatchProjectGroup.action?matchProjectId=" + matchProjectId,
+                url: "group_getTeamMatchProjectGroup.action?matchProjectId=" + matchProjectId,
                 type: "GET",
                 // data : para,
                 dataType: "text",
@@ -312,7 +312,7 @@ function updateGroupInfo(id,caption,tutor1,tutorTitle1,tutorPhone1,tutor2,tutorT
             var caption=$("#teamName").val();
             if(caption!=null&&caption.length!=0) {
                 $.ajax({
-                    url: "/matchPlatform/member_updateGroup.action",
+                    url: "member_updateGroup.action",
                     type: "POST",
                     data: $("#updateTeamForm").serialize(),
                     dataType: "text",
@@ -342,11 +342,11 @@ function updateGroupInfo(id,caption,tutor1,tutorTitle1,tutorPhone1,tutor2,tutorT
     <link rel='canonical' href='http://www.mq11837910.icoc.me'>
 
 
-    <link type="text/css" href="../css/base2.css" rel="stylesheet"/>
+    <link type="text/css" href="../css/base2.min.css" rel="stylesheet"/>
     <link type="text/css" href="../css/fkTheme.css" rel="stylesheet" id="jzThemeFrame"/>
 
 
-    <link type='text/css' href='../css/fkModule.css' rel='stylesheet' id='jzModule2_1'>
+    <link type='text/css' href='../css/fkModule.min.css' rel='stylesheet' id='jzModule2_1'>
 
 
     <style type="text/css">
@@ -4716,13 +4716,13 @@ function updateGroupInfo(id,caption,tutor1,tutorTitle1,tutorPhone1,tutor2,tutorT
 
 <script type="text/javascript" src="../js/jquery/jquery-mousewheel.min.js"></script>
 <script type="text/javascript" src="../js/fai.min.js"></script>
-<script type="text/javascript" src="../js/jquery/jquery-ui-core.js"></script>
-<script type="text/javascript" src="../js/site.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery-ui-core.min.js"></script>
+<script type="text/javascript" src="../js/site.min.js"></script>
 <script type="text/javascript" src="../js/locale/2052.min.js"></script>
 <script type="text/javascript" src="../js/ZeroClipboard.min.js"></script>
 
 
-<script type="text/javascript" src="../js/index.js"></script>
+<script type="text/javascript" src="../js/index.min.js"></script>
 
 <link type='text/css' href=../css/login.min.css rel='stylesheet'/>
 <link type='text/css' href=../css/fontsIco.min.css rel='stylesheet'/>

@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="Cache-Control" content="no-transform"/>
     <meta name="renderer" content="webkit" >
-    <script type="text/javascript" src="../js/jquery/jquery-core.js"></script>
+    <script type="text/javascript" src="../js/jquery/jquery-core.min.js"></script>
     <script type="text/javascript">
 
         var searchStr = location.search;
@@ -24,27 +24,25 @@
         var type= searchs[0].split("=")[1]; //0:新闻通知  1:往届赛事
         var page;
         var url;
-        var baseUrl="/matchPlatform/";
-        var downloadbaseUrl="/ufinder/";
         if(type==0) //新闻
         {
             //  var newsTypeCode=searchs[2].split("=")[1];
             page = searchs[1].split("=")[1];
-            url= baseUrl+"matchNews_getMatchNewsByPage.action?rows=10&page="+page;
+            url= "matchNews_getMatchNewsByPage.action?rows=10&page="+page;
         }
         else if(type==1) //往届赛事
         {
             page = searchs[1].split("=")[1];
-            url= baseUrl+"match_getMatchByPage.action?rows=10&page="+page;
+            url= "match_getMatchByPage.action?rows=10&page="+page;
         }
         else if(type==2) //通知
         {
             page = searchs[1].split("=")[1];
-            url= baseUrl+"matchNotice_getMatchNoticeByPage.action?rows=10&page="+page;
+            url= "matchNotice_getMatchNoticeByPage.action?rows=10&page="+page;
         }
         else if(type==3) //下载
         {
-            url= downloadbaseUrl+"/ufinderServlet?cmd=ls&target=%2Fdasaipingtai%2Fdownload%2F&_"+Math.random();
+            url= ufinderAddress+"/ufinderServlet?cmd=ls&target=%2Fdasaipingtai%2Fdownload%2F&_"+Math.random();
         }
 
 
@@ -88,7 +86,7 @@
                         {
                             date=row.holdtime;
                             if(row.detail) {
-                                hrefUrl = downloadbaseUrl + "ufinderServlet?cmd=download&target=" + row.detail;
+                                hrefUrl ="downloadAction_download.action?target="+ row.detail;
                             }
                             else {
                                 hrefUrl='javascript:alert("文件不存在")';
@@ -100,7 +98,7 @@
                         {
                             date="";
                             caption=row.name;
-                            hrefUrl=downloadbaseUrl+"ufinderServlet?cmd=download&target="+row.path;
+                            hrefUrl=ufinderAddress+"ufinderServlet?cmd=download&target="+row.path;
                         }
                         $("#newsList31").append(
                             " <div topclassname='top2' topswitch='off' newsid='"+row.id+"' newsname='"+caption+"' class='J_newsResultLine   line nline fk-newsLineHeight '> " +
@@ -172,11 +170,11 @@
     <link rel='canonical' href='http://www.mq11837910.icoc.me'>
 
 
-    <link type="text/css" href="../css/base2.css" rel="stylesheet"/>
+    <link type="text/css" href="../css/base2.min.css" rel="stylesheet"/>
     <link type="text/css" href="../css/fkTheme.css" rel="stylesheet" id="jzThemeFrame"/>
 
 
-    <link type='text/css' href='../css/fkModule.css' rel='stylesheet' id='jzModule2_1'>
+    <link type='text/css' href='../css/fkModule.min.css' rel='stylesheet' id='jzModule2_1'>
 
 
     <style type="text/css">
@@ -4501,15 +4499,15 @@
 
 <script type="text/javascript" src="../js/jquery/jquery-mousewheel.min.js"></script>
 <script type="text/javascript" src="../js/fai.min.js"></script>
-<script type="text/javascript" src="../js/jquery/jquery-ui-core.js"></script>
-<script type="text/javascript" src="../js/site.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery-ui-core.min.js"></script>
+<script type="text/javascript" src="../js/site.min.js"></script>
 <script type="text/javascript" src="../js/locale/2052.min.js"></script>
 <script type="text/javascript" src="../js/ZeroClipboard.min.js"></script>
 
 
-<script type="text/javascript" src="../js/index.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/jquery.leanModal.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/login_up.js"></script>
+<script type="text/javascript" src="../js/index.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.leanModal.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/login_up.min.js"></script>
 <link type='text/css' href=../css/login.min.css rel='stylesheet'/>
 <link type='text/css' href=../css/fontsIco.min.css rel='stylesheet'/>
 </body>

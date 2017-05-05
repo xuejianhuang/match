@@ -1,16 +1,10 @@
 package cn.jxufe.emlab.match.service;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.collections.map.HashedMap;
-
-import com.sun.mail.handlers.message_rfc822;
-
 import cn.jxufe.emlab.match.core.BaseDao;
 import cn.jxufe.emlab.match.email.AccountEmailException;
 import cn.jxufe.emlab.match.email.AccountEmailService;
@@ -21,6 +15,7 @@ import cn.jxufe.emlab.match.pojo.MemberVO;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.pojo.TrainItem;
 import cn.jxufe.emlab.match.util.Encrypt;
+import cn.jxufe.emlab.match.util.Setting;
 import cn.jxufe.emlab.match.util.StatusEnum;
 
 public class MemberService extends BaseDao<Member> implements IMemberService {
@@ -28,7 +23,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 	private IGroupService groupService;
 	private IMatchProjectService matchProjectService;
 	private AccountEmailService accountEmailService;
-
+	/*
+	 * 验证用户登录
+	 */
 	@Override
 	public Member verifyMember(String account, String password) {
 		// password = Encrypt.encryptPassword(password);
@@ -37,10 +34,11 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		values.add(password);
 		Member member = (Member) uniqueResult(
 				"from Member where account=? and password=?", values);
-
 		return member;
 	}
-
+	/*
+	 * 更改密码
+	 */
 	public boolean changePwd(String account, String password) {
 		List<Object> values = new ArrayList<Object>();
 		values.add(account);
@@ -52,7 +50,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return false;
 	}
-
+	/*
+	 * 根据条件分页查询会员
+	 */
 	@Override
 	public void getMemberByPage(Map map, int page, int pageSize,
 			String account, String name, String school, String major,
@@ -81,7 +81,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		fillPagetoMap(map, hql, values, page, pageSize);
 
 	}
-
+	/*
+	 * 根据筛选条件给会员发送邮件
+	 */
 	public void sendEmailTOMember(String account, String name, String school,
 			String major, final String title, final String content,
 			final String resource, String trainItemId, String matchProjectId,
@@ -129,12 +131,12 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
-					accountEmailService.sendMailMany(to, title, content,
+					accountEmailService.sendMailMany(to, title, content,        //群发
 							resource);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} // 发送邮件通知队长，有新组员加入
+				} 
 			}
 		}).start();
 	}
@@ -172,7 +174,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return findSQL(sql, values, Member.class);
 	}
-
+	/*
+	 * 根据条件查询赛项报名名单(并且把member对象转换成EXCEL导出对象)
+	 */
 	public List<MemberVO> getMatchProjectMemberList(String account,
 			String name, String matchProjectId, String school, String major,
 			String groupName, Operator oper) {
@@ -213,7 +217,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 						continue;
 					}
 				}
-				MemberVO memberVO;
+				MemberVO memberVO;    //把member对象转换成EXCEL导出对象
 				if (g.getBuildMemberId().equals(m.getId())) {
 					memberVO = new MemberVO(g.getCaption(), m.getAccount(),
 							m.getName(), m.getPhone(), m.getSchool(),
@@ -230,7 +234,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		return list;
 
 	}
-
+	/*
+	 * 添加会员
+	 */
 	@Override
 	public int txSave(Member member) {
 		int value = 0; // 标示保存操作是否成功。1为成功，0为失败
@@ -246,7 +252,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return value;
 	}
-
+	/*
+	 * 批量删除会员
+	 */
 	@Override
 	public void txDel(Operator operator, String[] idlist) {
 		for (String id : idlist) {
@@ -255,7 +263,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 			writeLog(operator, "删除", "会员", member);
 		}
 	}
-
+	/*
+	 * 更新会员信息
+	 */
 	@Override
 	public boolean txUpdate(Member member, String id) {
 		Member nativeMember = findById(id);
@@ -275,7 +285,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 			return false;
 		}
 	}
-
+	/*
+	 * 更新会员信息(会员自己登入网站个人中心操作)
+	 */
 	@Override
 	public Member txMemberUpdate(Member member, String id) {
 		Member nativeMember = findById(id);
@@ -310,7 +322,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 * 会员报名参加培训
 	 * @see
 	 * cn.jxufe.emlab.match.service.IMemberService#txAttendTrain(java.lang.String
 	 * , java.lang.String) return 0:成功 1:失败,已经报名 2:失败，报名已结束 3：失败，参数有误
@@ -318,29 +330,24 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 	public int txAttendTrain(String memeberId, String trainItemId) {
 		if (memeberId != null && null != trainItemId) {
 			TrainItem item = trainItemService.findById(trainItemId);
-			if (null == item || item.getIsLocked() == 1) {
+			if (null == item || item.getIsLocked() == 1) { //报名已结束
 				return 2;
 			}
-
 			Member memeber = findById(memeberId);
 			if (!memeber.getTrainItems().contains(item)) {
 				memeber.getTrainItems().add(item);
 				// saveOrUpdate(memeber);
 				return 0;
 			} else {
-				return 1;
+				return 1;     //已经报名
 			}
 		}
-		return 3;
+		return 3; //参数有误
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * cn.jxufe.emlab.match.service.IMemberService#txAttendIndividualMatchProject
-	 * (java.lang.String, java.lang.String) return 0:成功 1:失败,已经报名 2:失败，该比赛报名已结束
-	 * 3：失败，参数有误
+	 * 会员报名参加个人赛项比赛
+	 *  return 0:成功 1:失败,已经报名 2:失败，该比赛报名已结束  3：失败，参数有误
 	 */
 	public int txAttendIndividualMatchProject(String memeberId,
 			String matchProjectId) {
@@ -352,7 +359,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 				return 2;
 			}
 			Group group = groupService.individualMatchProjectBuildGroup(
-					memeberId, matchProjectId);
+					memeberId, matchProjectId); //创建个人比赛小组
 			if (group != null) {
 				Member memeber = findById(memeberId);
 				if (!memeber.getGroups().contains(group)) {
@@ -360,22 +367,18 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 					// saveOrUpdate(memeber);
 					return 0;
 				} else {
-					return 1;
+					return 1; //已经报名
 				}
 			} else {
-				return 1;
+				return 1;//已经报名
 			}
 		}
-		return 3;
+		return 3; //参数有误
 	}
 
 	/*
-	 * (non-Javadoc) 团体赛创建小组
-	 * 
-	 * @see
-	 * cn.jxufe.emlab.match.service.IMemberService#txBuildTeamMatchProjectGroup
-	 * (java.lang.String, java.lang.String, java.lang.String) return 0:成功
-	 * 1:失败，已加入其他小组 2:失败，该比赛报名已结束 3：失败，参数有误
+	 * 创建团队赛项的比赛小组
+	 *  return 0:成功 1:失败，已加入其他小组 2:失败，该比赛报名已结束 3：失败，参数有误
 	 */
 	public int txBuildTeamMatchProjectGroup(String memeberId,
 			String matchProjectId, Group group) {
@@ -387,38 +390,42 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 				return 2;
 			}
 			boolean result= groupService.teamMatchProjectBuildGroup(memeberId,
-					matchProjectId, group);
+					matchProjectId, group); //创建是否成功
 			Member member = findById(memeberId);
 			if (member != null && result) {
 				Set<Group> groups = member.getGroups();
 				for (Group g : groups) {
 					if (g.getMatchProject().getId()
-							.equals(group.getMatchProject().getId())) {
-						groupService.delete(group); // 把group从session持久化对象移除
-						return 1;
+							.equals(group.getMatchProject().getId())) { //该会员已经参加了别的小组
+						groupService.delete(group); // 把group从session持久化对象移除(把teamMatchProjectBuildGroup创建的小组删除)
+						return 1;  //已加入其他小组
 					}
 				}
 				member.getGroups().add(group);
 				return 0;
 			} else {
-				return 1;
+				return 1;  //已加入其他小组
 			}
 		}
-		return 3;
+		return 3; //参数有误
 
 	}
+	/*
+	 * 更新参加团队赛项的小组信息
+	 */
 	public boolean txUpdateTeamMatchProjectGroup(Group group)
 	{
 		return groupService.txUpdateGroup(group);
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * cn.jxufe.emlab.match.service.IMemberService#txAttendGroup(java.lang.String
-	 * , java.lang.String) return 0:加入小组成功 1:加入失败，小组已达最大人数 2:加入失败，已加入其他小组
-	 * 3:加入失败，该比赛报名已结束 4：失败，参数有误
+	 * 参加某个小组
+	 *  return 
+	 *   0:加入小组成功
+	 *   1:加入失败，小组已达最大人数 
+	 *   2:加入失败，已加入其他小组
+	 *   3:加入失败，该比赛报名已结束
+	 *   4：失败，参数有误
 	 */
 	public int txAttendGroup(String memeberId, String groupId) {
 		if (memeberId != null && null != groupId) {
@@ -428,7 +435,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 				int maxCount = group.getMatchProject().getGroupMemberCount();
 				int hasCount = group.getMembers().size();
 				if (hasCount >= maxCount) {
-					return 1;
+					return 1;             //小组已达最大人数 
 				}
 				if (group.getMatchProject().getIsLocked() == 1) // 报名结束
 				{
@@ -438,11 +445,11 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 				for (Group g : groups) {
 					if (g.getMatchProject().getId()
 							.equals(group.getMatchProject().getId())) {
-						return 2;
+						return 2;                //已加入其他小组
 					}
 				}
 				member.getGroups().add(group);
-				Member groupBuildMember = findById(group.getBuildMemberId());
+				Member groupBuildMember = findById(group.getBuildMemberId()); //队长
 				final String to = groupBuildMember.getAccount();
 				final String inhtml = groupBuildMember.getName()
 						+ ": 你好! "
@@ -456,11 +463,10 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 						+ (hasCount + 1)
 						+ "人,还差"
 						+ (maxCount - hasCount - 1)
-						+ "人,请登入<a href='http://localhost:8080/matchPlatform/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>查看";
+						+ "人,请登入<a href='"+Setting.deploy+"/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>查看";
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
 						if (null != to) {
 							try {
 								accountEmailService.sendMail(to,
@@ -478,11 +484,13 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return 4;
 	}
-
+	/*
+	 * 取消参加某个培训
+	 */
 	public boolean txCancelTrain(String memeberId, String trainItemId) {
 		if (memeberId != null && null != trainItemId) {
 			TrainItem item = trainItemService.findById(trainItemId);
-			if (item.getIsLocked() == 0) {
+			if (item.getIsLocked() == 0) { // 培训报名没有结束
 				Member memeber = findById(memeberId);
 				if (memeber.getTrainItems().contains(item)) {
 					memeber.getTrainItems().remove(item);
@@ -492,7 +500,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return false;
 	}
-
+	/*
+	 * 取消参加某个比赛(如果是队长取消则整个团队都解散)
+	 */
 	public boolean txCancelMatchProject(String memberId, String matchProjectId) {
 		MatchProject matchProject = matchProjectService
 				.findById(matchProjectId);
@@ -503,7 +513,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 			for (Group group : groups) {
 				if (group.getMatchProject().getId().equals(matchProjectId)) {
 					String emaliContent = null;
-					if (group.getBuildMemberId().equals(memberId)) { // 为比赛小组创建人员
+					if (group.getBuildMemberId().equals(memberId)) { // 为比赛小组创建人员，整个小组都取消
 						groups.remove(group);
 						groupService.delete(group);
 						emaliContent = "你好! "
@@ -514,10 +524,10 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 								+ "&quot;小组组长:"
 								+ member.getName()
 								+ "解散了该小组,如果你还想参加该比赛"
-								+ ",请登入<a href='http://localhost:8080/matchPlatform/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>重新报名";
+								+ ",请登入<a href='"+Setting.deploy+"/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>重新报名";
 
 					} else {
-						groups.remove(group);
+						groups.remove(group); // 比赛小组成员
 						emaliContent = "你好! "
 								+ member.getSchool()
 								+ member.getName()
@@ -526,9 +536,8 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 								+ "&quot;竞赛&quot;"
 								+ group.getCaption()
 								+ "&quot;小组"
-								+ ",请登入<a href='http://localhost:8080/matchPlatform/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>查看";
+								+ ",请登入<a href='"+Setting.deploy+"/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>查看";
 					}
-
 					Set<Member> members = group.getMembers();
 					members.size();// 立刻加载
 					final String finalContent = emaliContent;
@@ -539,15 +548,12 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							// TODO Auto-generated method stub
 							try {
 								accountEmailService.sendMailMany(to,
 										"团队退出通知-江西财经大学大赛网", finalContent, null);
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-
 						}
 					}).start();
 
@@ -557,7 +563,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return false;
 	}
-
+	/*
+	 * 队长删除小组某个成员
+	 */
 	public boolean txDeleteTeamMember(Member operMember, String memberId,
 			String groupId) {
 		boolean result = groupService.txDeleteGroupMember(operMember, memberId,
@@ -573,7 +581,7 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 					+ "&quot;竞赛&quot;"
 					+ group.getCaption()
 					+ "&quot;小组"
-					+ ",请登入<a href='http://localhost:8080/matchPlatform/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>查看";
+					+ ",请登入<a href='"+Setting.deploy+"/jxufe_dasai/html/index.html'>江西财经大学大赛网</a>查看";
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -590,7 +598,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return result;
 	}
-
+	/*
+	 * 得到参加培训或者赛项或者所有会员的学校、专业、性别等比例
+	 */
 	public Map<String, Double> getPropertyRatio(String property,
 			String trainItemId, String matchProjectId) {
 		Map<String, Double> result = new HashMap<String, Double>();
@@ -626,7 +636,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 		}
 		return result;
 	}
-
+	/*
+	 * 查询会员注册的年度变化(每年注册的人数)
+	 */
 	public Map<String, Integer> getMemberSignupYearLine() {
 		Map<String, Integer> result = new HashMap<String, Integer>();
 		String sql = "select DATEPART(year,signupTime) as Times ,COUNT(*) from T_member group by DATEPART(year,signupTime)";

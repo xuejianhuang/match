@@ -7,14 +7,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cn.jxufe.emlab.match.pojo.Match;
 import cn.jxufe.emlab.match.pojo.MatchProject;
 import cn.jxufe.emlab.match.pojo.Member;
 import cn.jxufe.emlab.match.pojo.Operator;
-import cn.jxufe.emlab.match.pojo.TrainItem;
 import cn.jxufe.emlab.match.service.IMatchProjectService;
-import cn.jxufe.emlab.match.service.IMatchService;
 import cn.jxufe.emlab.match.util.KeyEnum;
 import cn.jxufe.emlab.match.util.StatusEnum;
 

@@ -3979,7 +3979,7 @@
            if (checkSignUpInfo()) {
 
                var options = {
-                   url: '/matchPlatform/member_signup.action',
+                   url: 'member_signup.action',
                    type: 'post',
                    dataType: 'text',
                    data: $("#memberSignupForm").serialize(),
@@ -4005,7 +4005,7 @@
             if (validateEmail(email)) {
                 Site.changeCaptchaImg(a);
                 $.ajax({
-                    url: "/matchPlatform/getValidate_sendEmailCode.action?email=" + email,
+                    url: "getValidate_sendEmailCode.action?email=" + email,
                     type: "GET",
                     // data : para,
                     dataType: "text",

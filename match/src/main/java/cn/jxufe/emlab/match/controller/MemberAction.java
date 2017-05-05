@@ -171,9 +171,7 @@ public class MemberAction extends BaseAction {
 				.get(ServletActionContext.SERVLET_CONTEXT));
 		if (resource != null && resource.length() != 0) {
 			String propath = context.getRealPath("/");
-			propath = propath
-					.substring(0, propath.lastIndexOf("matchPlatform"));
-			resource = propath + "/ufinder/files/" + resource;
+			resource = propath  + resource;
 		}
 		memberService.sendEmailTOMember(account, name, school, major, title,
 				content, resource, trainItemId, matchProjectId, groupName,

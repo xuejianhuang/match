@@ -33,6 +33,7 @@ public class AuthorityInterceptor extends AbstractInterceptor {
 					|| actionMethod.startsWith("signup")
 					|| actionMethod.startsWith("relogin")
 					||actionMethod.startsWith("forgetPassword")
+					||actionMethod.startsWith("download")
 					) {
 				return invocation.invoke();
 			}

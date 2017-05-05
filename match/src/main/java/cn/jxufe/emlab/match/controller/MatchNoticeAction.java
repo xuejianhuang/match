@@ -6,11 +6,8 @@ package cn.jxufe.emlab.match.controller;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import cn.jxufe.emlab.match.pojo.MatchNews;
 import cn.jxufe.emlab.match.pojo.MatchNotice;
 import cn.jxufe.emlab.match.pojo.Operator;
-import cn.jxufe.emlab.match.service.IMatchNewsService;
 import cn.jxufe.emlab.match.service.IMatchNoticeService;
 import cn.jxufe.emlab.match.util.KeyEnum;
 import cn.jxufe.emlab.match.util.StatusEnum;

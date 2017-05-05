@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import cn.jxufe.emlab.match.pojo.Group;
 import cn.jxufe.emlab.match.pojo.Member;
-import cn.jxufe.emlab.match.pojo.MemberVO;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.service.IGroupService;
 import cn.jxufe.emlab.match.util.KeyEnum;

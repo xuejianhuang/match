@@ -9,34 +9,41 @@
            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd    
            http://www.springframework.org/schema/aop  
            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+           
+             <!-- 引入jdbc配置文件 -->  
+    <bean id="propertyConfigurer"  
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="location" value="classpath:jdbc.properties" />
+        <property name="locations">  
+            <list>  
+                <value>classpath*:jdbc.properties</value>  
+                <value>classpath:account-service.properties</value>  
+            </list>  
+        </property>  
+    </bean>  
+  
 
 	<!-- <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" 
 		destroy-method="close"> <property name="driverClass" value="com.mysql.jdbc.Driver"> 
 		</property> <property name="jdbcUrl" value="jdbc:mysql://218.65.113.14/nctourmgr?useUnicode=true&amp;characterEncoding=utf-8"> 
 		</property> <property name="user" value="touradmin"></property> <property 
 		name="password" value="tour666666"></property> </bean> -->
-
-	<bean id="dataSource-mysql" class="com.alibaba.druid.pool.DruidDataSource"
+	<bean id="dataSource-sqlserver" class="cn.jxufe.emlab.match.util.DecryptDruidSource"
 		init-method="init" destroy-method="close">
-		<property name="url"
-			value="jdbc:sqlserver://localhost:1433;databaseName=match" />
-		<property name="username" value="match" />
-		<property name="password" value="123456" />
-		<property name="dbType" value="sqlserver" />
-		<property name="initialSize" value="1" />
-		<property name="maxActive" value="2" />
-		<property name="validationQuery" value="SELECT 'x'" />
-		<property name="testWhileIdle" value="true" />
-		<property name="testOnBorrow" value="false" />
-		<property name="testOnReturn" value="false" />
-		<property name="filters" value="stat,wall" /> <!-- 开启sql监视和sql防注入 -->
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<property name="dbType" value="${dbType}" />
+		<property name="initialSize" value="${initialSize}" />
+		<property name="maxActive" value="${maxActive}" />
+		<property name="filters" value="config" /> <!-- 开启sql监视和sql防注入 -->
 	</bean>
 
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource">
-			<ref bean="dataSource-mysql" />
+			<ref bean="dataSource-sqlserver" />
 		</property>
 		<property name="hibernateProperties">
 			<props>

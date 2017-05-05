@@ -75,6 +75,10 @@
 		autowire="byName" scope="prototype"></bean>
 	<bean id="groupAction" class="cn.jxufe.emlab.match.controller.GroupAction"
 		autowire="byName" scope="prototype"></bean>
+	<bean id="uploadAction" class="cn.jxufe.emlab.match.controller.UploadAction"
+		autowire="byName" scope="prototype"></bean>
+  <bean id="downloadAction" class="cn.jxufe.emlab.match.controller.DownloadAction"
+		autowire="byName" scope="prototype"></bean>
 
 
 

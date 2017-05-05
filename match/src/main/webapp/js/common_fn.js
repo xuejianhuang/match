@@ -1,4 +1,5 @@
 //var combobox_select;
+var  ufinderAddress="http://emlab.jxufe.cn/ufinder/";
 /**
  * 
  * 
@@ -832,7 +833,7 @@ function formatterdatesubstring(val) {
 function formatterMatchDetail(val, row, index) {
 	// var baseUrl = "/ufinder/";
 	if (val != null && val != "") {
-		var innerHtml = '<a href="/ufinder/ufinderServlet?cmd=download&target='
+		var innerHtml = '<a href=downloadAction_download.action?target='
 				+ val + '">文件下载</a>';
 		return innerHtml;
 	} else
@@ -846,14 +847,13 @@ function formatterMatchDetail(val, row, index) {
 function initImageUpload(button, img, returnValeAssignment, ThumbUrlAssigment) {
 
 	var interval;
-	var baseUrl = "/ufinder/";
-	new AjaxUpload(button, {
-		action : baseUrl
-				+ '/ufinderServlet?cmd=upload&target=/dasaipingtai/news/',
+	//var baseUrl = "/ufinder/";
+	new AjaxUpload (button, {
+		action :  'upload_logoAndBannerImgUpload.action', //ufinderAddress+ '/ufinderServlet?cmd=upload&target=/dasaipingtai/news/',
 		data : {
 		// id : id
 		},
-		name : 'fileInfoJSON', // 'filedata',
+		name : 'filedata', // 'filedata',
 		onSubmit : function(file, ext) {
 			// id = $("#id").val();
 			if (!(ext && /^(jpg|JPG|png|PNG|gif|GIF)$/.test(ext))) {
@@ -886,9 +886,9 @@ function initImageUpload(button, img, returnValeAssignment, ThumbUrlAssigment) {
 			var status = response.message;
 
 			if ("success" == status) {
-				var file = response.data.file;
-				var filePath = baseUrl + "/files/" + file.path;
-				var small_filePath = baseUrl + "/files/" + file.small_path;
+				//var file = response.data.file;
+				var filePath = response.path;//ufinderAddress + "/files/" + file.path;
+				var small_filePath =response.small_path;   //ufinderAddress + "/files/" + file.small_path;
 				// alert(filePath);
 				returnValeAssignment.val(filePath);
 				img.attr('src', filePath + "?_" + new Date().getTime());
@@ -912,14 +912,13 @@ function initImageUpload(button, img, returnValeAssignment, ThumbUrlAssigment) {
 function initFileUpload(button, name, returnValeAssignment) {
 
 	var interval;
-	var baseUrl = "/ufinder/";
+	//var baseUrl = "/ufinder/";
 	new AjaxUpload(button, {
-		action : baseUrl
-				+ '/ufinderServlet?cmd=upload&target=/dasaipingtai/match/',
+		action : 'upload_fileUpload.action',
 		data : {
 		// id : id
 		},
-		name : 'fileInfoJSON', // 'filedata',
+		name : 'filedata', // 'filedata',
 		onSubmit : function(file, ext) {
 			// id = $("#id").val();
 			if (!(ext && /^(doc|docx|txt|xls|xlsx|xml|zip|rar)$/.test(ext))) {
@@ -952,13 +951,12 @@ function initFileUpload(button, name, returnValeAssignment) {
 			var status = response.message;
 
 			if ("success" == status) {
-				var file = response.data.file;
-				var filePath = file.path;
+				var filePath = response.path;
 				returnValeAssignment.val(filePath);
 				name.html("");
 				name
-						.append(file.path
-								.substring(file.path.lastIndexOf("/") + 1));
+						.append(filePath
+								.substring(filePath.lastIndexOf("/") + 1));
 
 			} else {
 				alert("文件上传失败！");

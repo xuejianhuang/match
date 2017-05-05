@@ -1,32 +1,26 @@
 package cn.jxufe.emlab.match.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import cn.jxufe.emlab.match.core.BaseDao;
-import cn.jxufe.emlab.match.pojo.Group;
-import cn.jxufe.emlab.match.pojo.MatchProject;
-import cn.jxufe.emlab.match.pojo.Member;
-import cn.jxufe.emlab.match.pojo.NameAndId;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.pojo.TrainItem;
 import cn.jxufe.emlab.match.util.DateUtil;
 import cn.jxufe.emlab.match.util.StatusEnum;
 
-@SuppressWarnings("unchecked")
 public class TrainItemService extends BaseDao<TrainItem> implements
 		ITrainItemService {
+	/*
+	 * 添加培训项目
+	 */
 	@Override
 	public boolean txSaveTrainItem(Operator oper, TrainItem trainItem) {
 		if (null != trainItem) {
 			if (DateUtil.validateDateOrder(trainItem.getStartDate(),
-					trainItem.getEndDate())) {
+					trainItem.getEndDate())) { //验证培训的开始时间是否在结束时间之前
 				trainItem.setId(null);
 				trainItem.setStatus(StatusEnum.initialize.ordinal());
 				save(trainItem);
@@ -36,7 +30,9 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 		}
 		return false;
 	}
-
+	/*
+	 * 删除培训
+	 */
 	@Override
 	public void txDeleteTrainItem(Operator operator, String[] idlist) {
 		for (String id : idlist) {
@@ -47,7 +43,9 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 			}
 		}
 	}
-
+	/*
+	 * 更新培训
+	 */
 	@Override
 	public boolean txUpdateTrainItem(Operator oper, TrainItem trainItem,
 			String id) {
@@ -62,7 +60,9 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 		}
 		return false;
 	}
-
+	/*
+	 * 更新培训是否可以报名的状态
+	 */
 	public void txUpdateTrainItemIsLockedStatus(Operator oper, String id,
 			int isLocked) {
 		TrainItem trainItem = findById(id);
@@ -70,7 +70,9 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 			trainItem.setIsLocked(isLocked);
 		}
 	}
-
+	/*
+	 * 分页查询培训项目
+	 */
 	@Override
 	public void getTrainItemByPage(Map map, int page, int pageSize,
 			String matchId, Operator oper) {
@@ -87,7 +89,9 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 		hql = hql + " order by createtime desc";
 		fillPagetoMap(map, hql,  al, page, pageSize);
 	}
-
+	/*
+	 * 统计报名信息
+	 */
 	public void getTrainStatisticsByPage(Map map, int page, int pageSize,
 			String matchId, Operator oper) {
 		
@@ -104,10 +108,13 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 		List<TrainItem> trainList = fillPagetoMap(map, hql, al, page, pageSize);
 		for(TrainItem item:trainList)
 		{
-			item.setMemberSum(item.getMembers().size());
+			item.setMemberSum(item.getMembers().size());  //报名总人数
 		
 		}
 	}
+	/*
+	 * 分页查询所有培训项目(根据是否可以报名和创建时间排序)
+	 */
 	public void getAttendTrainItem(Map map, int page,  int pageSize) {
 		
 		String hql = "from TrainItem where  status!="
@@ -115,11 +122,16 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 		hql = hql + " order by isLocked, createtime desc";
 	    fillPagetoMap(map, hql,null, page, pageSize);
 	}
-
+	/*
+	 * 获取可以报名的培训
+	 */
 	public List<TrainItem> getEnableTrainItem() {
 		String hql = "from TrainItem where  isLocked='0' order by createtime desc";
 		return find(hql);
 	}
+	/*
+	 * 查询某个会员报名的所有培训
+	 */
 	public List<TrainItem>  getTrainByMemberId(String memberId)
 	{
 		String sql="select * from T_trainItem where status!="
@@ -129,6 +141,9 @@ public class TrainItemService extends BaseDao<TrainItem> implements
 	}
 	return findSQL(sql);
 	}
+	/*
+	 * 得到培训报名人数
+	 */
 	public JsonArray getTrainMemberNum(String matchId,Operator oper)
 	{
 		ArrayList<Object> al = new ArrayList<Object>();

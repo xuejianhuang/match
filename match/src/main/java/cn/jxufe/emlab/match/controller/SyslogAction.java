@@ -3,9 +3,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
-
 import cn.jxufe.emlab.match.pojo.Operator;
-import cn.jxufe.emlab.match.pojo.Syslog;
 import cn.jxufe.emlab.match.service.ISyslogService;
 import cn.jxufe.emlab.match.util.KeyEnum;
 import cn.jxufe.emlab.match.util.StatusEnum;
@@ -15,7 +13,6 @@ import cn.jxufe.emlab.match.util.StatusEnum;
 
 public class SyslogAction extends BaseAction{
 	private ISyslogService syslogService;
-	private Syslog syslog;
 	private String userId;
 	private String name;
 	private String comment;
@@ -114,10 +111,5 @@ public class SyslogAction extends BaseAction{
 	public void setPage(int page) {
 		this.page = page;
 	}
-
-	public void setSyslog(Syslog syslog) {
-		this.syslog = syslog;
-	}
-
 	
 }

@@ -7,25 +7,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts2.ServletActionContext;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import cn.jxufe.emlab.match.poi.ExcelUtil;
-import cn.jxufe.emlab.match.pojo.Member;
-
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public abstract class BaseAction extends ActionSupport
 {
-
-	/**
-	 * 
-	 */
 
 	private static final long serialVersionUID = 1L;
 	protected String forwardUrl;

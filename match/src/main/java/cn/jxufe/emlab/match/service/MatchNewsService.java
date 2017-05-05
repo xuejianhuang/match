@@ -1,20 +1,18 @@
 package cn.jxufe.emlab.match.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.dao.DataAccessException;
-
 import cn.jxufe.emlab.match.core.BaseDao;
 import cn.jxufe.emlab.match.pojo.MatchNews;
 import cn.jxufe.emlab.match.pojo.Operator;
 import cn.jxufe.emlab.match.util.StatusEnum;
 
-@SuppressWarnings("unchecked")
 public class MatchNewsService extends BaseDao<MatchNews> implements
 		IMatchNewsService {
+	/*
+	 * 保存赛事新闻(后台管理)
+	 */
 	@Override
 	public void txSaveMatchNews(Operator oper, MatchNews matchNews) {
 
@@ -23,7 +21,9 @@ public class MatchNewsService extends BaseDao<MatchNews> implements
 		save(matchNews);
 		writeLog(oper, "添加", "新闻", matchNews);
 	}
-
+	/*
+	 * 批量删除赛事新闻
+	 */
 	@Override
 	public void txDeleteMatchNews(Operator operator, String[] idlist) {
 		for (String id : idlist) {
@@ -34,7 +34,9 @@ public class MatchNewsService extends BaseDao<MatchNews> implements
 			}
 		}
 	}
-
+	/*
+	 * 更新赛事新闻
+	 */
 	@Override
 	public void txUpdateMatchNews(Operator oper, MatchNews matchNews, String id) {
 
@@ -42,7 +44,9 @@ public class MatchNewsService extends BaseDao<MatchNews> implements
 		saveOrUpdate(matchNews);
 		writeLog(oper, "修改", "新闻", matchNews);
 	}
-
+	/*
+	 * 分页查询某个赛事下的新闻
+	 */
 	@Override
 	public void getMatchNewsByPage(Map map, int page, int pageSize, String matchId,
 			Operator oper) {
@@ -57,7 +61,9 @@ public class MatchNewsService extends BaseDao<MatchNews> implements
 		hql = hql + " order by createtime desc";
 		fillPagetoMap(map, hql, values, page, pageSize);
 	}
-	
+	/*
+	 * 更加id查询赛事新闻
+	 */
 	public MatchNews getMatchNewsById(String id)
 	{
 		return findById(id);
