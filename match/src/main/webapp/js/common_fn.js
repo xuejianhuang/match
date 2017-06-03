@@ -834,7 +834,7 @@ function formatterMatchDetail(val, row, index) {
 	// var baseUrl = "/ufinder/";
 	if (val != null && val != "") {
 		var innerHtml = '<a href=downloadAction_download.action?target='
-				+ val + '">文件下载</a>';
+				+ val + '>文件下载</a>';
 		return innerHtml;
 	} else
 		return "";

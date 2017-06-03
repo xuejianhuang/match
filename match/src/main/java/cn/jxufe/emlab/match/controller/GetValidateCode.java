@@ -36,7 +36,7 @@ public class GetValidateCode extends BaseAction
 	public String sendEmailCode() throws Exception
 	{
 		String randomString=RandomGenerator.getRandomString(4);
-		accountEmailService.sendMail( email, "江西财经大学大赛网认证码", randomString,null);
+		accountEmailService.sendMail( email, "江西财经大学大赛网认证码", "你好，你的网站注册验证码是:"+randomString,null);
 		Map session=getSession();
 	    session.put(KeyEnum.VALIDATE_EMAIL_CODE_KEY,randomString);
 		return null;

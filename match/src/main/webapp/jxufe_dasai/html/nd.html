@@ -24,7 +24,7 @@
         var id = searchs[0].split("=")[1];
         var type= searchs[1].split("=")[1];  //0:新闻通知  2:通知
         //alert(address);
-        var url;
+        var url="";
         $(function(){
 
           //  $('.webHeaderTable').load('header.html');
@@ -38,7 +38,7 @@
 
             else if(type==2) //通知
             {
-                url+="matchNotice_getMatchNoticeById.action?id="+id;
+                url="matchNotice_getMatchNoticeById.action?id="+id;
             }
 
 
