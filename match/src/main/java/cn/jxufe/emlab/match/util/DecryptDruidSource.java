@@ -28,7 +28,7 @@ public class DecryptDruidSource extends DruidDataSource {
 		// 生成加密后的密码，放到jdbc.properties
 		String pwd = null;
 		try {
-			pwd = ConfigTools.encrypt("matchV2.0");
+			pwd = ConfigTools.encrypt("123456");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

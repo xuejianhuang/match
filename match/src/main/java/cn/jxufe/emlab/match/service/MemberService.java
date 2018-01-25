@@ -269,10 +269,10 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 	@Override
 	public boolean txUpdate(Member member, String id) {
 		Member nativeMember = findById(id);
-		if (!checkAccountWhetherExist(member.getAccount())) {
+		//if (!checkAccountWhetherExist(member.getAccount())) {
 			nativeMember.setPassword(Encrypt.encryptPassword(member
 					.getPassword()));
-			nativeMember.setAccount(member.getAccount());
+			//nativeMember.setAccount(member.getAccount());
 			nativeMember.setName(member.getName());
 			nativeMember.setPhone(member.getPhone());
 			nativeMember.setIsJxufe(member.getIsJxufe());
@@ -281,9 +281,9 @@ public class MemberService extends BaseDao<Member> implements IMemberService {
 			nativeMember.setMajor(member.getMajor());
 			// saveOrUpdate(nativeMember);
 			return true;
-		} else {
-			return false;
-		}
+		//} else {
+		//	return false;
+		//}
 	}
 	/*
 	 * 更新会员信息(会员自己登入网站个人中心操作)

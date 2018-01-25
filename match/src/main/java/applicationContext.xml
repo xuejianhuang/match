@@ -81,7 +81,7 @@
 		scope="prototype">
 		<property name="patterns">
 			<list>
-				<value>cn.jxufe.emlab.match.service.*</value>
+				<value>cn.jxufe.stat.office.service.*</value>
 			</list>
 		</property>
 	</bean>
